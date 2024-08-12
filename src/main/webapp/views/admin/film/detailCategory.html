@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"> </header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Catalog</h2>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- items -->
+            <div class="col-12">
+                <div class="catalog catalog--1">
+                    <table class="catalog__table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TITLE</th>
+                            <th>RATING</th>
+                            <th>CATEGORY</th>
+                            <th>VIEWS</th>
+                            <th>STATUS</th>
+                            <th>CRAETED DATE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="catalog__text">11</div>
+                            </td>
+                            <td>
+                                <div class="catalog__text"><a href="#">I Dream in Another Language</a></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text catalog__text--rate">7.9</div>
+                            </td>
+                            <td>
+                                <div class="catalog__text">Movie</div>
+                            </td>
+                            <td>
+                                <div class="catalog__text">1392</div>
+                            </td>
+                            <td>
+                                <div class="catalog__text catalog__text--green">Visible</div>
+                            </td>
+                            <td>
+                                <div class="catalog__text">05.02.2023</div>
+                            </td>
+                            <td>
+                                <div class="catalog__btns">
+                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
+                                        <i class="ti ti-lock"></i>
+                                    </button>
+                                    <a href="#" class="catalog__btn catalog__btn--view">
+                                        <i class="ti ti-eye"></i>
+                                    </a>
+                                    <a href="add-item.html" class="catalog__btn catalog__btn--edit">
+                                        <i class="ti ti-edit"></i>
+                                    </a>
+                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end items -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- status modal -->
+<div class="modal fade" id="modal-status" tabindex="-1" aria-labelledby="modal-status" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Status change</h4>
+
+                    <p class="modal__text">Are you sure about immediately change status?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end status modal -->
+
+<!-- delete modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Item delete</h4>
+
+                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Delete</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end delete modal -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+
+
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

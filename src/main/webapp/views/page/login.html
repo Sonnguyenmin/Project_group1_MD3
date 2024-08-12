@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
+<head th:replace="/layouts/layoutUser::head"></head>
+
+<body>
+<div class="sign section--bg" th:data-bg="@{/assets/user/img/bg/section__bg.jpg}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form class="sign__form" action="/login" th:object="${formLogin}" method="post">
+                        <div class="sign__logo">
+                            <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                        </div>
+
+<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('error')}" ></small>-->
+
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" placeholder="Email" th:field="*{email}">
+                        </div>
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"></small>
+
+                        <div class="sign__group">
+                            <input type="password" class="sign__input" placeholder="Mật khẩu" th:field="*{password}">
+                        </div>
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}"  th:errors="*{password}" ></small>
+
+
+                        <div class="sign__group sign__group--checkbox">
+                            <input id="remember" name="remember" type="checkbox" checked="checked">
+                            <label for="remember">Lưu tài khoản</label>
+                        </div>
+
+                        <button class="sign__btn" type="submit">Đăng nhập</button>
+
+                        <span class="sign__text">Bạn chưa có tài khoản? <a th:href="@{/register}">Đăng ký!</a></span>
+
+                        <span class="sign__text"><a href="">Quên mật khẩu?</a></span>
+                    </form>
+                    <!-- end authorization form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
+</html>

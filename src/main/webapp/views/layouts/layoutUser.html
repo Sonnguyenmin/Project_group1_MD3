@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/main/home.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:41:12 GMT -->
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/assets/user/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/splide.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/slimselect.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/plyr.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/photoswipe.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/default-skin.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/main.css}">
+
+    <!-- Icon font -->
+    <link rel="stylesheet" th:href="@{/assets/user/webfont/tabler-icons.min.css}">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" th:href="@{/assets/user/icon/favicon-32x32.png}" sizes="32x32">
+    <link rel="apple-touch-icon" th:href="@{/assets/user/icon/favicon-32x32.png}">
+
+    <meta name="description" content="Online Movies, TV Shows & Cinema HTML Template">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>HotFlix – Chương trình truyền hình và rạp chiếu phim trực tuyến</title>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+
+        ::-webkit-scrollbar{
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track{
+            background-color: #FFF;
+        }
+        ::-webkit-scrollbar-thumb{
+            background-color:#f9ab00;
+        }
+    </style>
+</head>
+
+<body>
+<!-- header -->
+<header th:fragment="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="header__content">
+                    <!-- header logo -->
+                    <a th:href="@{/}" class="header__logo">
+                        <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                    </a>
+                    <!-- end header logo -->
+
+                    <!-- header nav -->
+                    <ul class="header__nav">
+                        <!-- dropdown -->
+                        <li class="header__nav-item">
+                            <a class="header__nav-link" th:href="@{/}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Phim bộ
+                            </a>
+                        </li>
+                        <!-- end dropdown -->
+
+                        <!-- dropdown -->
+                        <li class="header__nav-item">
+                            <a class="header__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Phim lẻ <i class="ti ti-chevron-down"></i></a>
+                        </li>
+                        <!-- end dropdown -->
+
+                        <li class="header__nav-item">
+                            <a href="pricing.html" class="header__nav-link">Thể loại</a>
+                        </li>
+
+                        <!-- dropdown -->
+                        <li class="header__nav-item">
+                            <a class="header__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mua gói <i class="ti ti-chevron-down"></i></a>
+
+<!--                            <ul class="dropdown-menu header__dropdown-menu">-->
+<!--                                <li><a href="about.html">About Us</a></li>-->
+<!--                                <li><a href="profile.html">Profile</a></li>-->
+<!--                                <li><a href="actor.html">Actor</a></li>-->
+<!--                                <li><a href="contacts.html">Contacts</a></li>-->
+<!--                                <li><a href="faq.html">Help center</a></li>-->
+<!--                                <li><a href="privacy.html">Privacy policy</a></li>-->
+<!--                                <li><a href="../admin/dashboard.html" target="_blank">Admin pages</a></li>-->
+<!--                            </ul>-->
+                        </li>
+                        <!-- end dropdown -->
+
+<!--                        &lt;!&ndash; dropdown &ndash;&gt;-->
+<!--                        <li class="header__nav-item">-->
+<!--                            <a class="header__nav-link header__nav-link&#45;&#45;more" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots"></i></a>-->
+
+<!--                            <ul class="dropdown-menu header__dropdown-menu">-->
+<!--                                <li><a href="signin.html">Sign in</a></li>-->
+<!--                                <li><a th:href="@{/auth/register}">Đăng ký</a></li>-->
+<!--                                <li><a href="forgot.html">Forgot password</a></li>-->
+<!--                                <li><a th:href="@{/403}">403 Page</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        &lt;!&ndash; end dropdown &ndash;&gt;-->
+                    </ul>
+                    <!-- end header nav -->
+
+                    <!-- header auth -->
+                    <div class="header__auth">
+                        <form action="#" class="header__search">
+                            <input class="header__search-input" type="text" placeholder="Search...">
+                            <button class="header__search-button" type="button">
+                                <i class="ti ti-search"></i>
+                            </button>
+                            <button class="header__search-close" type="button">
+                                <i class="ti ti-x"></i>
+                            </button>
+                        </form>
+
+                        <button class="header__search-btn" type="button">
+                            <i class="ti ti-search"></i>
+                        </button>
+
+                        <!-- dropdown -->
+                        <div class="header__lang">
+                            <a class="header__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">EN <i class="ti ti-chevron-down"></i></a>
+                        </div>
+                        <!-- end dropdown -->
+
+                        <!-- dropdown -->
+                        <div class="header__profile">
+                            <a class="header__sign-in header__sign-in--user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ti ti-user"></i>
+                                <span>Nickname</span>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end header__dropdown-menu header__dropdown-menu--user">
+                                <li><a href="profile.html"><i class="ti ti-ghost"></i>Profile</a></li>
+                                <li><a href="profile.html"><i class="ti ti-stereo-glasses"></i>Subscription</a></li>
+                                <li><a href="profile.html"><i class="ti ti-bookmark"></i>Favorites</a></li>
+                                <li><a href="profile.html"><i class="ti ti-settings"></i>Settings</a></li>
+                                <li><a href="#"><i class="ti ti-logout"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                        <!-- end dropdown -->
+                    </div>
+                    <!-- end header auth -->
+
+                    <!-- header menu btn -->
+                    <button class="header__btn" type="button">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <!-- end header menu btn -->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->
+
+<!-- footer -->
+<footer th:fragment="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer__content">
+                    <a href="index.html" class="footer__logo">
+                        <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                    </a>
+
+                    <span class="footer__copyright">© HOTFLIX, 2019—2024 <br> Create by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Dmitry Volkov</a></span>
+
+                    <nav class="footer__nav">
+                        <a href="about.html">About Us</a>
+                        <a href="contacts.html">Contacts</a>
+                        <a href="privacy.html">Privacy policy</a>
+                    </nav>
+
+                    <button class="footer__back" type="button">
+                        <i class="ti ti-arrow-narrow-up"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+
+
+<!-- JS -->
+<th:block th:fragment="javascript">
+    <script th:src="@{/assets/user/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/user/js/splide.min.js}"></script>
+    <script th:src="@{/assets/user/js/slimselect.min.js}"></script>
+    <script th:src="@{/assets/user/js/smooth-scrollbar.js}"></script>
+    <script th:src="@{/assets/user/js/plyr.min.js}"></script>
+    <script th:src="@{/assets/user/js/photoswipe.min.js}"></script>
+    <script th:src="@{/assets/user/js/photoswipe-ui-default.min.js}"></script>
+    <script th:src="@{/assets/user/js/main.js}"></script>
+</th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/home.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:41:34 GMT -->
+</html>
