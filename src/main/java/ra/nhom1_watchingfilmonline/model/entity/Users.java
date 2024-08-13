@@ -15,35 +15,43 @@ import java.util.List;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer userId;        // id người dùng, kiểu Int trong cơ sở dữ liệu
 
-    private String userName;
+    @Column(nullable = false,unique = true)
+    private String userName;      // Tên đăng nhập
 
-    private String email;
+    @Column(nullable = false,unique = true)
+    private String email;// Email
 
-    private String fullName;
+    @Column(nullable = false)
+    private String fullName;      // Họ và tên
 
-    private Boolean status;
+    @Column(nullable = false)
+    private String password;      // Mật khẩu
 
-    private String password;
+    @Column(nullable = false)
+    private String avatar;        // Hình đại diện
 
-    private String avatar;
+    @Column(nullable = false)
+    private String phone;         // Số điện thoại
 
-    private String phone;
+    @Column(nullable = false)
+    private String address;// Địa chỉ
 
-    private String address;
+    @Column(nullable = false)
+    private Boolean status = true;       // Giá trị mặc định là true (Active)
 
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
+    @Column(nullable = false)
+    private Date createdAt;// Thời gian tạo
 
-    @Temporal(TemporalType.DATE)
-    private Date updatedAt;
+    @Column(nullable = false)
+    private Date updatedAt;// Thời gian cập nhật
+
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "UserRole",
+    @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"))
     private List<Roles> roles;
-
 
 }

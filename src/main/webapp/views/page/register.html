@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
 <head th:replace="/layouts/layoutUser::head"></head>
 
 <body>
@@ -11,36 +10,46 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form class="sign__form" action="">
-
-<!--                    <form class="sign__form" action="/register" th:object="${formRegister}" method="post">-->
-                        <div class="sign__logo">
-                            <img th:src="@{/assets/user/img/logo.svg}">
+                    <form th:action="@{/insertRegister}" th:object="${user}" method="post" class="sign__form">
+                        <a href="#" class="sign__logo">
+                            <img th:src="@{/assets/user/img/logo.svg}" alt="Logo">
+                        </a>
+                        <!-- Hiển thị thông báo lỗi -->
+                        <p th:if="${not #lists.isEmpty(errorMessage)}" th:text="${errorMessage}" style="color: red;"></p>
+                        <div class="sign__group">
+                            <input type="text" id="userName" th:field="*{userName}" class="sign__input" placeholder="Tên tài khoản" />
                         </div>
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></small>
 
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Họ và tên" th:field="*{fullName}">
+                            <input type="email" id="email" th:field="*{email}" class="sign__input" placeholder="Email" />
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('fullName')}"  th:errors="*{fullName}" ></small>-->
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
 
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Tên tài khoản" th:field="*{userName}">
+                            <input type="text" id="phone" th:field="*{phone}" class="sign__input" placeholder="Số điện thoại" />
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('userName')}"  th:errors="*{userName}"> </small>-->
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
 
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Email" th:field="*{email}">
+                            <input type="text" id="fullName" th:field="*{fullName}" class="sign__input" placeholder="Họ và tên" />
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"> </small>-->
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
 
                         <div class="sign__group">
-                            <input type="password" id="password" class="sign__input" placeholder="Mật khẩu" th:field="*{password}">
+                            <input type="password" id="password" th:field="*{password}" class="sign__input" placeholder="Mật khẩu" />
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}"  th:errors="*{password}"> </small>-->
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+
+                        <div class="sign__group">
+                            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="sign__input" placeholder="Nhập lại mật khẩu" />
+                        </div>
+                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></small>
 
                         <button class="sign__btn" type="submit">Đăng ký</button>
 
-                        <span class="sign__text">Bạn đã có tài khoản? <a th:href="@{/login}">Đăng nhập!</a></span>
+                        <span class="sign__text">Đã có tài khoản? <a th:href="@{/login}">Đăng nhập!</a></span>
+
                     </form>
                     <!-- registration form -->
                 </div>
@@ -51,8 +60,5 @@
 
 <!-- JS -->
 <th:block th:replace="/layouts/layoutUser::javascript"></th:block>
-
 </body>
-
-<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
 </html>
