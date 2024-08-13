@@ -1,0 +1,10 @@
+package ra.nhom1_watchingfilmonline.service.impl;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class FilmServiceImpl {
+}

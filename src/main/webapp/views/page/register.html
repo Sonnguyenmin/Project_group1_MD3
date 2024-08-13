@@ -11,7 +11,9 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form class="sign__form" action="/register" th:object="${formRegister}" method="post">
+                    <form class="sign__form" action="">
+
+<!--                    <form class="sign__form" action="/register" th:object="${formRegister}" method="post">-->
                         <div class="sign__logo">
                             <img th:src="@{/assets/user/img/logo.svg}">
                         </div>
@@ -19,22 +21,22 @@
                         <div class="sign__group">
                             <input type="text" class="sign__input" placeholder="Họ và tên" th:field="*{fullName}">
                         </div>
-                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('fullName')}"  th:errors="*{fullName}" ></small>
+<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('fullName')}"  th:errors="*{fullName}" ></small>-->
 
                         <div class="sign__group">
                             <input type="text" class="sign__input" placeholder="Tên tài khoản" th:field="*{userName}">
                         </div>
-                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('userName')}"  th:errors="*{userName}"> </small>
+<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('userName')}"  th:errors="*{userName}"> </small>-->
 
                         <div class="sign__group">
                             <input type="text" class="sign__input" placeholder="Email" th:field="*{email}">
                         </div>
-                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"> </small>
+<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"> </small>-->
 
                         <div class="sign__group">
                             <input type="password" id="password" class="sign__input" placeholder="Mật khẩu" th:field="*{password}">
                         </div>
-                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}"  th:errors="*{password}"> </small>
+<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}"  th:errors="*{password}"> </small>-->
 
                         <button class="sign__btn" type="submit">Đăng ký</button>
 

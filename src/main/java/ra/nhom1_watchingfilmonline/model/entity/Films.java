@@ -17,18 +17,23 @@ public class Films {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer filmId;
 
+    @Column(name = "filmName" ,length = 100, nullable = false, unique = true)
     private String filmName;
 
     private String description;
 
     private String image;
 
+    @Temporal(TemporalType.DATE)
     private Date releaseDate;
 
+    @Column(name = "director", length = 70)
     private String director;
 
+    @Column(name = "actorName", length = 70)
     private String actorName;
 
+    @Column(name = "language", length = 30)
     private String language;
 
     private Integer totalFilm;
@@ -51,8 +56,5 @@ public class Films {
             inverseJoinColumns = @JoinColumn (name = "categoryId")
     )
     private List<Categories> categories;
-
-
-
 
 }

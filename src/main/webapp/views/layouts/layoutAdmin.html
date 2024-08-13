@@ -52,7 +52,7 @@
 <header class="header" th:fragment="header">
     <div class="header__content">
         <!-- header logo -->
-        <a href="index.html" class="header__logo">
+        <a href="" class="header__logo">
             <img th:src="@{/assets/admin/img/logo.svg}" alt="">
         </a>
         <!-- end header logo -->
@@ -105,7 +105,7 @@
             </li>
 
             <li class="sidebar__nav-item">
-                <a href="users.html" class="sidebar__nav-link"><i class="ti ti-device-tv-old"></i> <span>Film</span></a>
+                <a th:href="@{Film}" class="sidebar__nav-link"><i class="ti ti-device-tv-old"></i> <span>Phim</span></a>
             </li>
 
             <li class="sidebar__nav-item">
