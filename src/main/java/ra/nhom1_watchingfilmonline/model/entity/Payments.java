@@ -20,7 +20,7 @@ public class Payments {
 
     private Double money;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users users;
+//    @ManyToOne
+//    @JoinColumn(name = "userId")
+//    private Users users;
 }

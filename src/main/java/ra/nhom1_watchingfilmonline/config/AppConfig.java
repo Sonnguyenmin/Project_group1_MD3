@@ -4,7 +4,6 @@ package ra.nhom1_watchingfilmonline.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import org.hibernate.SessionFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +12,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -98,7 +96,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/watchingfilmonline?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setPassword("duc1531");
         return dataSource;
     }
 

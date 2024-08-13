@@ -29,61 +29,25 @@
 
           <div class="splide__track">
             <ul class="splide__list">
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-1.jpg}">
+              <li class="splide__slide" th:each="ban:${bannerList}">
+                <div class="hero__slide" th:data-bg="@{|${ban.bannerImg}|}">
                   <div class="hero__content">
-                    <h2 class="hero__title">Savage Beauty <sub class="green">9.8</sub></h2>
-                    <p class="hero__text">A brilliant scientist discovers a way to harness the power of the ocean's currents to create a new, renewable energy source. But when her groundbreaking technology falls into the wrong hands, she must race against time to stop it from being used for evil.</p>
-                    <p class="hero__category">
-                      <a href="#">Action</a>
-                      <a href="#">Drama</a>
-                      <a href="#">Comedy</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
+                    <h2 class="hero__title" th:text="${ban.bannerName}"> <sub class="green">9.8</sub></h2>
+                    <p class="hero__text" th:text="${ban.description}"></p>
+<!--                    <p class="hero__category">-->
+<!--                      <a href="#">Action</a>-->
+<!--                      <a href="#">Drama</a>-->
+<!--                      <a href="#">Comedy</a>-->
+<!--                    </p>-->
+<!--                    <div class="hero__actions">-->
+<!--                      <a href="details.html" class="hero__btn">-->
+<!--                        <span>Watch now</span>-->
+<!--                      </a>-->
+<!--                    </div>-->
                   </div>
                 </div>
               </li>
 
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-2.jpg}">
-                  <div class="hero__content">
-                    <h2 class="hero__title">From the Other Side <sub class="yellow">6.9</sub></h2>
-                    <p class="hero__text">In a world where magic is outlawed and hunted, a young witch must use her powers to fight back against the corrupt authorities who seek to destroy her kind.</p>
-                    <p class="hero__category">
-                      <a href="#">Adventure</a>
-                      <a href="#">Triler</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-3.jpg}">
-                  <div class="hero__content">
-                    <h2 class="hero__title">Endless Horizon <sub class="red">6.2</sub></h2>
-                    <p class="hero__text">When a renowned archaeologist goes missing, his daughter sets out on a perilous journey to the heart of the Amazon rainforest to find him. Along the way, she discovers a hidden city and a dangerous conspiracy that threatens the very balance of power in the world.</p>
-                    <p class="hero__category">
-                      <a href="#">Action</a>
-                      <a href="#">Drama</a>
-                      <a href="#">Triler</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
         </div>

@@ -44,9 +44,9 @@ public class BannerController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id,Model model){
+    public String delete(@PathVariable Integer id){
         bannerService.delete(id);
-        return "admin/banner/editBanner";
+        return "redirect:/admin/banner";
     }
 
 }

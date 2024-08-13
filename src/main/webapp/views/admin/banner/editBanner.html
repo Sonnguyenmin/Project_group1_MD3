@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:insert="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:insert="/layouts/layoutAdmin::header"></header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:insert="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+main content
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Cập nhập banner</h2>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- form -->
+            <div class="col-12">
+                <form th:action="@{/admin/banner/edit}" th:object="${bannerRequest}" method="post"
+                      class="sign__form sign__form--add" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12 col-xl-7">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="hidden" th:field="*{bannerId}">
+                                    <div class="sign__group">
+                                        <input type="text" class="sign__input" placeholder="Tên Banner" th:field="*{bannerName}">
+                                    </div>
+                                    <!--                                    <small class="text-danger small_alert" th:if="${#fields.hasErrors('categoryName')}"-->
+                                    <!--                                           th:errors="*{getBannerName()}"></small>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="sign__group">
+                                <textarea id="text" name="text" class="sign__textarea"
+                                          placeholder="Description" th:field="*{description}" ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <div class="sign__group">
+                                <div class="sign__gallery">
+                                    <label id="gallery1" for="sign__gallery-upload">Upload cover (240x340)</label>
+                                    <input data-name="#gallery1" id="sign__gallery-upload" name="multipartFile"
+                                           class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg"
+                                           multiple="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--                        <div class="col-12">-->
+                        <!--                            <div class="sign__group">-->
+                        <!--                                <label class="sign__label">Item type:</label>-->
+                        <!--                                <ul class="sign__radio">-->
+                        <!--                                    <li>-->
+                        <!--                                        <input id="statusActive" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" value="true" th:field="*{}">-->
+                        <!--                                        <label for="statusActive">Hoạt động</label>-->
+                        <!--                                    </li>-->
+                        <!--                                    <li>-->
+                        <!--                                        <input id="statusInactive" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" value="false" th:field="*{status}">-->
+                        <!--                                        <label for="statusInactive">Không hoạt động</label>-->
+                        <!--                                    </li>-->
+                        <!--                                </ul>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <div class="col-12">
+                            <button type="submit" class="sign__btn sign__btn--small"><span>Cập nhập Banner</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end form -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<h1 style="color: white">asdasdsad</h1>
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

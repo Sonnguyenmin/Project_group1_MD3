@@ -45,5 +45,9 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "roleId"))
     private List<Roles> roles;
 
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payments payments;
+
 
 }
