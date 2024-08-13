@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.dto.request.BannerRequest;
-import ra.nhom1_watchingfilmonline.service.BannerService;
+import ra.nhom1_watchingfilmonline.service.impl.BannerService;
 
 @Controller
 @RequestMapping("/admin/banner")

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ra.nhom1_watchingfilmonline.model.dto.request.BannerRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Banners;
-import ra.nhom1_watchingfilmonline.repository.BannerDao;
+import ra.nhom1_watchingfilmonline.repository.impl.BannerDao;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
 import java.util.List;
