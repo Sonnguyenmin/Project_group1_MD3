@@ -17,7 +17,7 @@ public class FilmController {
 
     @GetMapping("/film")
     public String formFilm(Model model) {
-        model.addAttribute("filmList", )
+//        model.addAttribute("filmList", )
         return "admin/films/listFilm";
     }
 
