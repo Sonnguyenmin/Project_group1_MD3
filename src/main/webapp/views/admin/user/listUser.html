@@ -20,26 +20,23 @@
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Catalog</h2>
+                    <h2>Users</h2>
 
-                    <span class="main__title-stat">14,452 Total</span>
+                    <span class="main__title-stat">3,702 Total</span>
 
                     <div class="main__title-wrap">
-                        <a th:href="@{/initAddCategory}" class="main__title-link main__title-link--wrap">Add item</a>
+                        <button type="button" data-bs-toggle="modal" class="main__title-link main__title-link--wrap" data-bs-target="#modal-user">Add user</button>
 
-                        <!-- Form để chọn cách sắp xếp -->
-                        <form th:action="@{/sortByCategoryName}" method="get" class="main__title-form">
-                            <select name="sort" id="filter__sort" onchange="this.form.submit()">
-                                <option value="0">Sắp xếp</option>
-                                <option value="1" th:selected="${param.sort == '1'}">By name</option>
-                                <option value="2" th:selected="${param.sort == '2'}">Back</option>
-                            </select>
-                        </form>
+                        <select class="filter__select" name="sort" id="filter__sort">
+                            <option value="0">Date created</option>
+                            <option value="1">Pricing plan</option>
+                            <option value="2">Status</option>
+                        </select>
 
                         <!-- search -->
-                        <form action="#" th:action="@{/searchCategoryByName}" method="get" class="main__title-form">
-                            <input type="text" name="categoryName" placeholder="Find movie / tv series.." th:value="${categoryName}">
-                            <button type="submit">
+                        <form action="#" class="main__title-form">
+                            <input type="text" placeholder="Find user..">
+                            <button type="button">
                                 <i class="ti ti-search"></i>
                             </button>
                         </form>
@@ -49,62 +46,72 @@
             </div>
             <!-- end main title -->
 
-            <!-- items -->
+            <!-- users -->
             <div class="col-12">
                 <div class="catalog catalog--1">
-                    <!-- Hiển thị thông báo lỗi tìm kiếm nếu có -->
-                    <p th:if="${errorSearch}" th:text="${errorSearch}" style="color: red"></p>
                     <table class="catalog__table">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Category Name</th>
-                            <th>Description</th>
+                            <th>Basic Info</th>
+                            <th>Username</th>
+                            <th>Address</th>
                             <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Update Date</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="category : ${category}">
+                        <tr th:each="user : ${user}">
                             <td>
-                                <div class="catalog__text" th:text="${category.categoryId}"></div>
+                                <div class="catalog__text" th:text="${user.userId}"></div>
                             </td>
                             <td>
-                                <div class="catalog__text"><a href="#" th:text="${category.categoryName}"></a></div>
+                                <div class="catalog__user">
+                                    <div class="catalog__avatar">
+                                        <img src="assets/user/img/user.svg" alt="">
+                                    </div>
+                                    <div class="catalog__meta">
+                                        <h3 th:text="${user.fullName}"></h3>
+                                        <span th:text="${user.email}"></span>
+                                        <span th:text="${user.phone}"></span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
-                                <div class="catalog__text" th:text="${category.description}"></div>
+                                <div class="catalog__text" th:text="${user.userName}"></div>
                             </td>
                             <td>
-                                <div class="catalog__text" th:text="${category.status ? 'Visible' : 'Hidden'}"></div>
+                                <div class="catalog__text" th:text="${user.address}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${user.status ? 'Active' : 'Inactive'}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${#dates.format(user.createdAt, 'dd.MM.yyyy')}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${#dates.format(user.updatedAt, 'dd.MM.yyyy')}"></div>
                             </td>
                             <td>
                                 <div class="catalog__btns">
-                                    <!-- Change Status Button -->
-<!--                                    <button type="button" class="catalog__btn catalog__btn&#45;&#45;banned" data-bs-toggle="modal" data-bs-target="#modal-status"-->
-<!--                                            th:data-id="${category.categoryId}" th:data-status="${category.status}">-->
-<!--                                        <i class="ti ti-lock"></i>-->
-<!--                                    </button>-->
-
-                                    <!-- Edit Button -->
-                                    <a href="#" th:href="@{/initEditCategory/{id}(id=${category.categoryId})}" class="catalog__btn catalog__btn--edit">
-                                        <i class="ti ti-edit"></i>
-                                    </a>
-
-                                    <!-- Delete Button -->
-                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete"
-                                            th:data-id="${category.categoryId}">
+                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
+                                        <i class="ti ti-lock"></i>
+                                    </button>
+                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete">
                                         <i class="ti ti-trash"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
-
                     </table>
+
+
                 </div>
             </div>
-            <!-- end items -->
+            <!-- end users -->
 
             <!-- paginator -->
             <div class="col-12">
@@ -156,17 +163,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal__content">
-                <form id="statusForm" th:action="@{/categoryStatusChange/{id}(id=${categoryId})}" method="post" class="modal__form">
-                    <h4 class="modal__title">Thay đổi trạng thái</h4>
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Status change</h4>
 
-                    <p class="modal__text">Bạn có chắc chắn về việc thay đổi trạng thái ngay lập tức không??</p>
-
-                    <!-- Hidden fields for category ID and status -->
-                    <input type="hidden" name="id" id="categoryIdField">
-                    <input type="hidden" name="status" id="statusField">
+                    <p class="modal__text">Are you sure about immediately change status?</p>
 
                     <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="submit"><span>Apply</span></button>
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
                         <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
                     </div>
                 </form>
@@ -181,13 +184,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal__content">
-                <form id="delete-form" th:action="@{/deleteCategory/{id}(id=${categoryId})}" method="POST" class="modal__form">
-                <h4 class="modal__title">Xóa mục</h4>
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">User delete</h4>
 
-                    <p class="modal__text">Bạn có chắc chắn xóa vĩnh viễn mục này không?</p>
+                    <p class="modal__text">Are you sure to permanently delete this user?</p>
 
                     <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="submit"><span>Delete</span></button>
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Delete</span></button>
                         <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
                     </div>
                 </form>
@@ -199,25 +202,7 @@
 
 <!-- JS -->
 <th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
-
-<script>
-
-    // xoa category
-    document.addEventListener('DOMContentLoaded', function() {
-        var deleteButtons = document.querySelectorAll('.catalog__btn--delete');
-
-        deleteButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var itemId = this.getAttribute('data-id'); // Lấy ID từ thuộc tính data-id của nút
-
-                // Cập nhật action của form trong modal
-                var form = document.getElementById('delete-form');
-                form.setAttribute('action', '/deleteCategory/' + itemId);
-            });
-        });
-    });
-</script>
 </body>
 
-<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<!-- Mirrored from hotflix.volkovdesign.com/admin/users.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
 </html>

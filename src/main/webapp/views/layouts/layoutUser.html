@@ -80,9 +80,18 @@
                         </li>
                         <!-- end dropdown -->
 
+                        <!-- dropdown the loai-->
                         <li class="header__nav-item">
-                            <a href="pricing.html" class="header__nav-link">Thể loại</a>
+                            <a class="header__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Thể Loại <i class="ti ti-chevron-down"></i></a>
+
+                                  <ul class="dropdown-menu header__dropdown-menu">
+                                      <!-- Hiển thị danh sách danh mục từ mô hình -->
+                                      <li th:each="category : ${#ctx.session.category}">
+                                          <a th:href="@{/loadCategory}" th:text="${category.categoryName}"></a>
+                                      </li>
+                                  </ul>
                         </li>
+                        <!-- end dropdown loai-->
 
                         <!-- dropdown -->
                         <li class="header__nav-item">

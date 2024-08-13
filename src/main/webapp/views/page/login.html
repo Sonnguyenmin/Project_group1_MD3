@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
 <head th:replace="/layouts/layoutUser::head"></head>
 
 <body>
@@ -11,23 +10,24 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form class="sign__form" action="" method="post">
-                        <div class="sign__logo">
+                    <form  th:action="@{/insertLogin}" th:object="${user}" method="post" class="sign__form">
+                        <a href="index.html" class="sign__logo">
                             <img th:src="@{/assets/user/img/logo.svg}" alt="">
-                        </div>
-
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('error')}" ></small>-->
+                        </a>
 
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Email">
+                            <input type="text" class="sign__input" th:field="*{email}" placeholder="Email">
+                            <div th:if="${#fields.hasErrors('email')}" class="error">
+                                <p th:errors="*{email}"></p>
+                            </div>
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"></small>-->
 
                         <div class="sign__group">
-                            <input type="password" class="sign__input" placeholder="Mật khẩu">
+                            <input type="password" class="sign__input" th:field="*{password}" placeholder="Mật khẩu">
+                            <div th:if="${#fields.hasErrors('password')}" class="error">
+                                <p th:errors="*{password}"></p>
+                            </div>
                         </div>
-<!--                        <small class="text-danger small_alert" th:if="${#fields.hasErrors('password')}"  th:errors="*{password}" ></small>-->
-
 
                         <div class="sign__group sign__group--checkbox">
                             <input id="remember" name="remember" type="checkbox" checked="checked">
@@ -36,9 +36,9 @@
 
                         <button class="sign__btn" type="submit">Đăng nhập</button>
 
-                        <span class="sign__text">Bạn chưa có tài khoản? <a >Đăng ký!</a></span>
+                        <span class="sign__text">Bạn chưa có tài khoản? <a th:href="@{/register}">Đăng ký!</a></span>
 
-                        <span class="sign__text"><a href="">Quên mật khẩu?</a></span>
+                        <span class="sign__text"><a href="forgotPassword.html">Quên mật khẩu?</a></span>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -51,5 +51,4 @@
 <th:block th:replace="/layouts/layoutUser::javascript"></th:block>
 </body>
 
-<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
 </html>
