@@ -12,7 +12,7 @@ public interface IUserRepository {
     Users save(Users user);
     Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId);
     List<Users> findAllUsers();
-
     Boolean update(Users users);
     Users findById(Integer id);
+    String getCurrentUserName();
 }
