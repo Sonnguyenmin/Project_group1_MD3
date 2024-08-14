@@ -3,6 +3,9 @@ package ra.nhom1_watchingfilmonline.repository.impl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import ra.nhom1_watchingfilmonline.model.entity.Roles;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
@@ -189,5 +192,17 @@ public class UserRepositoryImpl implements IUserRepository {
             session.close();
         }
         return null;
+    }
+    public String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = "";
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            currentUserName = userDetails.getUsername();
+        } else if (authentication != null) {
+            currentUserName = authentication.getName(); // Nếu không phải UserDetails, lấy tên người dùng từ authentication.getName()
+        }
+        return currentUserName;
     }
 }

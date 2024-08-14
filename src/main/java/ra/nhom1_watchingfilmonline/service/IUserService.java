@@ -10,7 +10,7 @@ public interface IUserService {
     Users save(Users user);
     Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId);
     List<Users> findAllUsers();
-
+    String getCurrentUserName();
     Boolean update(Users users);
     Users findUserById(Integer id);
     String findPasswordByEmail(String email);

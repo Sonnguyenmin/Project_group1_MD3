@@ -22,7 +22,7 @@ public class CategoryController {
     @RequestMapping(value = "/loadCategory")
     public String loadCategory(Model model) {
         List<Categories> filmCategoryList = categoryService.findAll();
-        System.out.println("Danh sách danh mục: " + filmCategoryList); // Ghi log
+        System.out.println("Danh sách danh mục: " + filmCategoryList); // Ghi log check
         model.addAttribute("category", filmCategoryList);
         return "admin/category/listCategory";
     }

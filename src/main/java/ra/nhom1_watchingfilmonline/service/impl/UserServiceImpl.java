@@ -43,6 +43,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public String getCurrentUserName() {
+        return userRepository.getCurrentUserName();
+    }
+
+    @Override
     public Boolean update(Users users) {
         return userRepository.update(users);
     }
