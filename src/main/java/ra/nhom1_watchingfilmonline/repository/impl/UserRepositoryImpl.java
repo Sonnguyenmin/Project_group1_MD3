@@ -176,6 +176,23 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+    public String findPasswordByEmail(String email) {
+        Session session = sessionFactory.openSession();
+        String pass = null;
+        try {
+            session.beginTransaction();
+            pass = (String) session.createQuery("select u.password from Users u where u.email=: email")
+                    .setParameter("email",email).uniqueResult();
+            session.getTransaction().commit();
+            return pass;
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return null;
+    }
     public String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = "";

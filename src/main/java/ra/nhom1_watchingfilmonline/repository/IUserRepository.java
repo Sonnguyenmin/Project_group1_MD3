@@ -1,7 +1,6 @@
 package ra.nhom1_watchingfilmonline.repository;
 
 
-import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 
 import java.util.List;
@@ -14,5 +13,8 @@ public interface IUserRepository {
     List<Users> findAllUsers();
     Boolean update(Users users);
     Users findById(Integer id);
+
+    String findPasswordByEmail(String email);
+
     String getCurrentUserName();
 }

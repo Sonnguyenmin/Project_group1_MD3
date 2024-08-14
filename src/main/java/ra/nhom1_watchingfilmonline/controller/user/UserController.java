@@ -11,8 +11,10 @@ public class UserController {
     public IUserService userService;
     @RequestMapping(value = "/loadUser")
     public String userHome(Model model) {
+
         String currentUser = userService.getCurrentUserName();
         model.addAttribute("user", currentUser);
+
         return "user/home";
     }
 
