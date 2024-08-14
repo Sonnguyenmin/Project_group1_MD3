@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/admin/css/slimselect.css}">
     <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}">
+    <link rel="stylesheet" th:href="@{/assets/admin/css/sweetalert2.min.css}">
 
     <!-- Icon font -->
     <link rel="stylesheet" th:href="@{/assets/admin/webfont/tabler-icons.min.css}">
@@ -84,10 +85,17 @@
 
         <div class="sidebar__user-title">
             <span>Admin</span>
-            <p>John Doe</p>
+            <p th:text="${'Hello ' + session.user.userName}"></p>
         </div>
 
-        <button class="sidebar__user-btn" type="button">
+        <!-- Form Đăng Xuất -->
+        <form id="logout-form" th:action="@{/logout}" method="POST" style="display:none;">
+            <!-- CSRF Token -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <!-- Nút để kích hoạt SweetAlert2 -->
+        <button class="sidebar__user-btn" type="button" id="logout-button">
             <i class="ti ti-logout"></i>
         </button>
     </div>
@@ -176,6 +184,24 @@
     <script th:src="@{/assets/admin/js/slimselect.min.js}"></script>
     <script th:src="@{/assets/admin/js/smooth-scrollbar.js}"></script>
     <script th:src="@{/assets/admin/js/admin.js}"></script>
+    <script th:src="@{/assets/admin/js/sweetalert2.min.js}"></script>
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function () {
+            console.log("co vao day")
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn đăng xuất?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Huỷ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Thực hiện hành động đăng xuất tại đây
+                    document.getElementById('logout-form').submit();
+                }
+            });
+        });
+    </script>
 </th:block>
 </body>
 

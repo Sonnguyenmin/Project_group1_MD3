@@ -13,6 +13,7 @@
     <link rel="stylesheet" th:href="@{/assets/user/css/photoswipe.css}">
     <link rel="stylesheet" th:href="@{/assets/user/css/default-skin.css}">
     <link rel="stylesheet" th:href="@{/assets/user/css/main.css}">
+    <link rel="stylesheet" th:href="@{/assets/user/css/sweetalert2.min.css}">
 
     <!-- Icon font -->
     <link rel="stylesheet" th:href="@{/assets/user/webfont/tabler-icons.min.css}">
@@ -150,15 +151,20 @@
                         <div class="header__profile">
                             <a class="header__sign-in header__sign-in--user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="ti ti-user"></i>
-                                <span>Nickname</span>
+                                <span th:text="${'Hello ' + session.user.userName}"></span>
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end header__dropdown-menu header__dropdown-menu--user">
+                                <!-- Form Đăng Xuất -->
+                                <form id="logout-form" th:action="@{/logout}" method="POST" style="display:none;">
+                                    <!-- CSRF Token -->
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                </form>
                                 <li><a th:href="@{profile}"><i class="ti ti-ghost"></i>Thông tin</a></li>
                                 <li><a href="profile.html"><i class="ti ti-stereo-glasses"></i>Subscription</a></li>
                                 <li><a href="profile.html"><i class="ti ti-bookmark"></i>Favorites</a></li>
                                 <li><a href="profile.html"><i class="ti ti-settings"></i>Settings</a></li>
-                                <li><a href="#"><i class="ti ti-logout"></i>Logout</a></li>
+                                <li><a href="#" id="logout-link"><i class="ti ti-logout"></i>Logout</a></li>
                             </ul>
                         </div>
                         <!-- end dropdown -->
@@ -218,6 +224,25 @@
     <script th:src="@{/assets/user/js/photoswipe.min.js}"></script>
     <script th:src="@{/assets/user/js/photoswipe-ui-default.min.js}"></script>
     <script th:src="@{/assets/user/js/main.js}"></script>
+    <script th:src="@{/assets/user/js/sweetalert2.min.js}"></script>
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function () {
+            console.log("co vao day")
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn đăng xuất?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Huỷ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Thực hiện hành động đăng xuất tại đây
+                    document.getElementById('logout-form').submit();
+                }
+            });
+        });
+
+    </script>
 </th:block>
 </body>
 

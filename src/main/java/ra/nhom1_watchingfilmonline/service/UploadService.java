@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UploadService {
-    private static final String bucketName = "springmvc240408.appspot.com" ;
+    private static final String bucketName = "springmvcupload.appspot.com" ;
     // lấy ra đường dẫn gốc trên server
 
     private final ServletContext servletContext;

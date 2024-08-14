@@ -55,7 +55,9 @@ public class WebServiceConfig {
                         .permitAll()
         ).logout(
                 logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll());
+                                .logoutSuccessUrl("/")
+                                .permitAll())
+                .csrf().and(); // Nếu bạn đã cấu hình CSRF trong các form, thì cần bật CSRF
         return http.build();
     }
 
