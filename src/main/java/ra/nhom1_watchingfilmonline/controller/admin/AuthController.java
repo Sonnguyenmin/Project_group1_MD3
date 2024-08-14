@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ra.nhom1_watchingfilmonline.model.dto.UserDto;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
+import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.ICategoriesService;
 import ra.nhom1_watchingfilmonline.service.IUserService;
 
@@ -15,7 +17,6 @@ import javax.validation.Valid;
 
 
 @Controller
-
 public class AuthController {
 
     @Autowired
@@ -24,26 +25,30 @@ public class AuthController {
     @Autowired
     private ICategoriesService categoriesService;
 
+    @Autowired
+    private FilmService filmService;
+
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     @RequestMapping(value = {"/", "/loadHome"})
-    public String mainHome(HttpSession session) {
+    public String mainHome(HttpSession session , @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
         session.setAttribute("category",categoriesService.findAll());
+        session.setAttribute("films", filmService.findAll());
         return "main/index";
     }
 
     // Trang đăng ký
     @GetMapping("/register")
     public String register(Model model) {
-        ra.model3_project_springmvc.model.dto.UserDto user = new ra.model3_project_springmvc.model.dto.UserDto();
+        UserDto user = new UserDto();
         model.addAttribute("user",user);
         return "page/register";
     }
 
     @PostMapping("/insertRegister")
-    public String saveRegister(@Valid @ModelAttribute("user") ra.model3_project_springmvc.model.dto.UserDto user, BindingResult result, Model model) {
+    public String saveRegister(@Valid @ModelAttribute("user") UserDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "page/register";  // Trả về trang đăng ký nếu có lỗi
         }
@@ -113,6 +118,4 @@ public class AuthController {
         }
         return "page/login";
     }
-
-
 }

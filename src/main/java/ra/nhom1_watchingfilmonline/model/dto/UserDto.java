@@ -1,4 +1,4 @@
-package ra.model3_project_springmvc.model.dto;
+package ra.nhom1_watchingfilmonline.model.dto;
 
 import lombok.*;
 

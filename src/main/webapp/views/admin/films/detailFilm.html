@@ -28,48 +28,49 @@
             <div class="col-12">
                 <form action="#" class="sign__form sign__form--add">
                     <div class="row">
-                        <div class="col-12 col-xl-6">
+                        <div class="col-12 col-xl-7">
                             <div class="row">
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12">
                                     <div class="sign__group">
-                                        <label for="filmId" class="catalog__text">ID</label>
-                                        <input type="text" id="filmId" class="sign__input" placeholder="Title">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="sign__group">
-                                        <label for="seriesSingle" class="catalog__text">Phim bộ hay nhiều tập</label>
-                                        <input type="text" id="seriesSingle" class="sign__input" placeholder="Title">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="sign__group">
-                                        <label for="totalTime" class="catalog__text">Thời lượng</label>
-                                        <input type="text" id="totalTime" class="sign__input" placeholder="Title">
+                                        <input type="text" class="sign__input" placeholder="Tên phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <textarea id="text" name="text" class="sign__textarea" placeholder="Description"></textarea>
+                                        <textarea id="text" name="text" class="sign__textarea" placeholder="Mô tả"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                            <img th:src="@{/assets/user/img/covers/cover33.jpg}" style="text-align: center; display: block; width: 80px; height: 80px; object-fit: contain; border-radius: 5px; max-width: 100%; " alt="">
+
+                                            <img style="max-width: 80px; max-height: 100px; object-fit: contain; border-radius: 5px;" th:src="@{/assets/user/img/covers/cover33.jpg}" alt="">
+
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Link to the background (1920x1280)">
+                                        <input type="text" class="sign__input" placeholder="Tổng số tập phim">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <input type="text" class="sign__input" placeholder="Đạo điễn">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <input type="text" class="sign__input" placeholder="Diễn viên">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-xl-6">
+                        <div class="col-12 col-xl-5">
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
@@ -82,161 +83,93 @@
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Age">
+                                        <input type="date" class="sign__input" placeholder="Ngày phát hành">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <input type="text" class="sign__input" placeholder="Ngôn ngữ tiếng phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Running time">
+                                        <input type="text" class="sign__input" placeholder="Thời lượng phim (Tiếng)">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <select class="sign__selectjs" id="sign__genre" multiple>
+                                            <option value="Animation">Animation</option>
+                                            <option value="Animation">Animation</option>
+                                            <option value="Animation">Animation</option>
+                                            <option value="Animation">Animation</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Premiere date">
+                                        <select class="sign__selectjs" id="sign__country">
+                                            <option value="">Chọn quốc gia</option>
+                                            <option value="Afghanistan">Afghanistan</option>
+                                            <option value="Åland Islands">Åland Islands</option>
+                                        </select>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-4">
-                            <div class="sign__group">
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-xl-8">
-                            <div class="sign__group">
-
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="sign__group">
-                                <label class="sign__label">Item type:</label>
-                                <ul class="sign__radio">
-                                    <li>
-                                        <input id="type1" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
-                                        <label for="type1">Movie</label>
-                                    </li>
-                                    <li>
-                                        <input id="type2" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse">
-                                        <label for="type2">TV Series</label>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
 
 
-                        <!-- tv series -->
-                        <div class="col-12">
-                            <div class="collapse multi-collapse">
-                                <!-- season -->
-                                <div class="sign__season">
-                                    <div class="sign__season-head">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <span class="sign__episode-title">Season #1</span>
-                                            </div>
 
-                                            <div class="col-12 col-sm-6 col-md-5 col-xl-6">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Season title">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-sm-6 col-md-4 col-xl-4">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Season info">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-sm-4 col-md-3 col-xl-2">
-                                                <button class="sign__btn sign__btn--add"><span>add season</span></button>
-                                            </div>
-                                        </div>
+                        <div class="col-12 ">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <label class="sign__label">Phim bộ hay nhiều tập:</label>
+                                        <ul class="sign__radio">
+                                            <li>
+                                                <input id="single_film" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
+                                                <label for="single_film">Phim lẻ</label>
+                                            </li>
+                                            <li>
+                                                <input id="many_film" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse">
+                                                <label for="many_film">phim nhiều tập</label>
+                                            </li>
+                                        </ul>
                                     </div>
-
-                                    <!-- episode -->
-                                    <div class="sign__episode">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <span class="sign__episode-title">Episode #1</span>
-                                                <button class="sign__delete" type="button">
-                                                    <i class="ti ti-x"></i>
-                                                </button>
-                                            </div>
-
-                                            <div class="col-12 col-md-6">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Episode title 1">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-md-6">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Air date">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="sign__video">
-                                                    <label id="s1s1" for="sign__video-upload1">Upload episode 1</label>
-                                                    <input data-name="#s1s1" id="sign__video-upload1" name="s1s1" class="sign__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end episode -->
-
-                                    <!-- episode -->
-                                    <div class="sign__episode">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <span class="sign__episode-title">Episode #2</span>
-                                                <button class="sign__delete" type="button">
-                                                    <i class="ti ti-x"></i>
-                                                </button>
-                                            </div>
-
-                                            <div class="col-12 col-md-6">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Episode title 2">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-md-6">
-                                                <div class="sign__group">
-                                                    <input type="text" class="sign__input" placeholder="Air date">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-sm-8 col-md-9 col-xl-10">
-                                                <div class="sign__video">
-                                                    <label id="s1s2" for="sign__video-upload2">Upload episode 2</label>
-                                                    <input data-name="#s1s2" id="sign__video-upload2" name="s1s2" class="sign__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-sm-4 col-md-3 col-xl-2">
-                                                <button class="sign__btn sign__btn--add"><span>add episode</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end episode -->
                                 </div>
-                                <!-- end season -->
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <label class="sign__label">Trạng thái phim:</label>
+                                        <ul class="sign__radio">
+                                            <li>
+                                                <input id="stopped_film" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
+                                                <label for="stopped_film">Phim ngừng chiếu</label>
+                                            </li>
+                                            <li>
+                                                <input id="upcoming_film" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse">
+                                                <label for="upcoming_film">Phim sắp chiếu</label>
+                                            </li>
+                                            <li>
+                                                <input id="type1" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
+                                                <label for="type1">Phim đang chiếu</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- end tv series -->
+
 
                         <div class="col-12">
                             <a th:href="@{/admin/film}" class="sign__btn sign__btn--small"> <i style="font-size: 20px ; margin-right: 8px;
 
 background: linear-gradient(to right, #f9ab00 0%, #ebebec 50%);
                     background-clip: text;
-                     color: transparent;" class="ti ti-backspace"></i> <span>Publish</span></a>
+                     color: transparent;" class="ti ti-backspace"></i> <span>Trở lại</span></a>
                         </div>
                     </div>
                 </form>

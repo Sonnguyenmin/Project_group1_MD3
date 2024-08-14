@@ -52,20 +52,19 @@
                     <table class="catalog__table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Basic Info</th>
-                            <th>Username</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th>Created Date</th>
-                            <th>Update Date</th>
-                            <th>Actions</th>
+                            <th>STT</th>
+                            <th>THÔNG TIN CƠ BẢN </th>
+                            <th>TÀI KHOẢN</th>
+                            <th>NGÀY TẠO</th>
+                            <th>NGÀY CẬP NHẬT</th>
+                            <th>TRẠNG THÁI</th>
+                            <th>HÀNH ĐỘNG</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="user : ${user}">
+                        <tr th:each="user, loop : ${user}">
                             <td>
-                                <div class="catalog__text" th:text="${user.userId}"></div>
+                                <div class="catalog__text" th:text="${loop.count}"></div>
                             </td>
                             <td>
                                 <div class="catalog__user">
@@ -82,12 +81,9 @@
                             <td>
                                 <div class="catalog__text" th:text="${user.userName}"></div>
                             </td>
-                            <td>
-                                <div class="catalog__text" th:text="${user.address}"></div>
-                            </td>
-                            <td>
-                                <div class="catalog__text" th:text="${user.status ? 'Active' : 'Inactive'}"></div>
-                            </td>
+<!--                            <td>-->
+<!--                                <div class="catalog__text" th:text="${user.address}"></div>-->
+<!--                            </td>-->
                             <td>
                                 <div class="catalog__text" th:text="${#dates.format(user.createdAt, 'dd.MM.yyyy')}"></div>
                             </td>
@@ -95,9 +91,12 @@
                                 <div class="catalog__text" th:text="${#dates.format(user.updatedAt, 'dd.MM.yyyy')}"></div>
                             </td>
                             <td>
+                                <div class="catalog__text" th:text="${user.status ? 'Hoạt động' : 'Không hoạt động'}"></div>
+                            </td>
+                            <td>
                                 <div class="catalog__btns">
-                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
-                                        <i class="ti ti-lock"></i>
+                                    <button type="button" onclick="viewConfirm(event)" th:data-id="${user.userId}" th:data-status="${user.status}" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
+                                        <i  th:data-id="${user.userId}" th:data-status="${user.status}"  class="ti ti-lock"></i>
                                     </button>
                                     <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete">
                                         <i class="ti ti-trash"></i>
@@ -163,16 +162,21 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal__content">
-                <form action="#" class="modal__form">
-                    <h4 class="modal__title">Status change</h4>
+                <div class="modal__content">
+                    <form id="statusForm" th:action="@{/userManagement}" method="POST" class="modal__form">
+                        <h4 class="modal__title">Thay đổi trạng thái</h4>
 
-                    <p class="modal__text">Are you sure about immediately change status?</p>
+                        <p class="modal__text">Bạn có chắc chắn về việc thay đổi trạng thái ngay lập tức không?</p>
+                        <!-- Hidden fields for category ID and status -->
+                        <input type="hidden" name="id" id="idField">
+                        <input type="hidden" name="status" id="statusField">
 
-                    <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
-                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
-                    </div>
-                </form>
+                        <div class="modal__btns">
+                            <button class="modal__btn modal__btn--apply" type="submit"><span>Thay đổi</span></button>
+                            <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Trở lại</span></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -199,6 +203,44 @@
     </div>
 </div>
 <!-- end delete modal -->
+
+<script>
+    function viewConfirm(e) {
+        let inputId = document.getElementById("idField");
+        let inputStatus = document.getElementById("statusField");
+        inputId.value = e.target.dataset.id;
+        inputStatus.value = e.target.dataset.status;
+
+    }
+
+    const form = document.querySelector("#statusForm");
+    form.addEventListener('submit', function (event) {
+        e.preventDefault();
+        const userId = document.querySelector('#idField').value;
+        const statusField = document.querySelector('#statusField').value;
+
+        fetch('/updateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({userId, statusField})
+        })
+            .then(reponse => reponse.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật trạng thái thành công!');
+                } else {
+                    alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+                alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            });
+    })
+
+</script>
 
 <!-- JS -->
 <th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
