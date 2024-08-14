@@ -26,7 +26,7 @@
                     <!--                    <span class="main__title-stat">14,452 Total</span>-->
 
                     <div class="main__title-wrap">
-                        <a th:href="@{/admin/country/add}" class="main__title-link main__title-link--wrap">Thêm
+                        <a th:href="@{/country/add}" class="main__title-link main__title-link--wrap">Thêm
                             Quốc gia</a>
 
                         <!--                        <select class="filter__select" name="sort" id="filter__sort">-->
@@ -75,10 +75,10 @@
                                     <!--                                    <a th:href="@{detail_category/{id}(id=${category.id})}" class="catalog__btn catalog__btn&#45;&#45;view">-->
                                     <!--                                        <i class="ti ti-eye"></i>-->
                                     <!--                                    </a>-->
-                                    <a th:href="@{|/admin/country/edit/${ct.countryId}|}" class="catalog__btn catalog__btn--edit">
+                                    <a th:href="@{|/country/edit/${ct.countryId}|}" class="catalog__btn catalog__btn--edit">
                                         <i class="ti ti-edit"></i>
                                     </a>
-                                    <a th:href="@{|/admin/country/delete/${ct.countryId}|}" class="catalog__btn catalog__btn--delete">
+                                    <a th:href="@{|/country/delete/${ct.countryId}|}" class="catalog__btn catalog__btn--delete">
                                         <i class="ti ti-trash"></i>
                                     </a>
                                 </div>

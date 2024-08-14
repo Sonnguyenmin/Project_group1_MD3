@@ -58,6 +58,9 @@ public class FilmController {
             Model model
     ) {
         if (result.hasErrors()) {
+            model.addAttribute("countries", countryDao.findAll());
+            model.addAttribute("categories", categoriesRepository.findAll());
+            model.addAttribute("filmRequest", films);
             return "admin/films/addFilm";
         }
         try {
@@ -77,8 +80,10 @@ public class FilmController {
 
     }
 
+
     @GetMapping("/edit")
-    public String formEditFilm(Model model) {
+    public String formEditFilm(Model model, @PathVariable("id") Integer id) {
+
         return "admin/films/editFilm";
     }
 

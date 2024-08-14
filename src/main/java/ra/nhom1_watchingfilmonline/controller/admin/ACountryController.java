@@ -28,7 +28,7 @@ public class ACountryController {
     @PostMapping("/add")
     public String add(@ModelAttribute Countries countries){
         countryService.save(countries);
-        return "redirect:/admin/country";
+        return "redirect:/country";
     }
 
     @GetMapping("/edit/{id}")
@@ -40,12 +40,12 @@ public class ACountryController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute Countries countries){
         countryService.save(countries);
-        return "redirect:/admin/country";
+        return "redirect:/country";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
         countryService.delete(id);
-        return "redirect:/admin/country";
+        return "redirect:/country";
     }
 }

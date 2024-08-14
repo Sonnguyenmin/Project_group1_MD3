@@ -53,8 +53,7 @@
                             <th>STT</th>
                             <th>TÊN PHIM</th>
                             <th>ẢNH</th>
-                            <th>TÊN DANH MỤC</th>
-                            <th>LOẠT PHIM</th>
+                            <th>THỂ LOẠI</th>
                             <th>TÀI KHOẢN VIP</th>
                             <th>TRẠNG THÁI</th>
                             <th>HÀNH ĐỘNG</th>
@@ -73,10 +72,6 @@
                                 <img style="width: 60px; height: 60px ; object-fit: contain; border-radius: 5px; margin: -5px" th:src="@{${film.image}}" alt="">
                             </td>
                             <td>
-                                <div class="catalog__text">Movie</div>
-                            </td>
-
-                            <td>
                                 <div class="catalog__text"></div>
                             </td>
 
@@ -86,7 +81,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="catalog__text" th:classappend="${film.status == 1} ? 'catalog__text--green' : (${film.status == 2} ? 'catalog__text--orange' : 'catalog__text--red')">
+                                <div class="catalog__text">
                                     <span th:text="${film.status == 1 ? 'Phim đang chiếu' : (film.status == 2 ? 'Phim sắp chiếu' : 'Phim ngừng chiếu')}"></span>
                                 </div>
                             </td>
