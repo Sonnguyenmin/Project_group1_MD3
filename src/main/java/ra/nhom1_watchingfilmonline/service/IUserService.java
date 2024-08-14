@@ -13,5 +13,6 @@ public interface IUserService {
 
     Boolean update(Users users);
     Users findUserById(Integer id);
+    String findPasswordByEmail(String email);
 }
 

@@ -52,5 +52,9 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findById(id);
     }
 
+    @Override
+    public String findPasswordByEmail(String email) {
+      return userRepository.findPasswordByEmail(email);
+    }
 
 }

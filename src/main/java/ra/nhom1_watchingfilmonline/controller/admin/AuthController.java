@@ -121,4 +121,15 @@ public class AuthController {
         }
         return "page/login";
     }
+
+    @GetMapping("/forgetPassword")
+    public String openForgetPassword(){
+        return "page/forgotPassword";
+    }
+
+    @PostMapping("/forgetPassword")
+    public String forgetPassword(Model model, @RequestParam("email") String email){
+        model.addAttribute("pass",userService.findPasswordByEmail(email));
+        return "page/findPass";
+    }
 }
