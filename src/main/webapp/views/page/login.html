@@ -11,10 +11,12 @@
                 <div class="sign__content">
                     <!-- authorization form -->
                     <form  th:action="@{/insertLogin}" th:object="${user}" method="post" class="sign__form">
+
                         <a href="index.html" class="sign__logo">
                             <img th:src="@{/assets/user/img/logo.svg}" alt="">
                         </a>
-
+                        <p th:if="${errorLogin}" th:text="${errorLogin}" style="color: red"></p>
+                        <p th:if="${error}" th:text="${error}" style="color: red"></p>
                         <div class="sign__group">
                             <input type="text" class="sign__input" th:field="*{email}" placeholder="Email">
                             <div th:if="${#fields.hasErrors('email')}" class="error">

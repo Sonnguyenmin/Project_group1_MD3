@@ -1,15 +1,21 @@
 package ra.nhom1_watchingfilmonline.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ra.nhom1_watchingfilmonline.model.dto.UserDto;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.service.ICategoriesService;
 import ra.nhom1_watchingfilmonline.service.IUserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -37,13 +43,13 @@ public class AuthController {
     // Trang đăng ký
     @GetMapping("/register")
     public String register(Model model) {
-        ra.model3_project_springmvc.model.dto.UserDto user = new ra.model3_project_springmvc.model.dto.UserDto();
+     UserDto user = new UserDto();
         model.addAttribute("user",user);
         return "page/register";
     }
 
     @PostMapping("/insertRegister")
-    public String saveRegister(@Valid @ModelAttribute("user") ra.model3_project_springmvc.model.dto.UserDto user, BindingResult result, Model model) {
+    public String saveRegister(@Valid @ModelAttribute("user") UserDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "page/register";  // Trả về trang đăng ký nếu có lỗi
         }
@@ -106,12 +112,21 @@ public class AuthController {
                     return "redirect:/loadUser";
                 }
             } else {
-                model.addAttribute("error", "Invalid email or password");
+                model.addAttribute("error", "Email hoặc password không hợp lệ");
             }
         } else {
-            model.addAttribute("error", "User not found");
+            model.addAttribute("errorLogin", "Không tìm thấy người dùng");
         }
         return "page/login";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/"; //
     }
 
 

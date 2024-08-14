@@ -11,5 +11,6 @@ public interface IUserRepository {
     Users save(Users user);
     Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId);
     List<Users> findAllUsers();
-
+    Users getUserName(String userName);
+    String getCurrentUserName();
 }

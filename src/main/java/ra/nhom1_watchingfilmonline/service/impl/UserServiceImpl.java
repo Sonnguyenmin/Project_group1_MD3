@@ -42,5 +42,15 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAllUsers();
     }
 
+    @Override
+    public Users getUserName(String userName) {
+        return userRepository.getUserName(userName);
+    }
+
+    @Override
+    public String getCurrentUserName() {
+        return userRepository.getCurrentUserName();
+    }
+
 
 }

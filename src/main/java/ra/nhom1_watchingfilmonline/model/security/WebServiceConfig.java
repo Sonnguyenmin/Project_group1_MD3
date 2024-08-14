@@ -13,8 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
-import ra.model3_project_springmvc.filter.EncodingFilter;
-import ra.nhom1_watchingfilmonline.model.security.CustomerUserDetailService;
+import ra.nhom1_watchingfilmonline.filter.EncodingFilter;
 
 
 @Service
@@ -54,7 +53,9 @@ public class WebServiceConfig {
                         .permitAll()
         ).logout(
                 logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll());
+                        .logoutSuccessUrl("/")
+                        .permitAll())
+                        .csrf().and(); // Nếu bạn đã cấu hình CSRF trong các form, thì cần bật CSRF
         return http.build();
     }
 

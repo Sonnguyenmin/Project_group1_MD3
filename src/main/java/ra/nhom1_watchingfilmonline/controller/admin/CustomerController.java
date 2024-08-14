@@ -15,10 +15,7 @@ public class CustomerController {
 
     @Autowired
     private IUserService userService;
-//    @RequestMapping(value = "/loadAdmin")
-//    public String adminHome() {
-//        return "admin/index";
-//    }
+
     @RequestMapping(value = "/userManagement")
     public String userManagement(Model model) {
         List<Users> users = userService.findAllUsers();
