@@ -12,6 +12,7 @@ import java.util.List;
 public class BannerDao {
     @Autowired
     private SessionFactory sessionFactory;
+
     public List<Banners> findAll(){
         Session session= sessionFactory.openSession();
         return session.createQuery("from Banners ",Banners.class).getResultList();

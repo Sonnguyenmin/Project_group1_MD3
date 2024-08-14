@@ -137,4 +137,38 @@ public class UserRepositoryImpl implements IUserRepository {
         }
         return users;
     }
+
+    @Override
+    public Boolean update(Users users) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.update(users);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public Users findById(Integer id) {
+        Session session = sessionFactory.openSession();
+        Users filmUser = null;
+        try {
+            session.beginTransaction();
+            filmUser = session.get(Users.class, id);
+            session.getTransaction().commit();
+            return filmUser;
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return null;
+    }
 }
