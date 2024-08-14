@@ -30,41 +30,48 @@
                     <div class="row">
                         <div class="col-12 col-xl-7">
                             <div class="row">
+                                <div class="col-12 col-md-6">
+
+                                    <div class="sign__group">
+                                        <input readonly th:value="${films.filmId}" type="text" class="sign__input" placeholder="ID">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+
+                                    <div class="sign__group">
+                                        <input type="text" th:value="${films.filmName}" class="sign__input" placeholder="Tên phim">
+                                    </div>
+                                </div>
+
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Tên phim">
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="sign__group">
-                                        <textarea id="text" name="text" class="sign__textarea" placeholder="Mô tả"></textarea>
+                                        <textarea th:text="${films.description}" name="text" class="sign__textarea" placeholder="Mô tả"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
 
-                                            <img style="max-width: 80px; max-height: 100px; object-fit: contain; border-radius: 5px;" th:src="@{/assets/user/img/covers/cover33.jpg}" alt="">
+                                            <img style="max-width: 80px; max-height: 100px; object-fit: contain; border-radius: 5px;" th:src="@{${films.image}}" alt="">
 
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Tổng số tập phim">
+                                        <input type="text" class="sign__input" th:value="${films.totalEpisode}" placeholder="Tổng số tập phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Đạo điễn">
+                                        <input type="text" th:value="${films.director}" class="sign__input" placeholder="Đạo điễn">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Diễn viên">
+                                        <input type="text" th:value="${films.actorName}" class="sign__input" placeholder="Diễn viên">
                                     </div>
                                 </div>
                             </div>
@@ -74,52 +81,36 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <select class="sign__selectjs" id="sign__quality">
-                                            <option value="FullHD">FullHD</option>
-                                            <option value="HD">HD</option>
-                                        </select>
+                                        <input type="text" th:value="${films.isFree ? 'Phim miễn phí' : 'Phim mất phí'}" class="sign__input" placeholder="Gói phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="date" class="sign__input" placeholder="Ngày phát hành">
+                                        <input type="date" th:value="${films.releaseDate}" class="sign__input" placeholder="Ngày phát hành">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Ngôn ngữ tiếng phim">
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6">
-                                    <div class="sign__group">
-                                        <input type="text" class="sign__input" placeholder="Thời lượng phim (Tiếng)">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-12">
-                                    <div class="sign__group">
-                                        <select class="sign__selectjs" id="sign__genre" multiple>
-                                            <option value="Animation">Animation</option>
-                                            <option value="Animation">Animation</option>
-                                            <option value="Animation">Animation</option>
-                                            <option value="Animation">Animation</option>
-                                        </select>
+                                        <input type="text" th:value="${films.language}" class="sign__input" placeholder="Ngôn ngữ tiếng phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <select class="sign__selectjs" id="sign__country">
-                                            <option value="">Chọn quốc gia</option>
-                                            <option value="Afghanistan">Afghanistan</option>
-                                            <option value="Åland Islands">Åland Islands</option>
-                                        </select>
+                                        <input type="text" th:value="${films.totalTime}" class="sign__input" placeholder="Thời lượng phim (Tiếng)">
                                     </div>
                                 </div>
-                            </div>
+
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <div class="sign__group">
+                                            <input type="text" th:value="${films.countries.countryName}" class="sign__input" placeholder="Quốc gia">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>countries
                         </div>
 
 
@@ -128,36 +119,28 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <label class="sign__label">Phim bộ hay nhiều tập:</label>
-                                        <ul class="sign__radio">
-                                            <li>
-                                                <input id="single_film" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
-                                                <label for="single_film">Phim lẻ</label>
-                                            </li>
-                                            <li>
-                                                <input id="many_film" type="radio" name="type" data-bs-toggle="collapse" data-bs-target=".multi-collapse">
-                                                <label for="many_film">phim nhiều tập</label>
-                                            </li>
-                                        </ul>
+                                        <input type="text" th:value="${films.seriesSingle ? 'Phim lẻ' : 'Phim nhiều tập'}" class="sign__input" placeholder="Phim bộ hay nhiều tập">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <label class="sign__label">Trạng thái phim:</label>
-                                        <ul class="sign__radio">
-                                            <li>
-                                                <input id="stopped_film" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
-                                                <label for="stopped_film">Phim ngừng chiếu</label>
-                                            </li>
-                                            <li>
-                                                <input id="upcoming_film" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse">
-                                                <label for="upcoming_film">Phim sắp chiếu</label>
-                                            </li>
-                                            <li>
-                                                <input id="type1" type="radio" name="status" data-bs-toggle="collapse" data-bs-target=".multi-collapse" checked="">
-                                                <label for="type1">Phim đang chiếu</label>
-                                            </li>
-                                        </ul>
+                                        <div class="sign__group">
+                                            <input type="text"
+                                                   th:if="${films.status == 1}"
+                                                   th:value="'Phim đang chiếu'"
+                                                   class="sign__input"
+                                                   placeholder="Trạng thái phim">
+                                            <input type="text"
+                                                   th:if="${films.status == 2}"
+                                                   th:value="'Phim sắp chiếu'"
+                                                   class="sign__input"
+                                                   placeholder="Trạng thái phim">
+                                            <input type="text"
+                                                   th:if="${films.status == 3}"
+                                                   th:value="'Phim ngừng chiếu'"
+                                                   class="sign__input"
+                                                   placeholder="Trạng thái phim">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +148,7 @@
 
 
                         <div class="col-12">
-                            <a th:href="@{/admin/film}" class="sign__btn sign__btn--small"> <i style="font-size: 20px ; margin-right: 8px;
+                            <a th:href="@{/film}" class="sign__btn sign__btn--small"> <i style="font-size: 20px ; margin-right: 8px;
 
 background: linear-gradient(to right, #f9ab00 0%, #ebebec 50%);
                     background-clip: text;
