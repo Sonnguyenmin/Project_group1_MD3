@@ -39,7 +39,8 @@ public class FilmRequest {
 
     private String language;
 
-    private Integer totalFilm;
+    private Integer totalTime;
+
 
     private Boolean seriesSingle;
 

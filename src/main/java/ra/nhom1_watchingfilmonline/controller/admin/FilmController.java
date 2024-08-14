@@ -13,6 +13,9 @@ import ra.nhom1_watchingfilmonline.repository.impl.CategoriesRepositoryImpl;
 import ra.nhom1_watchingfilmonline.repository.impl.CountryDao;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 
 @Controller
@@ -29,14 +32,7 @@ public class FilmController {
     private CountryDao countryDao;
 
     @GetMapping("")
-    public String formFilm(Model model, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
-//        Integer pageSize = Math.max(size,1);
-//        int currentPage  = Math.max(page,0);
-//        Integer totalFilms = filmService.getTotalFilms();
-//        int totalPages = (int) Math.ceil((double) totalFilms / pageSize);
-//        model.addAttribute("totalPages", totalPages);
-//        model.addAttribute("size", size);
-//        model.addAttribute("currentPage", currentPage);
+    public String formFilm(Model model) {
         model.addAttribute("films", filmService.findAll());
         return "admin/films/listFilm";
     }
@@ -56,11 +52,12 @@ public class FilmController {
             @Valid @ModelAttribute("films") FilmRequest films,
             BindingResult result,
             Model model
-    ) {
+    )
+    {
         if (result.hasErrors()) {
-            model.addAttribute("countries", countryDao.findAll());
-            model.addAttribute("categories", categoriesRepository.findAll());
-            model.addAttribute("filmRequest", films);
+//            model.addAttribute("countries", countryDao.findAll());
+//            model.addAttribute("categories", categoriesRepository.findAll());
+//            model.addAttribute("filmRequest", films);
             return "admin/films/addFilm";
         }
         try {
@@ -77,13 +74,12 @@ public class FilmController {
             model.addAttribute("errorMessage", "Lỗi khi lưu danh mục: " + ex.getMessage());
             return "admin/films/addFilm";
         }
-
     }
 
 
-    @GetMapping("/edit")
-    public String formEditFilm(Model model, @PathVariable("id") Integer id) {
-
+    @GetMapping("/edit/{id}")
+    public String formEditFilm(@Valid @PathVariable("id") Integer id, Model model) {
+        model.addAttribute("filmRequest", filmService.getFilmById(id));
         return "admin/films/editFilm";
     }
 
@@ -105,9 +101,25 @@ public class FilmController {
         }
     }
 
-    @GetMapping("/detail")
-    public String formDetailFilm(Model model) {
-        return "admin/films/detailFilm";
+    @GetMapping("/detail/{id}")
+    public String formDetailFilm(@PathVariable Integer id, Model model) {
+        try {
+            Films films = filmService.getFilmById(id);
+
+            if (films == null) {
+                model.addAttribute("errorMessage", "Phim không tồn tại.");
+                return "redirect:/film";
+            }
+            model.addAttribute("films", films);
+
+            List<Categories> categories = categoriesRepository.findAll();
+            model.addAttribute("categories", categories);
+            return "admin/films/detailFilm";
+
+        } catch (Exception ex) {
+            model.addAttribute("errorMessage", "Lỗi khi lấy thông tin phim: " + ex.getMessage());
+            return "admin/films/detailFilm";
+        }
     }
 
 }
