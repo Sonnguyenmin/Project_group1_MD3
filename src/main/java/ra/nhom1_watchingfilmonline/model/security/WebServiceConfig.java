@@ -13,8 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
-import ra.model3_project_springmvc.filter.EncodingFilter;
-import ra.nhom1_watchingfilmonline.model.security.CustomerUserDetailService;
+import ra.nhom1_watchingfilmonline.filter.EncodingFilter;
 
 
 @Service
@@ -33,11 +32,13 @@ public class WebServiceConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(new EncodingFilter(), ChannelProcessingFilter.class);
         http.authorizeHttpRequests((authorize)->
-                authorize.requestMatchers("/index").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/register/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register/**").permitAll()
+
+                authorize
+                        .requestMatchers("/index").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/main/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/film/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
 //
         ).formLogin(
                 form -> form.loginPage("/login")

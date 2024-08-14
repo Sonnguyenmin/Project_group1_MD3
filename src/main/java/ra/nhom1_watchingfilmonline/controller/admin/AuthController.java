@@ -11,6 +11,7 @@ import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.ICategoriesService;
 import ra.nhom1_watchingfilmonline.service.IUserService;
+import ra.nhom1_watchingfilmonline.service.impl.BannerService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,7 +28,8 @@ public class AuthController {
 
     @Autowired
     private FilmService filmService;
-
+    @Autowired
+    private BannerService bannerService;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -36,6 +38,7 @@ public class AuthController {
     public String mainHome(HttpSession session , @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
         session.setAttribute("category",categoriesService.findAll());
         session.setAttribute("films", filmService.findAll());
+        session.setAttribute("bannerList", bannerService.findAll());
         return "main/index";
     }
 

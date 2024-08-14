@@ -116,10 +116,10 @@
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <select class="sign__selectjs" id="sign__country">
-                                            <option value="">Chọn quốc gia</option>
-                                            <option value="Afghanistan">Afghanistan</option>
-                                            <option value="Åland Islands">Åland Islands</option>
+                                        <select class="sign__selectjs" th:field="*{countries.countryId}" id="sign__country">
+                                            <option th:each="c : ${countries}" th:value="${c.countryId}"
+                                                    th:text="${c.countryName}">
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -169,7 +169,7 @@
 
 
                         <div class="col-12">
-                            <button type="button" class="sign__btn sign__btn--small"><span>Thêm phim</span></button>
+                            <button type="submit" class="sign__btn sign__btn--small"><span>Thêm phim</span></button>
                         </div>
                     </div>
                 </form>
