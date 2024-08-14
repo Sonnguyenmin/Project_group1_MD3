@@ -3,12 +3,17 @@ package ra.nhom1_watchingfilmonline.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.dto.request.BannerRequest;
+import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
+import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.service.impl.BannerService;
 
+import javax.validation.Valid;
+
 @Controller
-@RequestMapping("/admin/banner")
+@RequestMapping("/banner")
 public class BannerController {
     @Autowired
     private BannerService bannerService;
@@ -28,7 +33,7 @@ public class BannerController {
     @PostMapping("/add")
     public String add(@ModelAttribute BannerRequest bannerRequest){
         bannerService.save(bannerRequest);
-        return "redirect:/admin/banner";
+        return "redirect:/banner";
     }
 
     @GetMapping("/edit/{id}")
@@ -40,13 +45,13 @@ public class BannerController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute BannerRequest bannerRequest){
         bannerService.save(bannerRequest);
-        return "redirect:/admin/banner";
+        return "redirect:/banner";
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id,Model model){
+    public String delete(@PathVariable Integer id){
         bannerService.delete(id);
-        return "admin/banner/editBanner";
+        return "redirect:/banner";
     }
 
 }

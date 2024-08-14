@@ -18,6 +18,7 @@ public class CategoryController {
     @Autowired
     private ICategoriesService categoryService;
 
+
     @RequestMapping(value = "/loadCategory")
     public String loadCategory(Model model) {
         List<Categories> filmCategoryList = categoryService.findAll();

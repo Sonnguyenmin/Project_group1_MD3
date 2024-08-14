@@ -10,6 +10,7 @@ import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.repository.impl.CategoriesRepositoryImpl;
+import ra.nhom1_watchingfilmonline.repository.impl.CountryDao;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
 
 import javax.validation.Valid;
@@ -24,6 +25,8 @@ public class FilmController {
     @Autowired
     private CategoriesRepositoryImpl categoriesRepository;
 
+    @Autowired
+    private CountryDao countryDao;
 
     @GetMapping("")
     public String formFilm(Model model, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
@@ -40,6 +43,7 @@ public class FilmController {
 
     @GetMapping("/add")
     public String formAddFilm(Model model) {
+        model.addAttribute("countries", countryDao.findAll());
         model.addAttribute("categories", categoriesRepository.findAll());
         FilmRequest filmRequest = new FilmRequest();
         filmRequest.setStatus(1);
@@ -48,9 +52,15 @@ public class FilmController {
     }
 
     @PostMapping("/add")
-    public String addFilm(@Valid @ModelAttribute("films") Films films,
-                          BindingResult result , Model model, FilmRequest filmRequest) {
-        if(result.hasErrors()) {
+    public String addFilm(
+            @Valid @ModelAttribute("films") FilmRequest films,
+            BindingResult result,
+            Model model
+    ) {
+        if (result.hasErrors()) {
+            model.addAttribute("countries", countryDao.findAll());
+            model.addAttribute("categories", categoriesRepository.findAll());
+            model.addAttribute("filmRequest", films);
             return "admin/films/addFilm";
         }
         try {
@@ -60,7 +70,7 @@ public class FilmController {
                 return "admin/films/addFilm";
             }
 
-            filmService.saveFilm(filmRequest);
+            filmService.saveFilm(films);
             return "redirect:/film";
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -70,8 +80,10 @@ public class FilmController {
 
     }
 
+
     @GetMapping("/edit")
-    public String formEditFilm(Model model) {
+    public String formEditFilm(Model model, @PathVariable("id") Integer id) {
+
         return "admin/films/editFilm";
     }
 
@@ -82,7 +94,7 @@ public class FilmController {
             if (films == null) {
                 model.addAttribute("error", "Phim này không tồn tại");
                 return "redirect:/film";
-            } else  {
+            } else {
                 filmService.deleteFilm(id);
                 return "redirect:/film";
             }

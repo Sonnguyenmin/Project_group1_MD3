@@ -8,5 +8,8 @@ public class UserController {
         return "user/home";
     }
 
-    
+    @RequestMapping(value = "/profile")
+    public String profileUser() {
+        return "user/profile";
+    }
 }

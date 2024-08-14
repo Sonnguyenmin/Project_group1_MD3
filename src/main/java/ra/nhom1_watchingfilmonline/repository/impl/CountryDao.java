@@ -5,33 +5,33 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ra.nhom1_watchingfilmonline.model.entity.Banners;
+import ra.nhom1_watchingfilmonline.model.entity.Countries;
 
 import java.util.List;
 
 @Repository
-public class BannerDao {
+public class CountryDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<Banners> findAll() {
+    public List<Countries> findAll() {
         Session session = sessionFactory.openSession();
-        return session.createQuery("from Banners ", Banners.class).getResultList();
+        return session.createQuery("from Countries ", Countries.class).getResultList();
     }
 
-    public Banners findById(Integer id) {
+    public Countries findById(Integer id) {
         Session session = sessionFactory.openSession();
-        return session.find(Banners.class, id);
+        return session.find(Countries.class, id);
     }
 
-    public void save(Banners banners) {
+    public void save(Countries countries) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            if (banners.getBannerId() == null) {
-                session.save(banners);
+            if (countries.getCountryId() == null) {
+                session.save(countries);
             } else {
-                session.update(banners);
+                session.update(countries);
             }
             transaction.commit();
         } catch (Exception e) {
@@ -40,7 +40,6 @@ public class BannerDao {
         } finally {
             session.close();
         }
-
     }
 
     public void delete(Integer id) {
@@ -58,15 +57,4 @@ public class BannerDao {
 
     }
 
-    public String getImageById(Integer id) {
-        Session session = sessionFactory.openSession();
-        try {
-            return (String) session.createQuery("select bn.bannerImg from Banners bn where bn.id = :id")
-                    .setParameter("id", id).getSingleResult();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            session.close();
-        }
-    }
 }
