@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
+import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.model.entity.Roles;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.IRoleRepository;
@@ -24,6 +25,7 @@ public class UserRepositoryImpl implements IUserRepository {
 
     @Autowired
     private IRoleRepository roleRepository;
+
 
     @Autowired
     private IUserRepository userRepository;
@@ -129,8 +131,8 @@ public class UserRepositoryImpl implements IUserRepository {
         List<Users> users = null;
         try {
             session.beginTransaction();
-            String hql = "from Users"; // Truy vấn HQL để lấy tất cả người dùng
-            users = session.createQuery(hql, Users.class).list(); // Thực thi truy vấn và lấy danh sách người dùng
+            String sql = "select * from users u join user_role ur on u.userId = ur.userId join roles r on r.roleId = ur.roleId where r.roleName not like 'ADMIN';"; // Truy vấn HQL để lấy tất cả người dùng
+            users = session.createNativeQuery(sql, Users.class).list(); // Thực thi truy vấn và lấy danh sách người dùng
             session.getTransaction().commit();
         }catch (Exception e) {
             e.printStackTrace();
@@ -175,6 +177,59 @@ public class UserRepositoryImpl implements IUserRepository {
         return null;
     }
 
+
+//    @Override
+//    public Long totalAllUser(String search) {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            if (search.isEmpty()) {
+//                return session.createQuery("select count(u) from Users u", Long.class)
+//                        .getSingleResult();
+//            } else {
+//                return session.createQuery("select count(u) from Users u where u.fullName like concat('%',:search,'%') ", Long.class)
+//                        .setParameter("search", search)
+//                        .getSingleResult();
+//            }
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            session.close();
+//        }
+//    }
+//
+//    @Override
+//    public List<Users> findAllByOrderByUserAsc(int page, int size) {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            // Tạo một truy vấn với phân trang
+//            return session.createQuery("select u from Users u order by u.fullName asc", Users.class)
+//                    .setFirstResult(page * size)
+//                    .setMaxResults(size)
+//                    .getResultList();
+//        } catch (Exception ex) {
+//            throw new RuntimeException(ex);
+//        } finally {
+//            session.close();
+//        }
+//    }
+//
+//    @Override
+//    public List<Users> findAllByOrderByUserDesc(int page, int size) {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            // Tạo một truy vấn với phân trang
+//            return session.createQuery("select u from Users u order by u.fullName desc", Users.class)
+//                    .setFirstResult(page * size)
+//                    .setMaxResults(size)
+//                    .getResultList();
+//        } catch (Exception ex) {
+//            throw new RuntimeException(ex);
+//        } finally {
+//            session.close();
+//        }
+//    }
+
     @Override
     public String findPasswordByEmail(String email) {
         Session session = sessionFactory.openSession();
@@ -205,4 +260,5 @@ public class UserRepositoryImpl implements IUserRepository {
         }
         return currentUserName;
     }
+
 }
