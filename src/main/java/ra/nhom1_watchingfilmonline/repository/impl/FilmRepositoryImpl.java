@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.repository.FirmRepository;
 
@@ -207,4 +208,26 @@ public class FilmRepositoryImpl implements FirmRepository {
         }
         return films;
     }
+
+    @Override
+    public FilmDto getFilmDTO(Integer filmId) {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "select (f.filmId, f.filmName, c.categoryName) " +
+                    "from Films f " +
+                    "join f.categories c " +
+                    "where f.filmId = :filmId";
+            List<FilmDto> result = session.createQuery(hql, FilmDto.class)
+                    .setParameter("filmId", filmId)
+                    .getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
+    }
+
+
 }

@@ -15,6 +15,7 @@ public class Comments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
 
+    @Column(nullable = false)
     private String content;
 
     @ManyToOne

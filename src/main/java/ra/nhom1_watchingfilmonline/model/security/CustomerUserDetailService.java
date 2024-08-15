@@ -27,6 +27,7 @@ public class CustomerUserDetailService implements UserDetailsService {
         Users user = userService.findUsersByUsername(username);
         if (user != null) {
             return CustomerUserDetail.builder()
+                    .userId(user.getUserId())
                     .userName(user.getUserName())
                     .email(user.getEmail())
                     .phone(user.getPhone())
