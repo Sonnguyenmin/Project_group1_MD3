@@ -21,14 +21,12 @@ public class CategoriesRepositoryImpl implements ICategoriesRepository {
     @Override
     public List<Categories> findAll() {
         Session session = sessionFactory.openSession();
-        List<Categories> filmCategories = null;
         try {
             session.beginTransaction();
-            filmCategories = session.createQuery("from Categories").list();
-            return filmCategories;
+            return  session.createQuery("from Categories",Categories.class).list();
         }catch (Exception e){
-            e.printStackTrace();
             session.getTransaction().rollback();
+            e.printStackTrace();
         }finally {
             session.close();
         }

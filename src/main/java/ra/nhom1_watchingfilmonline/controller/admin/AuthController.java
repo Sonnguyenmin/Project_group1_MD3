@@ -40,10 +40,8 @@ public class AuthController {
 
 
     @RequestMapping(value = {"/", "/loadHome"})
-    public String mainHome(HttpSession session , @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "5") Integer size) {
+    public String mainHome(HttpSession session) {
         session.setAttribute("category",categoriesService.findAll());
-        session.setAttribute("films", filmService.findAll());
-        session.setAttribute("bannerList", bannerService.findAll());
         return "main/index";
     }
 

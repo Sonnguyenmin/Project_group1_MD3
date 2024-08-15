@@ -56,5 +56,4 @@ public class Films {
             inverseJoinColumns = @JoinColumn (name = "categoryId")
     )
     private List<Categories> categories;
-
 }
