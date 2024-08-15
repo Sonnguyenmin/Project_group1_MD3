@@ -31,7 +31,9 @@
         <div class="stats">
           <span>Số người dùng hiện tại</span>
           <!-- or .red -->
-          <p>1 678 <b class="green">+15</b></p>
+          <p th:text="${userList.size()}">1 678
+<!--            <b class="green">+15</b>-->
+          </p>
           <i class="ti ti-users-group"></i>
         </div>
       </div>
@@ -41,7 +43,9 @@
       <div class="col-12 col-sm-6 col-xl-3">
         <div class="stats">
           <span>Đánh giá</span>
-          <p>376 <b class="red">-44</b></p>
+          <p>376
+<!--            <b class="red">-44</b>-->
+          </p>
           <i class="ti ti-template"></i>
         </div>
       </div>
@@ -51,7 +55,9 @@
       <div class="col-12 col-sm-6 col-xl-3">
         <div class="stats">
           <span>Tổng số lượt xem</span>
-          <p>509 573 <b class="green">+3.1%</b></p>
+          <p>509 573
+<!--            <b class="green">+3.1%</b>-->
+          </p>
           <i class="ti ti-eye"></i>
         </div>
       </div>
@@ -60,8 +66,10 @@
       <!-- stats -->
       <div class="col-12 col-sm-6 col-xl-3">
         <div class="stats">
-          <span>Số lượng thể loại</span>
-          <p>642 <b class="green">+8</b></p>
+          <span  >Số lượng thể loại</span>
+          <p th:text="${categoryList.size()}">642
+<!--            <b class="green">+8</b>-->
+          </p>
           <i class="ti ti-category"></i>
         </div>
       </div>

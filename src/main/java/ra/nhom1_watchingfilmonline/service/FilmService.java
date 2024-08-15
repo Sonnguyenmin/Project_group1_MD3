@@ -21,6 +21,11 @@ public interface FilmService {
     Films findFilmByName(String filmName);
 
     List<Films> sortByFilmName();
+
+    List<Films> findAllPhimBo();
+    List<Films> findAllPhimLe();
+
     FilmDto getFilmDTO(Integer filmId);
+
 
 }
