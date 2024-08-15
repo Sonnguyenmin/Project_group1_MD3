@@ -4,6 +4,7 @@ package ra.nhom1_watchingfilmonline.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
@@ -105,6 +106,11 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Films> sortByFilmName() {
         return filmRepository.sortByFilmName();
+    }
+
+    @Override
+    public FilmDto getFilmDTO(Integer filmId) {
+        return filmRepository.getFilmDTO(filmId);
     }
 
 }
