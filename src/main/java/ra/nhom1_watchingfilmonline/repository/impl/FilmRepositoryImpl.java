@@ -207,4 +207,40 @@ public class FilmRepositoryImpl implements FirmRepository {
         }
         return films;
     }
+
+    @Override
+    public List<Films> findAllPhimBo() {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        List<Films> phimBo = null;
+        try {
+             phimBo = session.createQuery("from Films f where f.seriesSingle = true ", Films.class).getResultList();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return phimBo;
+    }
+
+    @Override
+    public List<Films> findAllPhimLe() {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        List<Films> phimLe = null;
+        try {
+            phimLe = session.createQuery("from Films f where f.seriesSingle = false ", Films.class).getResultList();
+            tx.commit();
+        } catch (Exception ex) {
+            tx.rollback();
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return phimLe;
+    }
+
+
 }

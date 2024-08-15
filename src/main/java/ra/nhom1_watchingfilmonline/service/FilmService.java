@@ -18,4 +18,6 @@ public interface FilmService {
     Boolean isFilmNameExists(String filmName);
     Films findFilmByName(String filmName);
     List<Films> sortByFilmName();
+    List<Films> findAllPhimBo();
+    List<Films> findAllPhimLe();
 }

@@ -81,9 +81,9 @@ public class AuthController {
             return "page/register";
         }
 
-        String encodedPassword = passwordEncoder.encode(user.getPassword());  // Mã hóa mật khẩu
+//        String encodedPassword = passwordEncoder.encode(user.getPassword());  // Mã hóa mật khẩu
 
-        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), encodedPassword, roleId);
+        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), user.getPassword(), roleId);
 
         return "/page/login";  // Chuyển hướng đến trang đăng nhập
     }
@@ -107,7 +107,8 @@ public class AuthController {
         System.out.println("User found: " + (user != null));
 
         if (user != null) {
-            boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
+//            boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
+            boolean passwordMatches = user.getPassword().equals(password);
             System.out.println("Password matches: " + passwordMatches);
 
             if (passwordMatches) {

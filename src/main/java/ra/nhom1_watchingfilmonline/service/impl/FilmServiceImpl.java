@@ -107,4 +107,15 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.sortByFilmName();
     }
 
+    @Override
+    public List<Films> findAllPhimBo() {
+        return filmRepository.findAllPhimBo();
+    }
+
+    @Override
+    public List<Films> findAllPhimLe() {
+        return filmRepository.findAllPhimLe();
+    }
+
+
 }
