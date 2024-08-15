@@ -189,22 +189,26 @@
     <div class="container">
       <div class="row">
         <!-- item -->
-        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="film : ${films}">
           <div class="item">
             <div class="item__cover">
-              <img th:src="@{/assets/user/img/covers/cover30.jpg}" alt="">
-              <a href="details.html" class="item__play">
+              <!-- Hiển thị ảnh phim -->
+              <img th:src="@{${film.image}}" alt="Film Cover">
+              <a th:href="@{/detailFilm/{id}(id=${film.filmId})}">
                 <i class="ti ti-player-play-filled"></i>
               </a>
               <span class="item__rate item__rate--green">8.4</span>
-              <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
+              <button class="item__favorite" type="button">
+                <i class="ti ti-bookmark"></i>
+              </button>
             </div>
             <div class="item__content">
-              <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-              <span class="item__category">
-									<a href="#">Action</a>
-									<a href="#">Triler</a>
-								</span>
+              <h3 class="item__title">
+                <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>
+              </h3>
+              <div>
+<!--                <p th:text="${film.categories.}">Category Names</p>-->
+              </div>
             </div>
           </div>
         </div>
@@ -220,6 +224,7 @@
       </div>
     </div>
   </div>
+
   <!-- end catalog -->
 </div>
 <!-- end fixed filter wrap -->

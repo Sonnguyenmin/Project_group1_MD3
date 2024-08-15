@@ -4,6 +4,7 @@ package ra.nhom1_watchingfilmonline.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
@@ -95,6 +96,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+
     public List<Films> findAllByOrderByFilmAsc(int page, int size) {
         return filmRepository.findAllByOrderByFilmNameAsc(page, size);
     }
@@ -103,4 +105,9 @@ public class FilmServiceImpl implements FilmService {
     public List<Films> findAllByOrderByFilmDesc(int page, int size) {
         return filmRepository.findAllByOrderByFilmNameDesc(page, size);
     }
+
+    public FilmDto getFilmDTO(Integer filmId) {
+        return filmRepository.getFilmDTO(filmId);
+    }
+
 }
