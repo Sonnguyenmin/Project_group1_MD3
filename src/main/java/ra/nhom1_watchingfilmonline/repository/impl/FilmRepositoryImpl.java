@@ -4,8 +4,6 @@ package ra.nhom1_watchingfilmonline.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
@@ -21,43 +19,35 @@ public class FilmRepositoryImpl implements FirmRepository {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Films> findAll() {
-//        Integer offset, Integer size
+    public List<Films> findAll(int page, int size, String search) {
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        List<Films> films = null;
         try {
-            Query<Films> query = session.createQuery("from Films", Films.class);
-//            query.setFirstResult(offset);
-//            query.setMaxResults(size);
-            films = query.getResultList();
-            tx.commit();
+            String hql = "from Films";
+            if (!search.isEmpty()) {
+                hql += " fm where fm.filmName like concat('%',:search,'%')";
+            }
+            List<Films> films;
+            if(search.isEmpty()) {
+                films = session.createQuery(hql, Films.class)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList();
+
+            } else {
+                films = session.createQuery(hql, Films.class)
+                        .setParameter("search", search)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList();
+            }
+            return films;
         } catch (Exception ex) {
-         tx.rollback();
-         ex.printStackTrace();
+            throw new RuntimeException(ex);
         } finally {
             session.close();
         }
-        return films;
     }
 
-//    @Override
-//    public Integer getTotalFilms() {
-//        Session session = sessionFactory.openSession();
-//        Transaction tx = session.beginTransaction();
-//        Integer totalFilms = null;
-//        try {
-//            Query<Integer> query = session.createQuery("select count(fm) from Films fm", Integer.class);
-//            totalFilms = query.uniqueResult();
-//            tx.commit();
-//        } catch (Exception ex) {
-//            tx.rollback();
-//            ex.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//        return totalFilms;
-//    }
 
     @Override
     public void saveFilm (Films films) {
@@ -102,8 +92,9 @@ public class FilmRepositoryImpl implements FirmRepository {
     public Films getFilmById(Integer filmId) {
         Session session = sessionFactory.openSession();
         try {
-            Films films = session.get(Films.class, filmId);
-            return films;
+            return session.createQuery("select f from Films f join fetch f.categories c where f.filmId = :id",Films.class)
+                    .setParameter("id",filmId)
+                    .getSingleResult();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -111,29 +102,6 @@ public class FilmRepositoryImpl implements FirmRepository {
         }
         return null;
     }
-
-    @Override
-    public List<Films> searchFilm(String filmName) {
-        Session session = sessionFactory.openSession();
-        try {
-            if (filmName == null || filmName.isEmpty()) {
-                filmName = "%";
-            }
-            else
-                filmName = "%" + filmName + "%";
-            List list = session.createQuery("from Films where filmName like :filmName")
-                    .setParameter("filmName", filmName)
-                            .list();
-            return list;
-        }catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            session.close();
-        }
-        return null;
-    }
-
 
     public String getImageById(Integer filmId) {
         Session session = sessionFactory.openSession();
@@ -188,23 +156,56 @@ public class FilmRepositoryImpl implements FirmRepository {
         }
     }
 
+
     @Override
-    public List<Films> sortByFilmName() {
+    public Long totalAllFilm(String search) {
         Session session = sessionFactory.openSession();
-        List<Films> films = null;
         try {
-            session.beginTransaction();
-            String hql = "from Films order by filmName";
-            Query<Films> query = session.createQuery(hql, Films.class);
-            films = query.getResultList();
-            session.getTransaction().commit();
-            return films;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            session.getTransaction().rollback();
+            if (search.isEmpty()) {
+                return session.createQuery("select count(fm) from Films fm", Long.class)
+                        .getSingleResult();
+            } else {
+                return session.createQuery("select count(fm) from Films fm where fm.filmName like concat('%',:search,'%') ", Long.class)
+                        .setParameter("search", search)
+                        .getSingleResult();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             session.close();
         }
-        return films;
+    }
+
+    @Override
+    public List<Films> findAllByOrderByFilmNameAsc(int page, int size) {
+        Session session = sessionFactory.openSession();
+        try {
+            // Tạo một truy vấn với phân trang
+            return session.createQuery("select fm from Films fm order by fm.filmName asc", Films.class)
+                    .setFirstResult(page * size)
+                    .setMaxResults(size)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Films> findAllByOrderByFilmNameDesc(int page, int size) {
+        Session session = sessionFactory.openSession();
+        try {
+            // Tạo một truy vấn với phân trang
+            return session.createQuery("select fm from Films fm order by fm.filmName desc", Films.class)
+                    .setFirstResult(page * size)
+                    .setMaxResults(size)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            session.close();
+        }
     }
 }

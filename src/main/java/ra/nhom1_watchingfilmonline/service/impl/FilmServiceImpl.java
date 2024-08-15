@@ -12,6 +12,7 @@ import ra.nhom1_watchingfilmonline.repository.impl.FilmRepositoryImpl;
 import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +30,8 @@ public class FilmServiceImpl implements FilmService {
     private CategoriesRepositoryImpl categoriesRepository;
 
     @Override
-    public List<Films> findAll() {
-//        Integer page,Integer size
-//        Integer offset = page * size;
-//        offset, size
-        return filmRepository.findAll();
+    public List<Films> findAll(int page, int size, String search) {
+        return filmRepository.findAll(page, size, search);
     }
 
 
@@ -82,17 +80,6 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Films> searchFilm(String filmName) {
-        return filmRepository.searchFilm(filmName);
-    }
-
-//    @Override
-//    public Integer getTotalFilms() {
-//        return filmRepository.getTotalFilms();
-//    }
-
-
-    @Override
     public Boolean isFilmNameExists(String filmName) {
         return filmRepository.isFilmNameExists(filmName);
     }
@@ -103,8 +90,17 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Films> sortByFilmName() {
-        return filmRepository.sortByFilmName();
+    public Long totalAllFilm(String search) {
+        return filmRepository.totalAllFilm(search);
     }
 
+    @Override
+    public List<Films> findAllByOrderByFilmAsc(int page, int size) {
+        return filmRepository.findAllByOrderByFilmNameAsc(page, size);
+    }
+
+    @Override
+    public List<Films> findAllByOrderByFilmDesc(int page, int size) {
+        return filmRepository.findAllByOrderByFilmNameDesc(page, size);
+    }
 }
