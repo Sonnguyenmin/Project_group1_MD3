@@ -18,7 +18,17 @@ public interface FilmService {
     Boolean isFilmNameExists(String filmName);
     Films findFilmByName(String filmName);
     List<Films> getAllFilms();
-//    List<Films> sortByFilmName();
+
      Films findByIdWithCategories(Integer filmId);
+
+
+    List<Films> sortByFilmName();
+
+    List<Films> findAllPhimBo();
+    List<Films> findAllPhimLe();
+
+    FilmDto getFilmDTO(Integer filmId);
+
+
 
 }

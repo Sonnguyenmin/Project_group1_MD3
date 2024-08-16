@@ -116,4 +116,22 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findAllByOrderByFilmNameDesc(page, size);
     }
 
+
+
+    public FilmDto getFilmDTO(Integer filmId) {
+        return filmRepository.getFilmDTO(filmId);
+    }
+
+    @Override
+    public List<Films> findAllPhimBo() {
+        return filmRepository.findAllPhimBo();
+    }
+
+    @Override
+    public List<Films> findAllPhimLe() {
+        return filmRepository.findAllPhimLe();
+    }
+
+
+
 }

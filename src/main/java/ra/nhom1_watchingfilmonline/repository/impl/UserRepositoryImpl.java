@@ -77,10 +77,10 @@ public class UserRepositoryImpl implements IUserRepository {
     public Users save(Users user) {
         Session session = sessionFactory.openSession();
         // Kiểm tra tài khoản đã tồn tại
-        Users existingUser = userRepository.findByOrEmailOrPhone(user.getEmail(), user.getPhone());
-        if (existingUser != null) {
-            throw new RuntimeException("User with email or phone already exists");
-        }
+//        Users existingUser = userRepository.findByOrEmailOrPhone(user.getEmail(), user.getPhone());
+//        if (existingUser != null) {
+//            throw new RuntimeException("User with email or phone already exists");
+//        }
 
         try {
             session.beginTransaction();
