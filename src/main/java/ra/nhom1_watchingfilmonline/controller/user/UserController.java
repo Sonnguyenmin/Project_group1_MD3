@@ -46,7 +46,7 @@ public class UserController {
 
     @RequestMapping(value = "/loadUser")
     public String userHome(Model model) {
-        String currentUser = userService.getCurrentUserName();
+//        String currentUser = userService.getCurrentUserName();
 
         List<Films> films = filmService.getAllFilms();
 
@@ -57,7 +57,7 @@ public class UserController {
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
         List<Countries> countries = countryService.findAll();   // Lấy danh sách quốc gia
         model.addAttribute("films", films);
-        model.addAttribute("user", currentUser);
+//        model.addAttribute("user", currentUser);
         model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);
         return "user/home";

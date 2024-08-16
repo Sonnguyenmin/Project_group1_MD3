@@ -118,9 +118,9 @@ public class FilmServiceImpl implements FilmService {
 
 
 
-    public FilmDto getFilmDTO(Integer filmId) {
-        return filmRepository.getFilmDTO(filmId);
-    }
+//    public FilmDto getFilmDTO(Integer filmId) {
+//        return filmRepository.getFilmDTO(filmId);
+//    }
 
     @Override
     public List<Films> findAllPhimBo() {

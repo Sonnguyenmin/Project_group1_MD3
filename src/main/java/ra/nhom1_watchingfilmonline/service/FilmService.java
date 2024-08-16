@@ -21,13 +21,10 @@ public interface FilmService {
 
      Films findByIdWithCategories(Integer filmId);
 
-
-    List<Films> sortByFilmName();
-
     List<Films> findAllPhimBo();
     List<Films> findAllPhimLe();
 
-    FilmDto getFilmDTO(Integer filmId);
+//    FilmDto getFilmDTO(Integer filmId);
 
 
 
