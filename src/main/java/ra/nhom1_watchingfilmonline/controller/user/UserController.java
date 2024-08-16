@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
+import ra.nhom1_watchingfilmonline.service.*;
 import ra.nhom1_watchingfilmonline.service.impl.BannerService;
 
 import javax.servlet.http.HttpSession;
@@ -15,10 +16,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.entity.*;
-import ra.nhom1_watchingfilmonline.service.FilmService;
-import ra.nhom1_watchingfilmonline.service.ICategoriesService;
-import ra.nhom1_watchingfilmonline.service.ICommentService;
-import ra.nhom1_watchingfilmonline.service.IUserService;
 import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 
 import javax.servlet.http.HttpSession;
@@ -41,6 +38,10 @@ public class UserController {
     private ICategoriesService categoriesService;
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private IReviewService reviewService;
+    @Autowired
+    private IFavouriteService favouriteService;
 
 
 
@@ -49,17 +50,16 @@ public class UserController {
 //        String currentUser = userService.getCurrentUserName();
 
         List<Films> films = filmService.getAllFilms();
-
-
         model.addAttribute("bannerList",bannerService.findAll());
-       
-
+        List<Favourite> favourites = favouriteService.getAllFavourites();
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
         List<Countries> countries = countryService.findAll();   // Lấy danh sách quốc gia
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
         model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);
+        model.addAttribute("favourites", favourites);
+
         return "user/home";
     }
 
@@ -111,9 +111,17 @@ public class UserController {
         model.addAttribute("film", film);
         Comments newComment = new Comments();
         model.addAttribute("comment", newComment);
-
+        Reviews newreviews = new Reviews();
+        model.addAttribute("reviews", newreviews);
+        Favourite newFavourite = favouriteService.getFavouriteById(filmId);
+        model.addAttribute("favourite", newFavourite);
+//      khi ma submit len phan cho user xem
+        List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
+        model.addAttribute("reviewsList", reviewsList);
         List<Comments> comments = commentService.getCommentsByFilmId(filmId);
         model.addAttribute("comments", comments);
+        List<Favourite> favourites = favouriteService.getFavouriteByFilmId(filmId);
+        model.addAttribute("favourites ", favourites);
 
         return "user/detail";
     }

@@ -138,7 +138,7 @@
                         <li class="nav-item" role="presentation">
                             <button id="1-tab" class="active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true">Bình luận</button>
                         </li>
-
+                              <!--button reviews-->
                         <li class="nav-item" role="presentation">
                             <button id="2-tab" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false">Đánh giá</button>
                         </li>
@@ -242,37 +242,14 @@
                             <div class="col-12">
                                 <div class="reviews">
                                     <ul class="reviews__list">
-                                        <li class="reviews__item">
+                                        <li class="reviews__item" th:each="r:${reviewsList}">
                                             <div class="reviews__autor">
-                                                <img class="reviews__avatar" th:src="@{/assets/user/img/user.svg}" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating reviews__rating--yellow">6</span>
+                                                <img class="comments__avatar" th:src="@{/assets/user/img/user.svg}" alt="">
+                                                <span class="reviews__name" th:text="${r.users.userName}">Best Marvel movie in my opinion</span>
+                                                <span class="reviews__time" th:text="${r.title}">by John Doe</span>
+                                                <span class="reviews__rating reviews__rating--yellow" th:text="${r.rating}"></span>
                                             </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" th:src="@{/assets/user/img/user.svg}" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating reviews__rating--green">9</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" th:src="@{/assets/user/img/user.svg}" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating reviews__rating--red">5</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                            <p class="reviews__text" th:text="${r.content}">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
                                         </li>
                                     </ul>
 
@@ -313,34 +290,40 @@
                                         </li>
                                     </ul>
                                     <!-- end paginator desktop -->
-<!---->
-                                    <form action="#" class="sign__form sign__form--comments">
+                                        <!--review form-->
+                                    <form th:action="@{/addReviews}" th:object="${reviews}" class="sign__form sign__form--comments">
+                                        <!-- ID người dùng -->
+                                        <input type="hidden" th:value="${session.user.userId}" name="users.userId">
+
+                                        <!-- ID phim -->
+                                        <input type="hidden" name="films.filmId" th:value="${film.filmId}"/> <!-- Đảm bảo có id phim -->
+
+<!--                                         Tiêu đề-->
                                         <div class="sign__group">
-                                            <input type="text" class="sign__input" placeholder="Title">
+                                            <input type="text" class="sign__input" placeholder="Title" th:field="*{title}">
                                         </div>
 
+                                        <!-- Đánh giá -->
                                         <div class="sign__group">
-                                            <select class="sign__select" name="rating" id="rating">
-                                                <option value="0">Rating</option>
-                                                <option value="1">1 star</option>
-                                                <option value="2">2 stars</option>
-                                                <option value="3">3 stars</option>
-                                                <option value="4">4 stars</option>
-                                                <option value="5">5 stars</option>
-                                                <option value="6">6 stars</option>
-                                                <option value="7">7 stars</option>
-                                                <option value="8">8 stars</option>
-                                                <option value="9">9 stars</option>
-                                                <option value="10">10 stars</option>
+                                            <select class="sign__select" id="rating" th:field="*{rating}">
+                                                <option value="0" th:selected="${reviews.rating == 0}">Rating</option>
+                                                <option value="1" th:selected="${reviews.rating == 1}">1 star</option>
+                                                <option value="2" th:selected="${reviews.rating == 2}">2 stars</option>
+                                                <option value="3" th:selected="${reviews.rating == 3}">3 stars</option>
+                                                <option value="4" th:selected="${reviews.rating == 4}">4 stars</option>
+                                                <option value="5" th:selected="${reviews.rating == 5}">5 stars</option>
                                             </select>
                                         </div>
 
+                                        <!-- Nội dung -->
                                         <div class="sign__group">
-                                            <textarea id="textreview" name="textreview" class="sign__textarea" placeholder="Add review"></textarea>
+                                            <textarea id="textreview" class="sign__textarea" placeholder="Add review"  th:field="*{content}"></textarea>
                                         </div>
 
-                                        <button type="button" class="sign__btn sign__btn--small">Send</button>
+                                        <!-- Nút gửi -->
+                                        <button type="submit" class="sign__btn sign__btn--small">Send</button>
                                     </form>
+
                                 </div>
                             </div>
                             <!-- end reviews -->
