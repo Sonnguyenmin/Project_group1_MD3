@@ -214,7 +214,7 @@ public class FilmRepositoryImpl implements FirmRepository {
         Transaction tx = session.beginTransaction();
         List<Films> phimBo = null;
         try {
-             phimBo = session.createQuery("from Films f where f.seriesSingle = true ", Films.class).getResultList();
+             phimBo = session.createQuery("from Films f where f.seriesSingle = false ", Films.class).getResultList();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -231,7 +231,7 @@ public class FilmRepositoryImpl implements FirmRepository {
         Transaction tx = session.beginTransaction();
         List<Films> phimLe = null;
         try {
-            phimLe = session.createQuery("from Films f where f.seriesSingle = false ", Films.class).getResultList();
+            phimLe = session.createQuery("from Films f where f.seriesSingle = true ", Films.class).getResultList();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();

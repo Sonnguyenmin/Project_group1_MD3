@@ -17,4 +17,5 @@ public interface IUserRepository {
     String findPasswordByEmail(String email);
 
     String getCurrentUserName();
+    String getImageById(Integer id);
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
+<head th:replace="/layouts/layoutUser::head"></head>
+
+<body>
+<div class="sign section--bg" th:data-bg="@{/assets/user/img/bg/section__bg.jpg}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form action="/deposit" class="sign__form" method="post">
+                        <a href="index.html" class="sign__logo">
+                            <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                        </a>
+                        <small style="color: red;text-align: center;font-size: 17px" th:if="${error}"
+                               th:text="${error}"></small>
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" name="money" placeholder="money" required>
+                        </div>
+
+                        <button class="sign__btn" type="submit">Nạp tiền</button>
+
+                    </form>
+                    <!-- end authorization form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
+</html>

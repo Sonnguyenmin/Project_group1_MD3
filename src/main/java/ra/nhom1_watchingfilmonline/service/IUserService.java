@@ -2,6 +2,7 @@ package ra.nhom1_watchingfilmonline.service;
 
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface IUserService {
@@ -14,5 +15,6 @@ public interface IUserService {
     Boolean update(Users users);
     Users findUserById(Integer id);
     String findPasswordByEmail(String email);
+    void handleAddWallet(Users user, Integer money, HttpSession session);
 }
 
