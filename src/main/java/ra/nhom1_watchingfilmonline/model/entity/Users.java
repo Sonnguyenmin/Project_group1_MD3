@@ -3,6 +3,7 @@ package ra.nhom1_watchingfilmonline.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public class Users {
 
     @Column(nullable = false)
     private Date updatedAt;// Thời gian cập nhật
+    @Min(0)
+    private Integer userWallet=0;
 
 
     @ManyToMany(fetch = FetchType.EAGER)

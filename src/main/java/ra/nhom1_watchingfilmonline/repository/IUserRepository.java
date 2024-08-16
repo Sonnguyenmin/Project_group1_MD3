@@ -29,5 +29,9 @@ public interface IUserRepository {
 
     String getCurrentUserName();
 
+
     List<Users> AllUsers();
+
+    String getImageById(Integer id);
+
 }
