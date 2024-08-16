@@ -23,6 +23,7 @@ import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -45,7 +46,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/loadUser")
-    public String userHome(Model model) {
+    public String userHome(Model model, @PathVariable("id") Integer id) {
 //        String currentUser = userService.getCurrentUserName();
         List<Films> films = filmService.getAllFilms();
         model.addAttribute("bannerList",bannerService.findAll());
@@ -58,7 +59,7 @@ public class UserController {
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
         model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
-
+        model.addAttribute("selectedValues",filmService.getFilmById(id).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
        
