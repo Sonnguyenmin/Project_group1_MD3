@@ -61,7 +61,7 @@ public class FilmController {
 
     @GetMapping("/add")
     public String formAddFilm(Model model) {
-        model.addAttribute("countries", countryDao.findAll());
+        model.addAttribute("countries", countryDao.findAllCountries());
         model.addAttribute("categories", categoriesRepository.findAll());
         FilmRequest filmRequest = new FilmRequest();
         filmRequest.setStatus(1);
@@ -99,7 +99,7 @@ public class FilmController {
     public String formEditFilm(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("filmRequest", filmService.getFilmById(id));
         model.addAttribute("selectedValues",filmService.getFilmById(id).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-        model.addAttribute("countries", countryDao.findAll());
+        model.addAttribute("countries", countryDao.findAllCountries());
         model.addAttribute("categories", categoriesRepository.findAll());
         return "admin/films/editFilm";
     }
@@ -110,7 +110,7 @@ public class FilmController {
         if (result.hasErrors()) {
             model.addAttribute("filmRequest",films);
             model.addAttribute("selectedValues",filmService.getFilmById(films.getFilmId()).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-            model.addAttribute("countries", countryDao.findAll());
+            model.addAttribute("countries", countryDao.findAllCountries());
             model.addAttribute("categories", categoriesRepository.findAll());
             return "admin/films/editFilm";
         }
@@ -120,7 +120,7 @@ public class FilmController {
             if (existingFilm != null) {
                 model.addAttribute("filmRequest",films);
                 model.addAttribute("selectedValues",filmService.getFilmById(films.getFilmId()).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-                model.addAttribute("countries", countryDao.findAll());
+                model.addAttribute("countries", countryDao.findAllCountries());
                 model.addAttribute("categories", categoriesRepository.findAll());
                 model.addAttribute("errorMessage", "Phim với tên '" + films.getFilmName() + "' đã tồn tại.");
                 return "admin/films/editFilm";

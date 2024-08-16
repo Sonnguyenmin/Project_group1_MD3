@@ -36,7 +36,6 @@ import java.util.List;
 @Controller
 public class UserController {
     @Autowired
-
     HttpSession session;
     @Autowired
     public IUserService userService;
@@ -44,9 +43,6 @@ public class UserController {
     public BannerService bannerService;
     @Autowired
     public UploadService uploadService;
-
-
-    private IUserService userService;
     @Autowired
     private FilmService filmService;
     @Autowired
@@ -62,35 +58,25 @@ public class UserController {
 
     public String userHome(Model model,HttpSession session) {
         Users userCurrent = (Users) session.getAttribute("userCurrent");
-        model.addAttribute("userCurrent",userCurrent);
-      
-
-    public String userHome(Model model) {
+        model.addAttribute("userCurrent", userCurrent);
 //        String currentUser = userService.getCurrentUserName();
 
         List<Films> films = filmService.getAllFilms();
 
-
-
         model.addAttribute("bannerList",bannerService.findAll());
-       
-
 
         String currentUser = userService.getCurrentUserName();
 //        List<Films> films = filmService.findAll();
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
-        List<Countries> countries = countryService.findAll();   // Lấy danh sách quốc gia
+        List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
 //        model.addAttribute("films", films);
         model.addAttribute("user", currentUser);
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
         model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
 
-
-        
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
-       
 
         return "user/home";
     }

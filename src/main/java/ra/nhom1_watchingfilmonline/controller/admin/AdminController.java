@@ -21,7 +21,7 @@ public class AdminController {
 
         String currentUser = userService.getCurrentUserName();
         model.addAttribute("categoryList",categoriesService.findAll());
-        model.addAttribute("userList",userService.findAllUsers());
+//        model.addAttribute("userList",userService.findAllUsers());
         model.addAttribute("user", currentUser);
         return "admin/index";
     }

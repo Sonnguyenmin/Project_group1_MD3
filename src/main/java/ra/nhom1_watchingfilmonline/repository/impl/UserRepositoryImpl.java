@@ -216,6 +216,12 @@ public class UserRepositoryImpl implements IUserRepository {
         try {
             return (String) session.createQuery("select u.avatar from Users u where u.id = :id")
                     .setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
 
     public List<Users> findAllUsers(int page, int size, String search) {
         Session session = sessionFactory.openSession();
@@ -248,8 +254,6 @@ public class UserRepositoryImpl implements IUserRepository {
         }
     }
 
-
-
     @Override
     public Long totalAllUser(String search) {
         Session session = sessionFactory.openSession();
@@ -270,7 +274,6 @@ public class UserRepositoryImpl implements IUserRepository {
             session.close();
         }
     }
-
 
     @Override
     public List<Users> findAllByOrderByUserAsc(int page, int size) {
