@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.repository.FirmRepository;
 
@@ -211,20 +210,35 @@ public class FilmRepositoryImpl implements FirmRepository {
     }
 
     @Override
-    public FilmDto getFilmDTO(Integer filmId) {
+    public List<Films> getAllFilms() {
         Session session = sessionFactory.openSession();
         try {
-            String hql = "select (f.filmId, f.filmName, c.categoryName) " +
-                    "from Films f " +
-                    "join f.categories c " +
-                    "where f.filmId = :filmId";
-            List<FilmDto> result = session.createQuery(hql, FilmDto.class)
-                    .setParameter("filmId", filmId)
-                    .getResultList();
-            return result.isEmpty() ? null : result.get(0);
-        } catch (Exception ex) {
+            session.beginTransaction();
+            return session.createQuery("FROM Films", Films.class).list();
+        }catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
+        }finally {
+            session.close();
+        }
+        return null;
+    }
+
+    @Override
+    public Films findByIdWithCategories(Integer filmId) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            // Sử dụng HQL để tải phim cùng với các thể loại
+            Films films = session.createQuery("SELECT f FROM Films f LEFT JOIN FETCH f.categories where " +
+                    "f.filmId =: filmId",Films.class)
+                    .setParameter("filmId", filmId)
+                    .uniqueResult();
+            session.getTransaction().commit();
+            return films;
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
             session.close();
         }
         return null;

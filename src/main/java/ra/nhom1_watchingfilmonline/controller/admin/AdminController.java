@@ -17,7 +17,6 @@ public class AdminController {
     private ICategoriesService categoriesService;
 
     @RequestMapping(value = "/loadAdmin")
-
     public String adminHome(Model model) {
 
         String currentUser = userService.getCurrentUserName();

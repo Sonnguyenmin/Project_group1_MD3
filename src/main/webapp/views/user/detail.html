@@ -123,6 +123,7 @@
 <!-- end details -->
 
 <!-- content -->
+<!--review-->
 <section class="content">
     <div class="content__head content__head--mt">
         <div class="container">
@@ -167,8 +168,7 @@
                                         <li class="comments__item" th:each="comment : ${comments}">
                                             <div class="comments__autor">
                                                 <img class="comments__avatar" th:src="@{/assets/user/img/user.svg}" alt="">
-                                                <span class="comments__name" th:text="${session.user.userName}"></span>
-<!--                                                <span class="comments__time" th:text="${#dates.format(comment.postedAt, 'dd.MM.yyyy, HH:mm')}"></span>-->
+                                                <span class="comments__name" th:text="${comment.users.userName}"></span>
                                             </div>
                                             <p class="comments__text" th:text="${comment.content}"></p>
 
@@ -220,7 +220,7 @@
                                         </li>
                                     </ul>
                                     <!-- end paginator desktop -->
-<!--ADD COMMENT-->
+                                                      <!--ADD COMMENT-->
                                     <form th:action="@{/addComment}" th:object="${comment}" method="post" class="sign__form sign__form--comments">
                                         <input type="hidden" th:value="${session.user.userId}" name="users.userId">
                                         <div class="sign__group">
@@ -229,7 +229,6 @@
                                         <input type="hidden" name="films.filmId" th:value="${film.filmId}"/> <!-- Đảm bảo có id phim -->
                                         <button type="submit" class="sign__btn sign__btn--small">Send</button>
                                     </form>
-
 
                                 </div>
                             </div>
@@ -314,7 +313,7 @@
                                         </li>
                                     </ul>
                                     <!-- end paginator desktop -->
-
+<!---->
                                     <form action="#" class="sign__form sign__form--comments">
                                         <div class="sign__group">
                                             <input type="text" class="sign__input" placeholder="Title">

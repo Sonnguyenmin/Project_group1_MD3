@@ -1,8 +1,6 @@
 package ra.nhom1_watchingfilmonline.service;
 
-import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
-import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 
 import java.util.List;
@@ -19,6 +17,10 @@ public interface FilmService {
     Films getFilmById(Integer filmId);
     Boolean isFilmNameExists(String filmName);
     Films findFilmByName(String filmName);
+    List<Films> getAllFilms();
+
+     Films findByIdWithCategories(Integer filmId);
+
 
     List<Films> sortByFilmName();
 
@@ -26,6 +28,7 @@ public interface FilmService {
     List<Films> findAllPhimLe();
 
     FilmDto getFilmDTO(Integer filmId);
+
 
 
 }
