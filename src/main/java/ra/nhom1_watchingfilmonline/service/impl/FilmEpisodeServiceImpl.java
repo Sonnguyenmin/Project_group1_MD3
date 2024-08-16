@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmEpisodeServiceImpl implements FilmEpisodeService {
 
+
     @Autowired
     private UploadService uploadService;
 
@@ -35,6 +36,7 @@ public class FilmEpisodeServiceImpl implements FilmEpisodeService {
     public void save(FilmEpisodeRequest filmEpisodeRequest) {
         FilmEpisode filmEpisode = FilmEpisode.builder()
                 .filmEpisodeId(filmEpisodeRequest.getFilmEpisodeId())
+                .films(filmEpisodeRequest.getFilms())
                 .episodeNumber(filmEpisodeRequest.getEpisodeNumber())
                 .filmEpisodeUrl(filmEpisodeRequest.getFilmEpisodeUrl())
                 .build();

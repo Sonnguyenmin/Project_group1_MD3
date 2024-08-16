@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import ra.nhom1_watchingfilmonline.model.entity.Films;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +20,6 @@ public class FilmEpisodeRequest {
     private String filmEpisodeUrl;
 
     private MultipartFile filmEpisodeImage;
+
+    private Films films;
 }

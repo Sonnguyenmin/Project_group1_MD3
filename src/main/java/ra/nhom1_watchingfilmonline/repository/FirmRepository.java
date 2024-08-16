@@ -19,14 +19,14 @@ public interface FirmRepository {
 
 
     List<Films> getAllFilms();
-    Films findByIdWithCategories(Integer filmId);
 
+
+    Films findByIdWithCategories(Integer filmId);
 
     List<Films> findAllPhimBo();
     List<Films> findAllPhimLe();
 
 //    FilmDto getFilmDTO(Integer filmId);
 
-
-
+    List<Films> getFilmFindAll();
 }

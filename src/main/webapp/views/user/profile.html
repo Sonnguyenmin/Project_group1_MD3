@@ -44,11 +44,11 @@
                     <div class="profile__content">
                         <div class="profile__user">
                             <div class="profile__avatar">
-                                <img src="img/user.svg" alt="">
+                                <img th:src="${session.user.avatar}" alt="">
                             </div>
                             <div class="profile__meta">
-                                <h3>John Doe</h3>
-                                <span>HOTFLIX ID: 78123</span>
+                                <h3 th:text="${session.user.userName}"></h3>
+                                <span th:text="${session.user.email}"></span>
                             </div>
                         </div>
 
@@ -836,7 +836,7 @@
                 <div class="row">
                     <!-- details form -->
                     <div class="col-12 col-lg-6">
-                        <form action="/changeProfile" class="sign__form sign__form--full" method="post"  >
+                        <form action="/changeProfile" class="sign__form sign__form--full" method="post" enctype="multipart/form-data" >
                             <div class="row">
                                 <div class="col-12">
                                     <h4 class="sign__title">Profile details</h4>
@@ -868,7 +868,7 @@
                                         <label class="sign__label" for="sign__gallery-upload">Avatar</label>
                                         <div class="sign__gallery">
                                             <label id="gallery1" for="sign__gallery-upload">Upload (40x40)</label>
-                                            <input data-name="#gallery1" id="sign__gallery-upload" name="gallery" class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple="">
+                                            <input data-name="#gallery1" id="sign__gallery-upload" name="fileAvatar" class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple="">
                                         </div>
                                     </div>
                                 </div>
@@ -883,7 +883,7 @@
 
                     <!-- password form -->
                     <div class="col-12 col-lg-6">
-                        <form action="#" class="sign__form sign__form--full">
+                        <form action="/changePassword" method="post" class="sign__form sign__form--full">
                             <div class="row">
                                 <div class="col-12">
                                     <h4 class="sign__title">Change password</h4>
@@ -893,6 +893,8 @@
                                     <div class="sign__group">
                                         <label class="sign__label" for="oldpass">Old password</label>
                                         <input id="oldpass" type="password" name="oldpass" class="sign__input" >
+                                        <small style="color: red;text-align: center;font-size: 17px" th:if="${error}"
+                                               th:text="${error}"></small>
                                     </div>
                                 </div>
 
@@ -923,7 +925,7 @@
 <!--                                </div>-->
 
                                 <div class="col-12">
-                                    <button class="sign__btn sign__btn--small" type="button">Change</button>
+                                    <button class="sign__btn sign__btn--small" type="submit">Change</button>
                                 </div>
                             </div>
                         </form>

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
-import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.impl.CategoriesRepositoryImpl;
 import ra.nhom1_watchingfilmonline.repository.impl.CountryDao;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
@@ -62,7 +61,7 @@ public class FilmController {
 
     @GetMapping("/add")
     public String formAddFilm(Model model) {
-        model.addAttribute("countries", countryDao.findAll());
+        model.addAttribute("countries", countryDao.findAllCountries());
         model.addAttribute("categories", categoriesRepository.findAll());
         FilmRequest filmRequest = new FilmRequest();
         filmRequest.setStatus(1);
@@ -100,7 +99,7 @@ public class FilmController {
     public String formEditFilm(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("filmRequest", filmService.getFilmById(id));
         model.addAttribute("selectedValues",filmService.getFilmById(id).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-        model.addAttribute("countries", countryDao.findAll());
+        model.addAttribute("countries", countryDao.findAllCountries());
         model.addAttribute("categories", categoriesRepository.findAll());
         return "admin/films/editFilm";
     }
@@ -111,7 +110,7 @@ public class FilmController {
         if (result.hasErrors()) {
             model.addAttribute("filmRequest",films);
             model.addAttribute("selectedValues",filmService.getFilmById(films.getFilmId()).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-            model.addAttribute("countries", countryDao.findAll());
+            model.addAttribute("countries", countryDao.findAllCountries());
             model.addAttribute("categories", categoriesRepository.findAll());
             return "admin/films/editFilm";
         }
@@ -121,7 +120,7 @@ public class FilmController {
             if (existingFilm != null) {
                 model.addAttribute("filmRequest",films);
                 model.addAttribute("selectedValues",filmService.getFilmById(films.getFilmId()).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
-                model.addAttribute("countries", countryDao.findAll());
+                model.addAttribute("countries", countryDao.findAllCountries());
                 model.addAttribute("categories", categoriesRepository.findAll());
                 model.addAttribute("errorMessage", "Phim với tên '" + films.getFilmName() + "' đã tồn tại.");
                 return "admin/films/editFilm";
@@ -136,7 +135,6 @@ public class FilmController {
             return "admin/films/editFilm";
         }
     }
-
 
     @GetMapping("/delete/{id}")
     public String formDeleteFilm(@PathVariable Integer id, Model model) {
@@ -199,7 +197,6 @@ public class FilmController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-
         return "admin/films/listFilm";
     }
 

@@ -7,6 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import ra.nhom1_watchingfilmonline.model.entity.Countries;
+
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.repository.FirmRepository;
 
@@ -18,6 +21,21 @@ import java.util.List;
 public class FilmRepositoryImpl implements FirmRepository {
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public List<Films> getFilmFindAll() {
+        Session session = sessionFactory.openSession();
+        try {
+            session.createQuery("from Films", Films.class).list();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return null;
+    }
 
     @Override
     public List<Films> findAll(int page, int size, String search) {
@@ -252,7 +270,7 @@ public class FilmRepositoryImpl implements FirmRepository {
         Transaction tx = session.beginTransaction();
         List<Films> phimBo = null;
         try {
-             phimBo = session.createQuery("from Films f where f.seriesSingle = true ", Films.class).getResultList();
+             phimBo = session.createQuery("from Films f where f.seriesSingle = false ", Films.class).getResultList();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
@@ -269,7 +287,7 @@ public class FilmRepositoryImpl implements FirmRepository {
         Transaction tx = session.beginTransaction();
         List<Films> phimLe = null;
         try {
-            phimLe = session.createQuery("from Films f where f.seriesSingle = false ", Films.class).getResultList();
+            phimLe = session.createQuery("from Films f where f.seriesSingle = true ", Films.class).getResultList();
             tx.commit();
         } catch (Exception ex) {
             tx.rollback();
