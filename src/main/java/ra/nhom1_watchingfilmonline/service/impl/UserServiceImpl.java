@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.IUserRepository;
+import ra.nhom1_watchingfilmonline.repository.impl.UserRepositoryImpl;
 import ra.nhom1_watchingfilmonline.service.IUserService;
+import ra.nhom1_watchingfilmonline.service.UploadService;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -14,6 +17,8 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private UploadService uploadService;
 
 
     @Override
@@ -49,6 +54,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Boolean update(Users users) {
+//        ====duc====
+        if (users.getAvatar() == null || users.getAvatar().isEmpty()) {
+            users.setAvatar(userRepository.getImageById(users.getUserId()));
+        }
+        //        ====duc====
+
         return userRepository.update(users);
     }
 
@@ -80,7 +91,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String findPasswordByEmail(String email) {
-      return userRepository.findPasswordByEmail(email);
+        return userRepository.findPasswordByEmail(email);
+    }
+
+    @Override
+    public void handleAddWallet(Users user, Integer money, HttpSession session) {
+        user.setUserWallet(user.getUserWallet() + money);
+        session.setAttribute("user", user);
+        userRepository.update(user);
     }
 
     @Override
