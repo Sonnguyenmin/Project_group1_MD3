@@ -22,13 +22,16 @@ public interface IUserRepository {
 
     List<Users> findAllByOrderByUserDesc(int page, int size);
 
-
-
     Boolean update(Users users);
     Users findById(Integer id);
 
     String findPasswordByEmail(String email);
 
     String getCurrentUserName();
+
+
+    List<Users> AllUsers();
+
     String getImageById(Integer id);
+
 }

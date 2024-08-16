@@ -93,6 +93,7 @@ public class FilmServiceImpl implements FilmService {
 
     public List<Films> getFilmFindAll() {
         return filmRepository.getFilmFindAll();
+    }
 
     public List<Films> getAllFilms() {
         return filmRepository.getAllFilms();

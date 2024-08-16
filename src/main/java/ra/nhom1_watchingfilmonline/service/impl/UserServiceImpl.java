@@ -83,6 +83,7 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAllByOrderByUserAsc(page, size);
     }
 
+
     @Override
     public List<Users> findAllByOrderByUserDesc(int page, int size) {
         return userRepository.findAllByOrderByUserDesc(page, size);
@@ -100,5 +101,8 @@ public class UserServiceImpl implements IUserService {
         userRepository.update(user);
     }
 
-
+    @Override
+    public List<Users> AllUsers() {
+        return userRepository.AllUsers();
+    }
 }
