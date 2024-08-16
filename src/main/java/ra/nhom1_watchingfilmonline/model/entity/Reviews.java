@@ -7,22 +7,26 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @Builder
-public class Comments {
+public class Reviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentId;
+    private Integer reviewId;
 
     @Column(nullable = false)
+    private String title;
+    @Column(nullable = false)
     private String content;
-
+    @Column(nullable = false)
+    private Integer rating;
     @ManyToOne
-    @JoinColumn (name ="userId")
+    @JoinColumn(name ="userId")
     private Users users;
 
     @ManyToOne
     @JoinColumn (name = "filmId")
     private Films films;
+
 }

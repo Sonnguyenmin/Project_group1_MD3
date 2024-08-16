@@ -57,5 +57,4 @@ public class FilmRequest {
     private List<Integer> categories;
 
     private FilmEpisode filmEpisode;
-
 }

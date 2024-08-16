@@ -42,10 +42,10 @@ public class UserServiceImpl implements IUserService {
         return userRepository.registerUser(userName, fullName, email, phone, password, roleId);
     }
 
-    @Override
-    public List<Users> findAllUsers() {
-        return userRepository.findAllUsers();
-    }
+//    @Override
+//    public List<Users> findAllUsers() {
+//        return userRepository.findAllUsers();
+//    }
 
     @Override
     public String getCurrentUserName() {
@@ -66,6 +66,26 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Users findUserById(Integer id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<Users> findAllUsers(int page, int size, String search) {
+        return userRepository.findAllUsers(page, size, search);
+    }
+
+    @Override
+    public Long totalAllUser(String search) {
+        return userRepository.totalAllUser(search);
+    }
+
+    @Override
+    public List<Users> findAllByOrderByUserAsc(int page, int size) {
+        return userRepository.findAllByOrderByUserAsc(page, size);
+    }
+
+    @Override
+    public List<Users> findAllByOrderByUserDesc(int page, int size) {
+        return userRepository.findAllByOrderByUserDesc(page, size);
     }
 
     @Override

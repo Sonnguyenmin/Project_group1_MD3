@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Builder
 public class CustomerUserDetail implements UserDetails {
+    private Integer userId;
     private String userName;      // Tên đăng nhập
     private String email;         // Email
     private String fullName;      // Họ và tên

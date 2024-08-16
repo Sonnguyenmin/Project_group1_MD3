@@ -45,6 +45,57 @@
         ::-webkit-scrollbar-thumb{
             background-color:#f9ab00;
         }
+
+        .pagination-ul {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            width: auto;
+            background-color: #222028;
+            /*background-color: #1a191f;*/
+        }
+
+        .pagination-form {
+            font-size: 16px;
+            height: 40px;
+            width: 40px;
+            color: #c0c0c0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .active a {
+            color: #fff;
+            cursor: default;
+            border-color: #f9ab00;
+        }
+        .active a:hover {
+            color: #fff;
+        }
+
+        .catalog__btn--change {
+            background-color: rgba(87, 186, 234, 0.1);
+        }
+
+        .catalog__btn--change i {
+            color: #3fa2c5;
+        }
+
+        .catalog__btn--change:hover {
+            background-color: rgba(87, 186, 234, 0.2);
+        }
+        .catalog__btn--change:hover i {
+            color: #3fa2c5;
+        }
     </style>
 </head>
 
@@ -126,12 +177,19 @@
             <li class="sidebar__nav-item">
                 <a th:href="@{/film}" class="sidebar__nav-link">
                     <i class="ti ti-device-tv-old"></i>
-                    <span>Film</span>
+                    <span>Phim</span>
                 </a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a th:href="@{/comments.html}" class="sidebar__nav-link"><i class="ti ti-message"></i> <span>Bình luận</span></a>
+                <a th:href="@{/filmEpisode}" class="sidebar__nav-link">
+                    <i class="ti ti-list-numbers"></i>
+                    <span>Tập phim</span>
+                </a>
+            </li>
+
+            <li class="sidebar__nav-item">
+                <a th:href="@{/loadComment}" class="sidebar__nav-link"><i class="ti ti-message"></i> <span>Bình luận</span></a>
             </li>
 
             <li class="sidebar__nav-item">
@@ -166,7 +224,9 @@
             <!-- end dropdown -->
 
             <li class="sidebar__nav-item">
-                <a href="/loadUser" class="sidebar__nav-link"><i class="ti ti-arrow-left"></i> <span>Back to HotFlix</span></a>
+
+                <a th:href="@{/loadUser}" class="sidebar__nav-link"><i class="ti ti-arrow-left"></i> <span>Back to HotFlix</span></a>
+
             </li>
         </ul>
     </div>

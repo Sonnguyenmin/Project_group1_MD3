@@ -39,13 +39,13 @@
                                 <div class="col-12 col-md-6">
 
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.filmName}" class="sign__input" placeholder="Tên phim">
+                                        <input readonly type="text" th:value="${films.filmName}" class="sign__input" placeholder="Tên phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <textarea th:text="${films.description}" name="text" class="sign__textarea" placeholder="Mô tả"></textarea>
+                                        <textarea readonly th:text="${films.description}" name="text" class="sign__textarea" placeholder="Mô tả"></textarea>
                                     </div>
                                 </div>
 
@@ -59,19 +59,19 @@
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" class="sign__input" th:value="${films.totalEpisode}" placeholder="Tổng số tập phim">
+                                        <input type="text" readonly class="sign__input" th:value="${films.totalEpisode}" placeholder="Tổng số tập phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.director}" class="sign__input" placeholder="Đạo điễn">
+                                        <input type="text" readonly th:value="${films.director}" class="sign__input" placeholder="Đạo điễn">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.actorName}" class="sign__input" placeholder="Diễn viên">
+                                        <input type="text" readonly th:value="${films.actorName}" class="sign__input" placeholder="Diễn viên">
                                     </div>
                                 </div>
                             </div>
@@ -81,27 +81,38 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.isFree ? 'Phim miễn phí' : 'Phim mất phí'}" class="sign__input" placeholder="Gói phim">
+                                        <input type="text" readonly th:value="${films.isFree ? 'Phim miễn phí' : 'Phim mất phí'}" class="sign__input" placeholder="Gói phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="date" th:value="${films.releaseDate}" class="sign__input" placeholder="Ngày phát hành">
+                                        <input type="date" th:value="${films.releaseDate}" readonly class="sign__input" placeholder="Ngày phát hành">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.language}" class="sign__input" placeholder="Ngôn ngữ tiếng phim">
+                                        <input type="text" th:value="${films.language}" readonly class="sign__input" placeholder="Ngôn ngữ tiếng phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.totalTime}" class="sign__input" placeholder="Thời lượng phim (Tiếng)">
+                                        <input type="text" th:value="${films.totalTime}" readonly class="sign__input" placeholder="Thời lượng phim (Tiếng)">
                                     </div>
                                 </div>
 
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <select name="categories" readonly class="sign__selectjs" id="sign__genre" multiple>
+                                            <option readonly th:each="cate : ${categories}" th:value="${cate.categoryId}"
+                                                    th:text="${cate.categoryName}"
+                                                    th:selected="${selectedValues.contains(cate.categoryId)}"
+                                            >
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
@@ -110,7 +121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>countries
+                            </div>
                         </div>
 
 
@@ -119,7 +130,7 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
-                                        <input type="text" th:value="${films.seriesSingle ? 'Phim lẻ' : 'Phim nhiều tập'}" class="sign__input" placeholder="Phim bộ hay nhiều tập">
+                                        <input type="text" readonly th:value="${films.seriesSingle ? 'Phim lẻ' : 'Phim nhiều tập'}" class="sign__input" placeholder="Phim bộ hay nhiều tập">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -128,15 +139,18 @@
                                             <input type="text"
                                                    th:if="${films.status == 1}"
                                                    th:value="'Phim đang chiếu'"
+                                                   readonly
                                                    class="sign__input"
                                                    placeholder="Trạng thái phim">
                                             <input type="text"
                                                    th:if="${films.status == 2}"
+                                                   readonly
                                                    th:value="'Phim sắp chiếu'"
                                                    class="sign__input"
                                                    placeholder="Trạng thái phim">
                                             <input type="text"
                                                    th:if="${films.status == 3}"
+                                                   readonly
                                                    th:value="'Phim ngừng chiếu'"
                                                    class="sign__input"
                                                    placeholder="Trạng thái phim">

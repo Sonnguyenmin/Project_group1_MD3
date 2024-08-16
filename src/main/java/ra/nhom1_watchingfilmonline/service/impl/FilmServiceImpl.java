@@ -4,6 +4,7 @@ package ra.nhom1_watchingfilmonline.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
@@ -29,11 +30,8 @@ public class FilmServiceImpl implements FilmService {
     private CategoriesRepositoryImpl categoriesRepository;
 
     @Override
-    public List<Films> findAll() {
-//        Integer page,Integer size
-//        Integer offset = page * size;
-//        offset, size
-        return filmRepository.findAll();
+    public List<Films> findAll(int page, int size, String search) {
+        return filmRepository.findAll(page, size, search);
     }
 
 
@@ -82,17 +80,6 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Films> searchFilm(String filmName) {
-        return filmRepository.searchFilm(filmName);
-    }
-
-//    @Override
-//    public Integer getTotalFilms() {
-//        return filmRepository.getTotalFilms();
-//    }
-
-
-    @Override
     public Boolean isFilmNameExists(String filmName) {
         return filmRepository.isFilmNameExists(filmName);
     }
@@ -103,9 +90,42 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<Films> sortByFilmName() {
-        return filmRepository.sortByFilmName();
+
+    public List<Films> getFilmFindAll() {
+        return filmRepository.getFilmFindAll();
+
+    public List<Films> getAllFilms() {
+        return filmRepository.getAllFilms();
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Films findByIdWithCategories(Integer filmId) {
+        return filmRepository.findByIdWithCategories(filmId);
+
+    }
+
+    @Override
+    public Long totalAllFilm(String search) {
+        return filmRepository.totalAllFilm(search);
+    }
+
+    @Override
+
+    public List<Films> findAllByOrderByFilmAsc(int page, int size) {
+        return filmRepository.findAllByOrderByFilmNameAsc(page, size);
+    }
+
+    @Override
+    public List<Films> findAllByOrderByFilmDesc(int page, int size) {
+        return filmRepository.findAllByOrderByFilmNameDesc(page, size);
+    }
+
+
+
+//    public FilmDto getFilmDTO(Integer filmId) {
+//        return filmRepository.getFilmDTO(filmId);
+//    }
 
     @Override
     public List<Films> findAllPhimBo() {
@@ -116,6 +136,7 @@ public class FilmServiceImpl implements FilmService {
     public List<Films> findAllPhimLe() {
         return filmRepository.findAllPhimLe();
     }
+
 
 
 }
