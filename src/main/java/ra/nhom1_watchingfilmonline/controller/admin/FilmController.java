@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
-import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.impl.CategoriesRepositoryImpl;
 import ra.nhom1_watchingfilmonline.repository.impl.CountryDao;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
@@ -137,7 +136,6 @@ public class FilmController {
         }
     }
 
-
     @GetMapping("/delete/{id}")
     public String formDeleteFilm(@PathVariable Integer id, Model model) {
         try {
@@ -199,7 +197,6 @@ public class FilmController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-
         return "admin/films/listFilm";
     }
 

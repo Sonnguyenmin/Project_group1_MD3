@@ -90,6 +90,10 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+
+    public List<Films> getFilmFindAll() {
+        return filmRepository.getFilmFindAll();
+
     public List<Films> getAllFilms() {
         return filmRepository.getAllFilms();
     }
@@ -98,6 +102,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Films findByIdWithCategories(Integer filmId) {
         return filmRepository.findByIdWithCategories(filmId);
+
     }
 
     @Override

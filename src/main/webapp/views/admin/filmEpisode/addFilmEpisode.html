@@ -26,53 +26,42 @@
 
             <!-- form -->
             <div class="col-12">
-                <form th:action="" method="post" th:object="${}" class="sign__form sign__form--add" enctype="multipart/form-data">
+                <form th:action="@{/filmEpisode/add}" method="post" th:object="${filmEpisodes}" class="sign__form sign__form--add" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-12 col-xl-7">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <input type="text" th:field="" class="sign__input" placeholder="Tên phim">
+                                        <input type="text" th:field="*{episodeNumber}" class="sign__input" placeholder="Tập phim">
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <textarea id="text" name="text" class="sign__textarea" th:field="" placeholder="Mô tả"></textarea>
+                                        <textarea id="text" name="text" class="sign__textarea" th:field="*{filmEpisodeUrl}" placeholder="Đường dẫn tập phim"></textarea>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <select class="sign__selectjs" th:field="*{films.filmId}" id="sign__country">
+                                            <option th:each="f : ${films}" th:value="${f.filmId}"
+                                                    th:text="${f.filmName}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                                 <div class="col-12 col-md-6">
                                     <div class="sign__group">
                                         <div class="sign__gallery">
-                                            <label id="gallery1" for="sign__gallery-upload">Đường dẫn ảnh phim</label>
-                                            <input data-name="#gallery1" th:field="" id="sign__gallery-upload" name="gallery" class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple="">
+                                            <label id="gallery1" for="sign__gallery-upload">Ảnh giới thiệu tập phim</label>
+                                            <input data-name="#gallery1" th:field="*{filmEpisodeImage}" id="sign__gallery-upload" name="gallery" class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg" >
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6">
-                                    <div class="sign__group">
-                                        <input type="text" class="sign__input" th:field="" placeholder="Tổng số tập phim">
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6">
-                                    <div class="sign__group">
-                                        <input type="text" class="sign__input" th:field="" placeholder="Đạo điễn">
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6">
-                                    <div class="sign__group">
-                                        <input type="text" class="sign__input" th:field="" placeholder="Diễn viên">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </div>
-
-
                         <div class="col-12">
                             <button type="submit" class="sign__btn sign__btn--small"><span>Thêm tập phim</span></button>
                         </div>

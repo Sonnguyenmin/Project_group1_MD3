@@ -7,15 +7,28 @@ import java.util.List;
 
 public interface FilmService {
     List<Films> findAll(int page, int size, String search);
+
     Long totalAllFilm(String search);
 
     List<Films> findAllByOrderByFilmAsc(int page, int size);
-    // Sắp xếp theo username giảm dần
+
+
     List<Films> findAllByOrderByFilmDesc(int page, int size);
+
     void saveFilm(FilmRequest filmRequest);
+
     Boolean deleteFilm(Integer filmId);
+
     Films getFilmById(Integer filmId);
+
     Boolean isFilmNameExists(String filmName);
+
+
+ 
+    List<Films> getFilmFindAll();
+
+
+
     Films findFilmByName(String filmName);
     List<Films> getAllFilms();
 
@@ -25,6 +38,7 @@ public interface FilmService {
     List<Films> findAllPhimLe();
 
 //    FilmDto getFilmDTO(Integer filmId);
+
 
 
 

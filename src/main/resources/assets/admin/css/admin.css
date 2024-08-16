@@ -809,6 +809,7 @@ body::-webkit-scrollbar-thumb {
 .catalog__btn--delete:hover i {
   color: #eb5757;
 }
+
 .catalog__btn--edit {
   background-color: rgba(55,150,246,0.1);
 }

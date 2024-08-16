@@ -26,7 +26,7 @@
                         <a th:href="@{/film/add}" class="main__title-link main__title-link--wrap">Thêm phim</a>
 
                         <form th:action="@{/film/sortFilmList}" method="get">
-                            <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()" >
+                            <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()">
                                 <option value="desc" th:selected="${sort == 'desc'}">Sắp xếp theo (A-Z)</option>
                                 <option value="asc" th:selected="${sort == 'asc'}">Sắp xếp theo (Z-A)</option>
                             </select>
@@ -67,7 +67,7 @@
                         <tbody>
                         <tr th:each="film, loop : ${films}">
                             <td>
-                                <div class="catalog__text" th:text="${loop.count}"></div>
+                                <div class="catalog__text" th:text="${page * size + loop.count}"></div>
                             </td>
                             <td>
                                 <div class="catalog__text" th:text="${film.filmName}"></div>
