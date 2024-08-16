@@ -44,15 +44,15 @@ public class CommentRepositoryImpl implements ICommentRepository {
         Session session = sessionFactory.openSession();
         Comments comments = null;
         try {
-            session.beginTransaction(); // Thêm dòng này
+            session.beginTransaction();
             comments = session.createQuery(
                             "SELECT c FROM Comments c LEFT JOIN FETCH c.users u" +
                                     " LEFT JOIN FETCH c.films f " +
                                     "WHERE c.commentId = :id", Comments.class)
                     .setParameter("id", id)
                     .getSingleResult();
-            session.getTransaction().commit(); // Chỉ gọi commit() sau khi đã gọi beginTransaction()
-            return comments;
+            session.getTransaction().commit();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class CommentRepositoryImpl implements ICommentRepository {
         } finally {
             session.close();
         }
-        return null;
+        return comments;
     }
 
 
@@ -69,28 +69,6 @@ public class CommentRepositoryImpl implements ICommentRepository {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            // Xác nhận và gán đối tượng Films vào comment
-            if (comment.getFilms() != null && comment.getFilms().getFilmId() != null) {
-                Films film = session.get(Films.class, comment.getFilms().getFilmId());
-                if (film != null) {
-                    // Đối tượng Film đã tồn tại, gán nó vào comment
-                    comment.setFilms(film);
-                } else {
-                    // Nếu không tìm thấy Film, ném lỗi hoặc xử lý tùy theo yêu cầu
-                    throw new RuntimeException("Film không tồn tại trong cơ sở dữ liệu.");
-                }
-            } else {
-                throw new RuntimeException("Film không hợp lệ.");
-            }
-            // Xác nhận và gán đối tượng Users vào comment
-                Users user = session.get(Users.class,comment.getUsers().getUserId());
-                if (user != null) {
-                    // Đối tượng User đã tồn tại, gán nó vào comment
-                    comment.setUsers(user);
-                } else {
-                    // Nếu không tìm thấy User, ném lỗi hoặc xử lý tùy theo yêu cầu
-                    throw new RuntimeException("User không tồn tại trong cơ sở dữ liệu.");
-                }
             session.save(comment);
             session.getTransaction().commit();
             return true;

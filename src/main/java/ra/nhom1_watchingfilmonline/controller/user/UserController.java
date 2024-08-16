@@ -2,9 +2,18 @@ package ra.nhom1_watchingfilmonline.controller.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ra.nhom1_watchingfilmonline.model.entity.Users;
+import ra.nhom1_watchingfilmonline.service.impl.BannerService;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
 import ra.nhom1_watchingfilmonline.model.entity.*;
 import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.ICategoriesService;
@@ -15,9 +24,14 @@ import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+
 @Controller
 public class UserController {
     @Autowired
+
+   
+    public BannerService bannerService;
+
     private IUserService userService;
     @Autowired
     private FilmService filmService;
@@ -29,8 +43,17 @@ public class UserController {
     private CountryService countryService;
 
 
+
     @RequestMapping(value = "/loadUser")
     public String userHome(Model model) {
+//        String currentUser = userService.getCurrentUserName();
+
+        List<Films> films = filmService.getAllFilms();
+
+
+        model.addAttribute("bannerList",bannerService.findAll());
+       
+
 
         String currentUser = userService.getCurrentUserName();
 //        List<Films> films = filmService.findAll();
@@ -42,6 +65,12 @@ public class UserController {
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
         model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
 
+
+        
+        model.addAttribute("films", films);
+//        model.addAttribute("user", currentUser);
+       
+
         return "user/home";
     }
 
@@ -50,11 +79,36 @@ public class UserController {
         return "user/profile";
     }
 
+
+    @PostMapping("/changeProfile")
+    public String updateProfile(@ModelAttribute("user") Users users, HttpSession session) {
+        // Get the current user from the session
+        Users currentUser = (Users) session.getAttribute("user");
+
+        // Update the user's information
+        currentUser.setUserName(users.getUserName());
+        currentUser.setEmail(users.getEmail());
+        currentUser.setFullName(users.getFullName());
+
+        // Save the updated user information
+        userService.save(currentUser);
+
+        // Update the session with the new user information
+        session.setAttribute("user", currentUser);
+
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/byVip")
+    public String openByVip(){
+        return "user/byVip";
+    }
+
     // Chị Viện Làm để điều hướng sang trang detail để bình luận nhé
 
     @GetMapping("/detailFilm/{id}")
     public String filmDetail(@PathVariable("id") Integer filmId, HttpSession session, Model model) {
-        Films film = filmService.getFilmById(filmId);
+        Films film = filmService.findByIdWithCategories(filmId);
 
         if (film == null) {
             return "redirect:/home";
@@ -65,7 +119,7 @@ public class UserController {
             model.addAttribute("user", currentUser);
         }
 
-        model.addAttribute("film", film); // Đảm bảo tên đối tượng là "film"
+        model.addAttribute("film", film);
         Comments newComment = new Comments();
         model.addAttribute("comment", newComment);
 
@@ -76,13 +130,9 @@ public class UserController {
     }
 
     @PostMapping("/addComment")
-    public String addComment(@ModelAttribute("comment") Comments comment, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            // Xử lý lỗi
-            return "user/detail";
-        }
+    public String addComment(@ModelAttribute("comment") Comments comment, Model model) {
+        // Lấy thông tin của Film và User
 
-        // Lấy thông tin của Film và User từ request hoặc session
         Integer filmId = comment.getFilms().getFilmId();
 
         // Đảm bảo rằng filmId và userId không null
@@ -91,14 +141,13 @@ public class UserController {
             return "user/detail";
         }
 
-        // Thiết lập lại Film và User trong comment nếu cần thiết
+        // Thiết lập lại Film và User
         Films film = filmService.getFilmById(filmId);
 
         if (film == null ) {
             model.addAttribute("error", "Film hoặc User không tồn tại.");
             return "user/detail";
         }
-
         comment.setFilms(film);
 
         // Thực hiện thêm bình luận
@@ -111,10 +160,8 @@ public class UserController {
         // Lấy lại danh sách bình luận mới nhất
         List<Comments> comments = commentService.getCommentsByFilmId(filmId);
         model.addAttribute("comments", comments);
-
         return "redirect:/detailFilm/" + filmId;
     }
-
 
 }
 
