@@ -116,11 +116,12 @@ public class UserRepositoryImpl implements IUserRepository {
         user.setEmail(email);
         user.setPhone(phone);
         user.setPassword(password);
-        user.setAvatar(""); // Set default avatar if necessary
+        user.setAvatar("https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png"); // Set default avatar if necessary
         user.setAddress(""); // Set default address if necessary
         user.setStatus(true); // Active by default
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
+        user.setUserWallet(0);
         user.setRoles(Arrays.asList(role)); // Sử dụng Arrays.asList để tạo danh sách
         return save(user);
     }
@@ -209,6 +210,13 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
+
+    public String getImageById(Integer id) {
+        Session session = sessionFactory.openSession();
+        try {
+            return (String) session.createQuery("select u.avatar from Users u where u.id = :id")
+                    .setParameter("id", id).getSingleResult();
+
     public List<Users> findAllUsers(int page, int size, String search) {
         Session session = sessionFactory.openSession();
         try{
@@ -255,12 +263,14 @@ public class UserRepositoryImpl implements IUserRepository {
                         .getSingleResult()).longValue();
             }
 
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             session.close();
         }
     }
+
 
     @Override
     public List<Users> findAllByOrderByUserAsc(int page, int size) {
@@ -293,5 +303,6 @@ public class UserRepositoryImpl implements IUserRepository {
             session.close();
         }
     }
+
 
 }

@@ -4,6 +4,7 @@ import com.google.cloud.storage.Acl;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface IUserService {
@@ -16,6 +17,9 @@ public interface IUserService {
     Users findUserById(Integer id);
     String findPasswordByEmail(String email);
 
+    void handleAddWallet(Users user, Integer money, HttpSession session);
+
+
     List<Users> findAllUsers(int page, int size, String search);
 
     Long totalAllUser(String search);
@@ -25,5 +29,6 @@ public interface IUserService {
     List<Users> findAllByOrderByUserDesc(int page, int size);
 
 //    List<Users> findAllUsers();
+
 }
 
