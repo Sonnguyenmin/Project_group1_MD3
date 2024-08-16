@@ -28,7 +28,11 @@ public interface IUserService {
 
     List<Users> findAllByOrderByUserDesc(int page, int size);
 
+
+    List<Users> AllUsers();
+
 //    List<Users> findAllUsers();
+
 
 }
 

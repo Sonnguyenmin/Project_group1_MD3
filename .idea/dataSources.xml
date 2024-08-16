@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+
+
     <data-source source="LOCAL" name="@localhost" uuid="a77049ce-736b-42a4-96ef-0c7748e15c4b">
 
       <driver-ref>mysql.8</driver-ref>
@@ -15,6 +17,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="@localhost [2]" uuid="3299bf6c-1b45-49f1-aa45-a6aed0c86709">
+
 
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>

@@ -308,4 +308,23 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
 
+
+    @Override
+    public List<Users> AllUsers() {
+        Session session = sessionFactory.openSession();
+        List<Users> users = null;
+        try {
+            session.beginTransaction();
+            String sql = "select * from users u join user_role ur on u.userId = ur.userId join roles r on r.roleId = ur.roleId where r.roleName not like 'ADMIN';";
+            users = session.createNativeQuery(sql, Users.class).list();
+            session.getTransaction().commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return users;
+    }
+
 }
