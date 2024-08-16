@@ -101,8 +101,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         dataSource.setUrl("jdbc:mysql://localhost:3306/jv240408_MD3_webFilmOnline?createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
 
-        dataSource.setPassword("123456");
 
+        dataSource.setPassword("123456");
 
         return dataSource;
     }
