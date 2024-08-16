@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
-import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.impl.CategoriesRepositoryImpl;
 import ra.nhom1_watchingfilmonline.repository.impl.CountryDao;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
@@ -137,7 +136,6 @@ public class FilmController {
         }
     }
 
-
     @GetMapping("/delete/{id}")
     public String formDeleteFilm(@PathVariable Integer id, Model model) {
         try {
@@ -199,43 +197,6 @@ public class FilmController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-
         return "admin/films/listFilm";
-
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String showHomePage(@RequestParam(value = "filmId", required = false) Integer filmId, Model model) {
-        List<Films> films = filmService.findAll(); // Lấy danh sách phim
-
-        model.addAttribute("films", films);
-
-        if (filmId != null) {
-            Films selectedFilm = filmService.getFilmById(filmId); // Tìm phim theo id
-            if (selectedFilm != null) {
-                model.addAttribute("film", selectedFilm);
-            } else {
-                model.addAttribute("error", "Phim không tồn tại.");
-            }
-        }
-        return "user/home";
     }
-
-    @RequestMapping(value = "/detailFilm/{id}", method = RequestMethod.GET)
-    public String detailFilm(@PathVariable("id") Integer filmId, HttpSession session, Model model) {
-        // Lấy thông tin phim theo id
-        Films film = filmService.getFilmById(filmId);
-
-        if (film != null) {
-            model.addAttribute("film", film);
-            // Lấy thông tin người dùng hiện tại
-            Users user = (Users) session.getAttribute("user");
-            model.addAttribute("user", user);
-            return "user/detail"; // Trang chi tiết phim
-        } else {
-            // Xử lý nếu phim không tồn tại
-            return "redirect:/home"; // Quay lại trang chính nếu không tìm thấy phim
-        }
-
-    }
-
-
 }

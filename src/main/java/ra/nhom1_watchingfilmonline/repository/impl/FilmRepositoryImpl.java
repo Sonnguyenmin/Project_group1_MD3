@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
+import ra.nhom1_watchingfilmonline.model.entity.Countries;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 import ra.nhom1_watchingfilmonline.repository.FirmRepository;
 
@@ -18,6 +19,21 @@ import java.util.List;
 public class FilmRepositoryImpl implements FirmRepository {
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Override
+    public List<Films> getFilmFindAll() {
+        Session session = sessionFactory.openSession();
+        try {
+            session.createQuery("from Films", Films.class).list();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return null;
+    }
 
     @Override
     public List<Films> findAll(int page, int size, String search) {

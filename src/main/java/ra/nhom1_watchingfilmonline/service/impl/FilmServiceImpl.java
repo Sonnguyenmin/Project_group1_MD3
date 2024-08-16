@@ -13,7 +13,6 @@ import ra.nhom1_watchingfilmonline.repository.impl.FilmRepositoryImpl;
 import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
-import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,6 +87,11 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Films findFilmByName(String filmName) {
         return filmRepository.findFilmByName(filmName);
+    }
+
+    @Override
+    public List<Films> getFilmFindAll() {
+        return filmRepository.getFilmFindAll();
     }
 
     @Override

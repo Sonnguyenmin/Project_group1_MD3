@@ -21,7 +21,7 @@ public interface FirmRepository {
     Boolean isFilmNameExists(String filmName);
     Films findFilmByName(String filmName);
 
-    List<Films> sortByFilmName();
     FilmDto getFilmDTO(Integer filmId);
 
+    List<Films> getFilmFindAll();
 }

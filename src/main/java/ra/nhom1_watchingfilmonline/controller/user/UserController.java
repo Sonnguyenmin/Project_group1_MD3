@@ -33,10 +33,10 @@ public class UserController {
     public String userHome(Model model) {
 
         String currentUser = userService.getCurrentUserName();
-        List<Films> films = filmService.findAll();
+//        List<Films> films = filmService.findAll();
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
         List<Countries> countries = countryService.findAll();   // Lấy danh sách quốc gia
-        model.addAttribute("films", films);
+//        model.addAttribute("films", films);
         model.addAttribute("user", currentUser);
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
