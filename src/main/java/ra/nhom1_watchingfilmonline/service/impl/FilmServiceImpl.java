@@ -4,7 +4,7 @@ package ra.nhom1_watchingfilmonline.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ra.nhom1_watchingfilmonline.model.dto.FilmDto;
+import org.springframework.transaction.annotation.Transactional;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
@@ -13,7 +13,6 @@ import ra.nhom1_watchingfilmonline.repository.impl.FilmRepositoryImpl;
 import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
-import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,6 +90,17 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    public List<Films> getAllFilms() {
+        return filmRepository.getAllFilms();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Films findByIdWithCategories(Integer filmId) {
+        return filmRepository.findByIdWithCategories(filmId);
+    }
+
+    @Override
     public Long totalAllFilm(String search) {
         return filmRepository.totalAllFilm(search);
     }
@@ -104,10 +114,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Films> findAllByOrderByFilmDesc(int page, int size) {
         return filmRepository.findAllByOrderByFilmNameDesc(page, size);
-    }
-
-    public FilmDto getFilmDTO(Integer filmId) {
-        return filmRepository.getFilmDTO(filmId);
     }
 
 }

@@ -169,11 +169,9 @@
               </select>
             </div>
             <!-- end filter desk -->
-
             <!-- filter btn -->
             <button class="filter__btn" type="button">Apply</button>
             <!-- end filter btn -->
-
             <!-- amount -->
             <span class="filter__amount">Showing 18 of 1713</span>
             <!-- end amount -->
@@ -194,7 +192,7 @@
             <div class="item__cover">
               <!-- Hiển thị ảnh phim -->
               <img th:src="@{${film.image}}" alt="Film Cover">
-              <a th:href="@{/detailFilm/{id}(id=${film.filmId})}">
+              <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">
                 <i class="ti ti-player-play-filled"></i>
               </a>
               <span class="item__rate item__rate--green">8.4</span>
@@ -206,9 +204,6 @@
               <h3 class="item__title">
                 <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>
               </h3>
-              <div>
-<!--                <p th:text="${film.categories.}">Category Names</p>-->
-              </div>
             </div>
           </div>
         </div>
