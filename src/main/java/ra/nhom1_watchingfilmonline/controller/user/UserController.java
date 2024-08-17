@@ -64,13 +64,7 @@ public class UserController {
         List<Films> films = filmService.getAllFilms();
 
         model.addAttribute("bannerList",bannerService.findAll());
-
-
-
-
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
-
-
 //        model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
 //        String currentUser = userService.getCurrentUserName();
