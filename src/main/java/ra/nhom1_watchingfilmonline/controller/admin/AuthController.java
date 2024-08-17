@@ -119,10 +119,10 @@ public class AuthController {
                     return "redirect:/loadUser";
                 }
             } else {
-                model.addAttribute("error", "Invalid email or password");
+                model.addAttribute("error", "Email hoặc mật khẩu không hợp lệ");
             }
         } else {
-            model.addAttribute("error", "User not found");
+            model.addAttribute("error", "Không tìm thấy người dùng");
         }
         return "page/login";
     }

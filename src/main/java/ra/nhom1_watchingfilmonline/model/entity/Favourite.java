@@ -21,5 +21,4 @@ public class Favourite {
     @ManyToOne
     @JoinColumn (name = "filmId")
     private Films films;
-
 }

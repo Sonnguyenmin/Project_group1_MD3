@@ -4,14 +4,14 @@
 <!-- Mirrored from hotflix.volkovdesign.com/main/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:02 GMT -->
 <head th:replace="/layouts/layoutUser::head">
 </head>
-
 <body>
+
 <!-- header -->
 <header th:replace="/layouts/layoutUser::header">
 </header>
 <!-- end header -->
-
 <!-- home -->
+
 <section class="home home--hero">
   <div class="container">
     <div class="row">
@@ -177,7 +177,6 @@
         </div>
         <!-- end item -->
       </div>
-
       <div class="row">
         <!-- more -->
         <div class="col-12">
@@ -187,6 +186,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- end catalog -->
 </div>
@@ -199,7 +199,7 @@
       <!-- section title -->
       <div class="col-12">
         <div class="section__title-wrap">
-          <h2 class="section__title">Expected premiere</h2>
+          <h2 class="section__title">Phim Đề Xuất</h2>
           <a href="catalog.html" class="section__view section__view--carousel">View All</a>
         </div>
       </div>
@@ -207,258 +207,80 @@
 
       <!-- carousel -->
       <div class="col-12">
-        <div class="section__carousel splide splide--content">
-          <div class="splide__arrows">
-            <button class="splide__arrow splide__arrow--prev" type="button">
-              <i class="ti ti-chevron-left"></i>
-            </button>
-            <button class="splide__arrow splide__arrow--next" type="button">
-              <i class="ti ti-chevron-right"></i>
-            </button>
+<!--        <div class="section__carousel splide splide&#45;&#45;content">-->
+<!--          <div class="splide__arrows">-->
+<!--&lt;!&ndash;            <button class="splide__arrow splide__arrow&#45;&#45;prev" type="button">&ndash;&gt;-->
+<!--&lt;!&ndash;              <i class="ti ti-chevron-left"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="splide__arrow splide__arrow&#45;&#45;next" type="button">&ndash;&gt;-->
+<!--&lt;!&ndash;              <i class="ti ti-chevron-right"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--          </div>-->
+        <div class="container">
+          <div class="row">
+            <!-- item -->
+            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="film : ${topFilms}">
+              <div class="item">
+                <div class="item__cover">
+                  <!-- Hiển thị ảnh phim -->
+                  <img th:src="@{${film.image}}" alt="Film Cover">
+                  <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">
+                    <i class="ti ti-player-play-filled"></i>
+                  </a>
+                  <form th:action="@{/addFavourite}" method="post">
+                    <input type="hidden" name="films.filmId" th:value="${film.filmId}">
+                    <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                    <button class="item__favorite" type="submit">
+                      <i class="ti ti-bookmark"></i>
+                    </button>
+                  </form>
+                </div>
+                <div class="item__content">
+                  <h3 class="item__title">
+                    <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <!-- end item -->
           </div>
-
-          <div class="splide__track">
-            <ul class="splide__list">
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">8.4</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                    <span class="item__category">
-												<a href="#">Action</a>
-												<a href="#">Triler</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover2.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">7.1</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover3.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--red">6.3</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Whitney</a></h3>
-                    <span class="item__category">
-												<a href="#">Romance</a>
-												<a href="#">Drama</a>
-												<a href="#">Music</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover4.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--yellow">6.9</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Blindspotting</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-												<a href="#">Drama</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover5.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">8.4</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                    <span class="item__category">
-												<a href="#">Action</a>
-												<a href="#">Triler</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover6.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">7.1</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover7.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">7.1</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover8.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--red">5.5</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                    <span class="item__category">
-												<a href="#">Action</a>
-												<a href="#">Triler</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover9.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--yellow">6.7</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Blindspotting</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-												<a href="#">Drama</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover10.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--red">5.6</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Whitney</a></h3>
-                    <span class="item__category">
-												<a href="#">Romance</a>
-												<a href="#">Drama</a>
-												<a href="#">Music</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover11.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">9.2</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                    <span class="item__category">
-												<a href="#">Comedy</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="item item--carousel">
-                  <div class="item__cover">
-                    <img th:src="@{/assets/user/img/covers/cover12.jpg}" alt="">
-                    <a href="details.html" class="item__play">
-                      <i class="ti ti-player-play-filled"></i>
-                    </a>
-                    <span class="item__rate item__rate--green">8.4</span>
-                    <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                  </div>
-                  <div class="item__content">
-                    <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                    <span class="item__category">
-												<a href="#">Action</a>
-												<a href="#">Triler</a>
-											</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
+          <div class="row">
+            <!-- more -->
+            <div class="col-12">
+              <button class="section__more" type="button">Load more</button>
+            </div>
+            <!-- end more -->
           </div>
         </div>
+<!--          <div class="splide__track">-->
+<!--            <ul class="splide__list">-->
+<!--              <li class="splide__slide" th:each="film : ${topFilms}">-->
+<!--                <div class="item item&#45;&#45;carousel">-->
+<!--                  <div class="item__cover">-->
+<!--                    <img th:src="@{${film.image}}" alt="">-->
+<!--                    <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">-->
+<!--                      <i class="ti ti-player-play-filled"></i>-->
+<!--                    </a>-->
+<!--                    <form th:action="@{/addFavourite}" method="post">-->
+<!--                      <input type="hidden" name="films.filmId" th:value="${film.filmId}">-->
+<!--                      <input type="hidden" name="users.userId" th:value="${session.user.userId}">-->
+<!--                      <button class="item__favorite" type="submit">-->
+<!--                        <i class="ti ti-bookmark"></i>-->
+<!--                      </button>-->
+<!--                    </form>-->
+<!--                  </div>-->
+<!--                  <div class="item__content">-->
+<!--                    <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>-->
+<!--&lt;!&ndash;                      <span class="item__category">&ndash;&gt;-->
+<!--&lt;!&ndash;						<a href="#">Action</a>&ndash;&gt;-->
+<!--&lt;!&ndash;						<a href="#">Triler</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                      </span>&ndash;&gt;-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <!-- end carousel -->
     </div>
@@ -466,70 +288,6 @@
 </section>
 <!-- end section -->
 
-<!--&lt;!&ndash; section &ndash;&gt;-->
-<!--<section class="section section&#45;&#45;border">-->
-<!--  <div class="container">-->
-<!--    <div class="row">-->
-<!--      <div class="col-12">-->
-<!--        <h2 class="section__title">Select your plan</h2>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="row">-->
-<!--      &lt;!&ndash; plan &ndash;&gt;-->
-<!--      <div class="col-12 col-md-6 col-lg-4 order-md-2 order-lg-1">-->
-<!--        <div class="plan">-->
-<!--          <h3 class="plan__title">Basic</h3>-->
-<!--          <span class="plan__price">Free</span>-->
-<!--          <ul class="plan__list">-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 7 days</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 720p Resolution</li>-->
-<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Limited Availability</li>-->
-<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Desktop Only</li>-->
-<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Limited Support</li>-->
-<!--          </ul>-->
-<!--          <a th:href="@{/page/register}" class="plan__btn">Register</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      &lt;!&ndash; end plan &ndash;&gt;-->
-
-<!--      &lt;!&ndash; plan &ndash;&gt;-->
-<!--      <div class="col-12 col-md-12 col-lg-4 order-md-1 order-lg-2">-->
-<!--        <div class="plan plan&#45;&#45;orange">-->
-<!--          <h3 class="plan__title">Premium</h3>-->
-<!--          <span class="plan__price">$34.99 <sub>/ month</sub></span>-->
-<!--          <ul class="plan__list">-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 1 Month</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Full HD</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>-->
-<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> TV & Desktop</li>-->
-<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> 24/7 Support</li>-->
-<!--          </ul>-->
-<!--          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      &lt;!&ndash; end plan &ndash;&gt;-->
-
-<!--      &lt;!&ndash; plan &ndash;&gt;-->
-<!--      <div class="col-12 col-md-6 col-lg-4 order-md-3">-->
-<!--        <div class="plan plan&#45;&#45;red">-->
-<!--          <h3 class="plan__title">Cinematic</h3>-->
-<!--          <span class="plan__price">$49.99 <sub>/ month</sub></span>-->
-<!--          <ul class="plan__list">-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 2 Months</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Ultra HD</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Any Device</li>-->
-<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 24/7 Support</li>-->
-<!--          </ul>-->
-<!--          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      &lt;!&ndash; end plan &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</section>-->
-<!--&lt;!&ndash; end section &ndash;&gt;-->
 
 <!-- footer -->
 <footer th:replace="/layouts/layoutUser::footer">
@@ -676,9 +434,14 @@
   </div>
 </div>
 <!-- end plan modal -->
-
+<div th:fragment="content">
+  <div id="error-message" th:text="${error_fa}" style="display:none;"></div>
+</div>
 <!-- JS -->
-<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+<th:block th:replace="/layouts/layoutUser::javascript">
+
+</th:block>
+
 </body>
 
 <!-- Mirrored from hotflix.volkovdesign.com/main/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:05 GMT -->

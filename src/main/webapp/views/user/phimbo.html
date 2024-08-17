@@ -109,15 +109,22 @@
                 <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="pb: ${phimbo}">
                     <div class="item">
                         <div class="item__cover">
-                            <img th:src="${pb.image}" alt="">
-                            <a href="details.html" class="item__play">
+                            <img th:src="@{${pb.image}}" alt="Ảnh Phim">
+                            <a th:href="@{/detailFilm/{id}(id=${pb.filmId})}" class="item__play">
                                 <i class="ti ti-player-play-filled"></i>
                             </a>
-                            <span class="item__rate item__rate--green">8.4</span>
-                            <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
+                            <form th:action="@{/addFavourite}" method="post">
+                                <input type="hidden" name="films.filmId" th:value="${pb.filmId}">
+                                <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                                <button class="item__favorite" type="submit">
+                                    <i class="ti ti-bookmark"></i>
+                                </button>
+                            </form>
                         </div>
                         <div class="item__content">
-                            <h3 class="item__title"><a href="details.html" th:text="${pb.filmName}">I Dream in Another Language</a></h3>
+                            <h3 class="item__title">
+                                <a th:href="@{/detailFilm/{id}(id=${pb.filmId})}" th:text="${pb.filmName}">Tên Phim</a>
+                            </h3>
 <!--                            <span class="item__category">-->
 <!--									<a href="#">Action</a>-->
 <!--									<a href="#">Triler</a>-->
@@ -286,7 +293,9 @@
     </div>
 </div>
 <!-- end plan modal -->
-
+<div th:fragment="content">
+    <div id="error-message" th:text="${error_fa}" style="display:none;"></div>
+</div>
 <!-- JS -->
 <th:block th:replace="/layouts/layoutUser::javascript"></th:block>
 </body>

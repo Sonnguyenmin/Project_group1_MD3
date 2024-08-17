@@ -11,6 +11,7 @@
                 <div class="sign__content">
                     <!-- authorization form -->
                     <form  th:action="@{/insertLogin}" th:object="${user}" method="post" class="sign__form">
+                        <p th:if="${error}" th:text="${error}" style="color:red;"></p>
                         <a href="index.html" class="sign__logo">
                             <img th:src="@{/assets/user/img/logo.svg}" alt="">
                         </a>

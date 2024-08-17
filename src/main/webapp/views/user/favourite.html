@@ -5,7 +5,6 @@
 <head th:replace="/layouts/layoutUser::head">
 </head>
 
-
 <body>
 <!-- header -->
 <header th:replace="/layouts/layoutUser::header">
@@ -24,7 +23,7 @@
 
                     <!-- breadcrumbs -->
                     <ul class="breadcrumbs">
-                        <li class="breadcrumbs__item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumbs__item"><a th:href="@{/loadUser}">Home</a></li>
                         <li class="breadcrumbs__item breadcrumbs__item--active">Favourite</li>
                     </ul>
                     <!-- end breadcrumbs -->
@@ -40,77 +39,31 @@
     <!-- profile -->
     <div class="profile">
         <div class="container">
-            <div class="row">
-                <div class="row">
+            <div class="col-12">
                     <!-- item -->
-                    <div th:each="favo : ${listFavors}">
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="item">
-                                <div class="item__cover">
-                                    <img th:src="@{${favo.films.image}}" alt="Film Cover">
-                                    <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" class="item__play">
-                                        <i class="ti ti-player-play-filled"></i>
-                                    </a>
-<!--                                    <span class="item__rate item__rate&#45;&#45;green" th:text="${favo.films.}">8.4</span>-->
-                                </div>
-                                <div class="item__content">
-                                    <h3 class="item__title">
-                                        <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" th:text="${favo.films.filmName}">I Dream in Another Language</a>
-                                    </h3>
-<!--                                    <span class="item__category">-->
-<!--                                       &lt;!&ndash; Hiển thị thể loại phim &ndash;&gt;-->
-<!--                                       <a href="#" th:each="category : ${favourite.films.categories}" th:text="${category.name}">Category</a>-->
-<!--                                    </span>-->
+                        <div class="row">
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="favo : ${favouriteList}">
+                                <div class="item">
+                                    <div class="item__cover">
+                                        <!-- Hiển thị ảnh bìa của phim -->
+                                        <img th:src="@{${favo.films.image}}" alt="Film Cover">
+                                        <!-- Liên kết đến chi tiết phim -->
+                                        <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" class="item__play">
+                                            <i class="ti ti-player-play-filled"></i>
+                                        </a>
+                                        <!-- Hiển thị xếp hạng của phim nếu có -->
+                                        <span class="item__rate item__rate--green">8.4</span>
+                                    </div>
+                                    <div class="item__content">
+                                        <h3 class="item__title">
+                                            <!-- Tiêu đề của phim -->
+                                            <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" th:text="${favo.films.filmName}">I Dream in Another Language</a>
+                                        </h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
                     <!-- end item -->
-                </div>
-                <div class="row">
-                    <!-- paginator -->
-                    <div class="col-12">
-                        <!-- paginator mobile -->
-                        <div class="paginator-mob">
-                            <span class="paginator-mob__pages">18 of 1713</span>
-
-                            <ul class="paginator-mob__nav">
-                                <li>
-                                    <a href="#">
-                                        <i class="ti ti-chevron-left"></i>
-                                        <span>Prev</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span>Next</span>
-                                        <i class="ti ti-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- end paginator mobile -->
-
-                        <!-- paginator desktop -->
-                        <ul class="paginator">
-                            <li class="paginator__item paginator__item--prev">
-                                <a href="#"><i class="ti ti-chevron-left"></i></a>
-                            </li>
-                            <li class="paginator__item"><a href="#">1</a></li>
-                            <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
-                            <li class="paginator__item"><a href="#">3</a></li>
-                            <li class="paginator__item"><a href="#">4</a></li>
-                            <li class="paginator__item"><span>...</span></li>
-                            <li class="paginator__item"><a href="#">87</a></li>
-                            <li class="paginator__item paginator__item--next">
-                                <a href="#"><i class="ti ti-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                        <!-- end paginator desktop -->
-                    </div>
-                    <!-- end paginator -->
-                </div>
             </div>
         </div>
     </div>
@@ -183,7 +136,9 @@
 <!-- end plan modal -->
 
 <!-- JS -->
-<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+<th:block th:replace="/layouts/layoutUser::javascript">
+
+</th:block>
 </body>
 
 

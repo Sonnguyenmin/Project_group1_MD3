@@ -46,4 +46,10 @@ public class IReviewServiceImpl implements IReviewService {
     public List<Reviews> getReviewByFilmId(Integer filmId) {
         return reviewRepository.getReviewByFilmId(filmId);
     }
+
+    @Override
+    public Reviews getReviewByFilmAndUser(Integer filmId, Integer userId) {
+        return reviewRepository.getReviewByFilmAndUser(filmId, userId);
+    }
+
 }

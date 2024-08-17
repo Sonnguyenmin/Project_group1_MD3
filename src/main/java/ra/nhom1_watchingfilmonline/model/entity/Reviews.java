@@ -16,11 +16,11 @@ public class Reviews {
     private Integer reviewId;
 
     @Column(nullable = false)
-    private String title="";
+    private String title;
     @Column(nullable = false)
     private String content="";
     @Column(nullable = false)
-    private Integer rating=0;
+    private Integer rating;
     @ManyToOne
     @JoinColumn(name ="userId")
     private Users users;

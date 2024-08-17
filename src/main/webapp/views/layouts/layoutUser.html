@@ -49,6 +49,9 @@
         ::-webkit-scrollbar-thumb{
             background-color:#f9ab00;
         }
+        #error-message{
+            z-index: 1000;
+        }
     </style>
 </head>
 
@@ -166,7 +169,7 @@
                                 <li><a th:href="@{/deposit}" th:utext="'<i class=&quot;ti ti-wallet&quot;></i> ' + ${session.user.userWallet} + ' vnđ'"></a></li>
                                 <li><a href="profile.html"><i class="ti ti-stereo-glasses"></i>Subscription</a></li>
 <!--                                Favorites-->
-                                <li><a th:href="@{favourite}"><i class="ti ti-bookmark"></i>Favorites</a></li>
+                                <li><a th:href="@{/favourite}"><i class="ti ti-bookmark"></i>Favorites</a></li>
 
                                 <li><a href="profile.html"><i class="ti ti-settings"></i>Settings</a></li>
                                 <li><a href="#" id="logout-link"><i class="ti ti-logout"></i>Logout</a></li>
@@ -246,8 +249,29 @@
                 }
             });
         });
-
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var errorMessage = document.getElementById('error-message').textContent.trim();
+            if (errorMessage) {
+                Swal.fire({
+                    position: 'top-end', // Vị trí của thông báo
+                    icon: 'error', // Loại thông báo
+                    title: errorMessage, // Nội dung thông báo
+                    showConfirmButton: false, // Không hiển thị nút xác nhận
+                    timer: 1500, // Thời gian tự động đóng (3 giây)
+                    timerProgressBar: true, // Hiển thị thanh tiến trình của timer
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentPage = window.location.pathname;
+            fetch('/saveCurrentPage?path=' + encodeURIComponent(currentPage));
+        });
+    </script>
+
 </th:block>
 </body>
 
