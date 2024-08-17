@@ -60,7 +60,7 @@
 
             <div class="col-12 col-md-6 col-lg-4 order-md-3">
                 <div class="plan plan--red">
-                    <form action="" method="post">
+                    <form action="/handleUpdateAcc" method="post">
                         <h3 class="plan__title">Vip</h3>
                         <span class="plan__price">100.000 vnđ <sub>/ month</sub></span>
                         <ul class="plan__list">
@@ -70,13 +70,17 @@
                             <li class="plan__item"><i class="ti ti-circle-check"></i> Any Device</li>
                             <li class="plan__item"><i class="ti ti-circle-check"></i> 24/7 Support</li>
                         </ul>
-<!--                        <button class="plan__btn" type="submit" data-bs-toggle="modal" data-bs-target="#plan-modal">-->
+                        <h2 style="text-align: center;color: red;font-size: 16px" th:if="${error!=null}" th:text="${error}"></h2>
+                        <!--                        <button class="plan__btn" type="submit" data-bs-toggle="modal" data-bs-target="#plan-modal">-->
 <!--                            Choose Plan-->
 <!--                        </button>-->
-                        <button class="plan__btn" type="submit">
+                        <button class="plan__btn" type="submit" id="muaGoi" >
                             Choose Plan
                         </button>
+<!--                        <input type="hidden" th:value="${session.user.userWallet}" id="userWallet"></input>-->
                     </form>
+
+
 
                 </div>
             </div>
@@ -182,8 +186,8 @@
                         class="ti ti-x"></i></button>
 
                 <form action="#" class="modal__form">
-                    <h4 class="modal__title">Select plan</h4>
 
+                    <h4 class="modal__title">Select plan</h4>
                     <div class="sign__group">
                         <label for="fullname" class="sign__label">Name</label>
                         <input id="fullname" type="text" name="name" class="sign__input" placeholder="Full name">
@@ -223,10 +227,11 @@
                         </ul>
                     </div>
 
-                    <button type="button" class="sign__btn sign__btn--modal">
+                    <button type="button" class="sign__btn sign__btn--modal" >
                         <span>Proceed</span>
                     </button>
                 </form>
+
             </div>
         </div>
     </div>
@@ -235,6 +240,37 @@
 
 <!-- JS -->
 <th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+<script>
+    // document.getElementById('muaGoi').addEventListener('click', function () {
+    //     console.log("co vao day")
+    // let userWallet = document.getElementById("userWallet").value;
+    //     console.log(userWallet);
+    //     if(userWallet<100000){
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "Oops...",
+    //             text: "Tài khoản bạn không đủ tiền!",
+    //             footer: '<a href="#">Why do I have this issue?</a>'
+    //         });
+    //     }else {
+    //         Swal.fire({
+    //             title: 'Bạn co chắc chắn muốn mua gói Vip không?',
+    //             icon: 'warning',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Chắc chắn',
+    //             cancelButtonText: 'Huỷ'
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 // fetch('http://localhost:8080/')
+    //                 //     .then(resp=>console.log(resp))
+    //                 //     .catch(err => console.log(err))
+    //             }
+    //         });
+    //     }
+    //
+    // });
+
+</script>
 </body>
 
 <!-- Mirrored from hotflix.volkovdesign.com/main/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:05 GMT -->

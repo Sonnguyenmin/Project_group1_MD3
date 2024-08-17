@@ -4,8 +4,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ra.nhom1_watchingfilmonline.model.entity.Countries;
 import ra.nhom1_watchingfilmonline.model.entity.Roles;
 import ra.nhom1_watchingfilmonline.repository.IRoleRepository;
+
+import java.util.List;
 
 @Repository
 public class RoleRepositoryImpl implements IRoleRepository {
@@ -29,5 +32,11 @@ public class RoleRepositoryImpl implements IRoleRepository {
             session.close();
         }
         return null;
+    }
+
+    @Override
+    public List<Roles> findAll(){
+        Session session = sessionFactory.openSession();
+        return session.createQuery("from Roles", Roles.class).getResultList();
     }
 }

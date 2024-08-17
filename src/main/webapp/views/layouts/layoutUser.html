@@ -163,7 +163,7 @@
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 </form>
                                 <li><a th:href="@{profile}"><i class="ti ti-ghost"></i>Thông tin</a></li>
-                                <li><a th:href="@{/deposit}" th:text="${session.user.userWallet +'vnđ'}"><i class="ti ti-ghost"></i></a></li>
+                                <li><a th:href="@{/deposit}" th:utext="'<i class=&quot;ti ti-wallet&quot;></i> ' + ${session.user.userWallet} + ' vnđ'"></a></li>
                                 <li><a href="profile.html"><i class="ti ti-stereo-glasses"></i>Subscription</a></li>
 <!--                                Favorites-->
                                 <li><a th:href="@{favourite}"><i class="ti ti-bookmark"></i>Favorites</a></li>

@@ -31,6 +31,8 @@ public interface IUserService {
 
     List<Users> AllUsers();
 
+    Boolean handleUpdateAcc(Users user);
+
 //    List<Users> findAllUsers();
 
 

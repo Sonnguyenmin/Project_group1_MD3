@@ -41,7 +41,7 @@ public class AuthController {
 
     @RequestMapping(value = {"/", "/loadHome"})
     public String mainHome(HttpSession session) {
-        session.setAttribute("category",categoriesService.findAll());
+        session.setAttribute("category", categoriesService.findAll());
         return "main/index";
     }
 
@@ -49,7 +49,7 @@ public class AuthController {
     @GetMapping("/register")
     public String register(Model model) {
         UserDto user = new UserDto();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "page/register";
     }
 
@@ -94,6 +94,7 @@ public class AuthController {
         model.addAttribute("user", user);
         return "page/login";
     }
+
     @PostMapping("/insertLogin")
     public String handleLogin(@Valid @ModelAttribute("user") Users user,
                               @RequestParam("email") String email,
@@ -127,21 +128,26 @@ public class AuthController {
     }
 
     @GetMapping("/forgetPassword")
-    public String openForgetPassword(){
+    public String openForgetPassword() {
         return "page/forgotPassword";
     }
 
     @PostMapping("/forgetPassword")
-    public String forgetPassword(Model model, @RequestParam("email") String email){
-        model.addAttribute("pass",userService.findPasswordByEmail(email));
-        return "page/findPass";
-    }
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+    public String forgetPassword(Model model, @RequestParam("email") String email) {
+        if (userService.findPasswordByEmail(email) != null) {
+            model.addAttribute("pass", userService.findPasswordByEmail(email));
+            return "page/findPass";
+        } else {
+            model.addAttribute("error", "Not found this email");
+            return "page/forgotPassword";
         }
-        return "redirect:/"; 
+        }
+        @PostMapping("/logout")
+        public String logout (HttpServletRequest request, HttpServletResponse response){
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+            return "redirect:/";
+        }
     }
-}

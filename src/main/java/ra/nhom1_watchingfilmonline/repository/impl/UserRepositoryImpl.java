@@ -187,14 +187,13 @@ public class UserRepositoryImpl implements IUserRepository {
             pass = (String) session.createQuery("select u.password from Users u where u.email=: email")
                     .setParameter("email",email).uniqueResult();
             session.getTransaction().commit();
-            return pass;
         }catch (Exception e){
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
         }
-        return null;
+        return pass;
     }
     public String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

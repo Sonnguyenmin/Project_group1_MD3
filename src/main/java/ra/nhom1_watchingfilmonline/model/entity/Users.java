@@ -50,7 +50,6 @@ public class Users {
     @Min(0)
     private Integer userWallet=0;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "userId"),
