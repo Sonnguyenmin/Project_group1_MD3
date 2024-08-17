@@ -34,8 +34,8 @@ public interface FilmService {
 
     List<Films> findAllPhimBo();
     List<Films> findAllPhimLe();
-
-//    FilmDto getFilmDTO(Integer filmId);
+// chi lam phim de xuat
+    List<Films> getTop5RecommendedFilms();
 
 
 

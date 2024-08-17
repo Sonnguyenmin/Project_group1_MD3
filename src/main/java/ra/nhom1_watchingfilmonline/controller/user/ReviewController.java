@@ -38,13 +38,14 @@ public class ReviewController {
  }
 
  @GetMapping(value = "addReviews")
-    public String addReview(@ModelAttribute("reviews") Reviews reviews, Model model) {
+    public String addReview(@ModelAttribute("reviews") Reviews reviews, Model model,HttpSession session) {
 
         // Lấy thông tin của Film và User
         Integer filmId = reviews.getFilms().getFilmId();
+        Integer userId = ((Users) session.getAttribute("user")).getUserId();
 
         // Đảm bảo rằng filmId và userId không null
-        if (filmId == null) {
+        if (filmId == null || userId == null) {
             model.addAttribute("error", "Film hoặc User không hợp lệ.");
             return "user/detail";
         }
@@ -58,9 +59,20 @@ public class ReviewController {
         }
 
         reviews.setFilms(film);
+        reviews.setUsers(userService.findUserById(userId));
+     // Kiểm tra xem người dùng đã đánh giá bộ phim này chưa
+        Reviews existingReview = reviewService.getReviewByFilmAndUser(filmId, userId);
 
-        boolean success = reviewService.saveReview(reviews);
-
+        boolean success ;
+     if (existingReview != null) {
+         // Nếu đã có đánh giá, cập nhật đánh giá
+         existingReview.setRating(reviews.getRating());
+         existingReview.setContent(reviews.getContent());
+         success = reviewService.updateReview(existingReview);
+     } else {
+         // Nếu chưa có đánh giá, thêm đánh giá mới
+         success = reviewService.saveReview(reviews);
+     }
         if (!success) {
             model.addAttribute("error", "Đã bi lỗi khi thêm review.");
             return "user/detail";

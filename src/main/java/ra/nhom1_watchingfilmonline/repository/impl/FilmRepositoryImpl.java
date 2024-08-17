@@ -15,6 +15,7 @@ import ra.nhom1_watchingfilmonline.repository.FirmRepository;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -298,6 +299,26 @@ public class FilmRepositoryImpl implements FirmRepository {
         return phimLe;
     }
 
+    public List<Films> getTop5RecommendedFilms() {
+        Session session = sessionFactory.openSession();
+        List<Films> topFilms = null;
+        try {
+            String hql = "SELECT f FROM Films f " +
+                    "JOIN f.reviews r " + // Chỉ lấy phim có review
+                    "GROUP BY f.filmId " +
+                    "ORDER BY AVG(r.rating) DESC";
+            topFilms = session.createQuery(hql, Films.class)
+                    .setMaxResults(5)
+                    .getResultList();
+            // Loại bỏ các bản sao nếu có
+            topFilms = topFilms.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+        } finally {
+            session.close();
+        }
+        return topFilms;
+    }
 
 
 }

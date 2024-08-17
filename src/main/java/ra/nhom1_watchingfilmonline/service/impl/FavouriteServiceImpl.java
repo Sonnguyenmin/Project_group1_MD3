@@ -35,4 +35,14 @@ public class FavouriteServiceImpl implements IFavouriteService {
     public List<Favourite> getFavouriteByFilmId(Integer filmId) {
         return favouriteRepository.getFavouriteByFilmId(filmId);
     }
+
+    @Override
+    public List<Favourite> findByUser_UserId(Integer userId) {
+        return favouriteRepository.findByUser_UserId(userId);
+    }
+
+    @Override
+    public boolean isFavouriteExists(Integer filmId, Integer userId) {
+        return favouriteRepository.isFavouriteExists(filmId, userId);
+    }
 }

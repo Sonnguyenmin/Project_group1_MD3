@@ -10,4 +10,6 @@ public interface IFavouriteRepository {
     Boolean removeFavourite(Favourite favourite);
     Favourite getFavouriteById(Integer id);
     List<Favourite> getFavouriteByFilmId(Integer filmId);
+    List<Favourite> findByUser_UserId(Integer userId);
+    boolean isFavouriteExists(Integer filmId, Integer userId);
 }

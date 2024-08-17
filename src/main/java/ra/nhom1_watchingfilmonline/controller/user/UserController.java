@@ -54,23 +54,25 @@ public class UserController {
     @Autowired
     private IFavouriteService favouriteService;
 
-
+// chi Vien them bien error trong phan nay nhe
 
     @RequestMapping(value = "/loadUser")
 
-    public String userHome(Model model,HttpSession session) {
+    public String userHome(Model model,HttpSession session,
+                           @RequestParam(value = "error_fa", required = false) String errorFa) {
         Users userCurrent = (Users) session.getAttribute("userCurrent");
         model.addAttribute("userCurrent", userCurrent);
 //        String currentUser = userService.getCurrentUserName();
         List<Films> films = filmService.getAllFilms();
 
-        
+        // Lấy danh sách 5 phim có điểm rating cao nhất để hiển thị trên trang chủ
+        List<Films> topFilms = filmService.getTop5RecommendedFilms();
+
+
         List<Favourite> favourites = favouriteService.getAllFavourites();
 
 
         model.addAttribute("bannerList",bannerService.findAll());
-
-
 
 
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
@@ -81,20 +83,22 @@ public class UserController {
 //        String currentUser = userService.getCurrentUserName();
 //        List<Films> films = filmService.findAll();
 
-        List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
+        List<Categories> categories = categoriesService.findAll();
 
-
-
-        model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
-        model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
-
+        model.addAttribute("categories", categories);
+        model.addAttribute("countries", countries);
+        model.addAttribute("topFilms", topFilms);
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
 
         model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);
         model.addAttribute("favourites", favourites);
+        // Nếu có lỗi, thêm vào mô hình
 
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
 
         return "user/home";
     }
@@ -127,7 +131,6 @@ public class UserController {
         }
         // Save the updated user information
         userService.update(currentUser);
-
         // Update the session with the new user information
         session.setAttribute("user", currentUser);
 
@@ -188,13 +191,19 @@ public class UserController {
     // Chị Viện Làm để điều hướng sang trang detail để bình luận nhé
 
     @GetMapping("/detailFilm/{id}")
-    public String filmDetail(@PathVariable("id") Integer filmId, HttpSession session, Model model) {
+    public String filmDetail(@PathVariable("id") Integer filmId,
+                             @RequestParam(value = "error_fa", required = false) String errorFa,
+                             HttpSession session, Model model) {
         Films film = filmService.findByIdWithCategories(filmId);
 
         if (film == null) {
             return "redirect:/home";
         }
 
+        // Lấy danh sách 5 phim đề xuất để hiển thị trên trang chi tiết
+        List<Films> topFilms = filmService.getTop5RecommendedFilms();
+
+        model.addAttribute("topFilms", topFilms);
         Users currentUser = (Users) session.getAttribute("user");
         if (currentUser != null) {
             model.addAttribute("user", currentUser);
@@ -205,15 +214,16 @@ public class UserController {
         model.addAttribute("comment", newComment);
         Reviews newreviews = new Reviews();
         model.addAttribute("reviews", newreviews);
-        Favourite newFavourite = favouriteService.getFavouriteById(filmId);
-        model.addAttribute("favourite", newFavourite);
+
 //      khi ma submit len phan cho user xem
         List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
         model.addAttribute("reviewsList", reviewsList);
         List<Comments> comments = commentService.getCommentsByFilmId(filmId);
         model.addAttribute("comments", comments);
-        List<Favourite> favourites = favouriteService.getFavouriteByFilmId(filmId);
-        model.addAttribute("favourites ", favourites);
+
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
 
         return "user/detail";
     }

@@ -56,4 +56,7 @@ public class Films {
             inverseJoinColumns = @JoinColumn (name = "categoryId")
     )
     private List<Categories> categories;
+
+    @OneToMany(mappedBy = "films")
+    private List<Reviews> reviews; // chi vien them de lam film de xuat
 }
