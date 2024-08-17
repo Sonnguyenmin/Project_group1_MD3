@@ -36,7 +36,7 @@ public class Films {
     @Column(name = "language", length = 30)
     private String language;
 
-    private Integer totalFilm;
+    private Integer totalTime;
 
     private Boolean seriesSingle;
 
@@ -56,5 +56,4 @@ public class Films {
             inverseJoinColumns = @JoinColumn (name = "categoryId")
     )
     private List<Categories> categories;
-
 }

@@ -29,61 +29,26 @@
 
           <div class="splide__track">
             <ul class="splide__list">
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-1.jpg}">
+<!--              Banner loop -->
+              <li class="splide__slide" th:each="bn: ${bannerList}">
+                <div class="hero__slide" th:data-bg="${bn.bannerImg}">
                   <div class="hero__content">
-                    <h2 class="hero__title">Savage Beauty <sub class="green">9.8</sub></h2>
-                    <p class="hero__text">A brilliant scientist discovers a way to harness the power of the ocean's currents to create a new, renewable energy source. But when her groundbreaking technology falls into the wrong hands, she must race against time to stop it from being used for evil.</p>
-                    <p class="hero__category">
-                      <a href="#">Action</a>
-                      <a href="#">Drama</a>
-                      <a href="#">Comedy</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
+                    <h2 class="hero__title" th:text="${bn.bannerName}">Savage Beauty <sub class="green">9.8</sub></h2>
+                    <p class="hero__text" th:text="${bn.description}">A brilliant scientist discovers a way to harness the power of the ocean's currents to create a new, renewable energy source. But when her groundbreaking technology falls into the wrong hands, she must race against time to stop it from being used for evil.</p>
+<!--                    <p class="hero__category">-->
+<!--                      <a href="#">Action</a>-->
+<!--                      <a href="#">Drama</a>-->
+<!--                      <a href="#">Comedy</a>-->
+<!--                    </p>-->
+<!--                    <div class="hero__actions">-->
+<!--                      <a href="details.html" class="hero__btn">-->
+<!--                        <span>Watch now</span>-->
+<!--                      </a>-->
+<!--                    </div>-->
                   </div>
                 </div>
               </li>
 
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-2.jpg}">
-                  <div class="hero__content">
-                    <h2 class="hero__title">From the Other Side <sub class="yellow">6.9</sub></h2>
-                    <p class="hero__text">In a world where magic is outlawed and hunted, a young witch must use her powers to fight back against the corrupt authorities who seek to destroy her kind.</p>
-                    <p class="hero__category">
-                      <a href="#">Adventure</a>
-                      <a href="#">Triler</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li class="splide__slide">
-                <div class="hero__slide" th:data-bg="@{/assets/user/img/bg/slide__bg-3.jpg}">
-                  <div class="hero__content">
-                    <h2 class="hero__title">Endless Horizon <sub class="red">6.2</sub></h2>
-                    <p class="hero__text">When a renowned archaeologist goes missing, his daughter sets out on a perilous journey to the heart of the Amazon rainforest to find him. Along the way, she discovers a hidden city and a dangerous conspiracy that threatens the very balance of power in the world.</p>
-                    <p class="hero__category">
-                      <a href="#">Action</a>
-                      <a href="#">Drama</a>
-                      <a href="#">Triler</a>
-                    </p>
-                    <div class="hero__actions">
-                      <a href="details.html" class="hero__btn">
-                        <span>Watch now</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
@@ -169,11 +134,9 @@
               </select>
             </div>
             <!-- end filter desk -->
-
             <!-- filter btn -->
             <button class="filter__btn" type="button">Apply</button>
             <!-- end filter btn -->
-
             <!-- amount -->
             <span class="filter__amount">Showing 18 of 1713</span>
             <!-- end amount -->
@@ -189,22 +152,26 @@
     <div class="container">
       <div class="row">
         <!-- item -->
-        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="film : ${films}">
           <div class="item">
             <div class="item__cover">
-              <img th:src="@{/assets/user/img/covers/cover30.jpg}" alt="">
-              <a href="details.html" class="item__play">
+              <!-- Hiển thị ảnh phim -->
+              <img th:src="@{${film.image}}" alt="Film Cover">
+              <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">
                 <i class="ti ti-player-play-filled"></i>
               </a>
-              <span class="item__rate item__rate--green">8.4</span>
-              <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
+              <form th:action="@{/addFavourite}" method="post">
+                <input type="hidden" name="films.filmId" th:value="${film.filmId}">
+                <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                <button class="item__favorite" type="submit">
+                  <i class="ti ti-bookmark"></i>
+                </button>
+              </form>
             </div>
             <div class="item__content">
-              <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-              <span class="item__category">
-									<a href="#">Action</a>
-									<a href="#">Triler</a>
-								</span>
+              <h3 class="item__title">
+                <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>
+              </h3>
             </div>
           </div>
         </div>
@@ -220,6 +187,7 @@
       </div>
     </div>
   </div>
+
   <!-- end catalog -->
 </div>
 <!-- end fixed filter wrap -->
@@ -498,70 +466,70 @@
 </section>
 <!-- end section -->
 
-<!-- section -->
-<section class="section section--border">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="section__title">Select your plan</h2>
-      </div>
-    </div>
+<!--&lt;!&ndash; section &ndash;&gt;-->
+<!--<section class="section section&#45;&#45;border">-->
+<!--  <div class="container">-->
+<!--    <div class="row">-->
+<!--      <div class="col-12">-->
+<!--        <h2 class="section__title">Select your plan</h2>-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <div class="row">
-      <!-- plan -->
-      <div class="col-12 col-md-6 col-lg-4 order-md-2 order-lg-1">
-        <div class="plan">
-          <h3 class="plan__title">Basic</h3>
-          <span class="plan__price">Free</span>
-          <ul class="plan__list">
-            <li class="plan__item"><i class="ti ti-circle-check"></i> 7 days</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> 720p Resolution</li>
-            <li class="plan__item plan__item--none"><i class="ti ti-circle-minus"></i> Limited Availability</li>
-            <li class="plan__item plan__item--none"><i class="ti ti-circle-minus"></i> Desktop Only</li>
-            <li class="plan__item plan__item--none"><i class="ti ti-circle-minus"></i> Limited Support</li>
-          </ul>
-          <a th:href="@{/page/register}" class="plan__btn">Register</a>
-        </div>
-      </div>
-      <!-- end plan -->
+<!--    <div class="row">-->
+<!--      &lt;!&ndash; plan &ndash;&gt;-->
+<!--      <div class="col-12 col-md-6 col-lg-4 order-md-2 order-lg-1">-->
+<!--        <div class="plan">-->
+<!--          <h3 class="plan__title">Basic</h3>-->
+<!--          <span class="plan__price">Free</span>-->
+<!--          <ul class="plan__list">-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 7 days</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 720p Resolution</li>-->
+<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Limited Availability</li>-->
+<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Desktop Only</li>-->
+<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> Limited Support</li>-->
+<!--          </ul>-->
+<!--          <a th:href="@{/page/register}" class="plan__btn">Register</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; end plan &ndash;&gt;-->
 
-      <!-- plan -->
-      <div class="col-12 col-md-12 col-lg-4 order-md-1 order-lg-2">
-        <div class="plan plan--orange">
-          <h3 class="plan__title">Premium</h3>
-          <span class="plan__price">$34.99 <sub>/ month</sub></span>
-          <ul class="plan__list">
-            <li class="plan__item"><i class="ti ti-circle-check"></i> 1 Month</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> Full HD</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>
-            <li class="plan__item plan__item--none"><i class="ti ti-circle-minus"></i> TV & Desktop</li>
-            <li class="plan__item plan__item--none"><i class="ti ti-circle-minus"></i> 24/7 Support</li>
-          </ul>
-          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>
-        </div>
-      </div>
-      <!-- end plan -->
+<!--      &lt;!&ndash; plan &ndash;&gt;-->
+<!--      <div class="col-12 col-md-12 col-lg-4 order-md-1 order-lg-2">-->
+<!--        <div class="plan plan&#45;&#45;orange">-->
+<!--          <h3 class="plan__title">Premium</h3>-->
+<!--          <span class="plan__price">$34.99 <sub>/ month</sub></span>-->
+<!--          <ul class="plan__list">-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 1 Month</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Full HD</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>-->
+<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> TV & Desktop</li>-->
+<!--            <li class="plan__item plan__item&#45;&#45;none"><i class="ti ti-circle-minus"></i> 24/7 Support</li>-->
+<!--          </ul>-->
+<!--          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; end plan &ndash;&gt;-->
 
-      <!-- plan -->
-      <div class="col-12 col-md-6 col-lg-4 order-md-3">
-        <div class="plan plan--red">
-          <h3 class="plan__title">Cinematic</h3>
-          <span class="plan__price">$49.99 <sub>/ month</sub></span>
-          <ul class="plan__list">
-            <li class="plan__item"><i class="ti ti-circle-check"></i> 2 Months</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> Ultra HD</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> Any Device</li>
-            <li class="plan__item"><i class="ti ti-circle-check"></i> 24/7 Support</li>
-          </ul>
-          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>
-        </div>
-      </div>
-      <!-- end plan -->
-    </div>
-  </div>
-</section>
-<!-- end section -->
+<!--      &lt;!&ndash; plan &ndash;&gt;-->
+<!--      <div class="col-12 col-md-6 col-lg-4 order-md-3">-->
+<!--        <div class="plan plan&#45;&#45;red">-->
+<!--          <h3 class="plan__title">Cinematic</h3>-->
+<!--          <span class="plan__price">$49.99 <sub>/ month</sub></span>-->
+<!--          <ul class="plan__list">-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 2 Months</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Ultra HD</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Limited Availability</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> Any Device</li>-->
+<!--            <li class="plan__item"><i class="ti ti-circle-check"></i> 24/7 Support</li>-->
+<!--          </ul>-->
+<!--          <button class="plan__btn" type="button" data-bs-toggle="modal" data-bs-target="#plan-modal">Choose Plan</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; end plan &ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+<!--&lt;!&ndash; end section &ndash;&gt;-->
 
 <!-- footer -->
 <footer th:replace="/layouts/layoutUser::footer">

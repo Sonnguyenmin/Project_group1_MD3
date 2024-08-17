@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"></header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Danh mục Quốc gia</h2>
+
+                    <!--                    <span class="main__title-stat">14,452 Total</span>-->
+
+                    <div class="main__title-wrap">
+                        <a th:href="@{/country/add}" class="main__title-link main__title-link--wrap">Thêm
+                            Quốc gia</a>
+                        <form th:action="@{/country/sortCountryList}" method="get">
+                            <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()">
+                                <option value="desc" th:selected="${sort == 'desc'}">Sắp xếp theo (A-Z)</option>
+                                <option value="asc" th:selected="${sort == 'asc'}">Sắp xếp theo (Z-A)</option>
+                            </select>
+                            <input type="hidden" name="page" th:value="${page}" />
+                            <input type="hidden" name="size" th:value="${size}" />
+                            <input type="hidden" name="search" th:value="${search}" />
+                        </form>
+                        <!-- search -->
+                        <form th:action="@{/country}" class="main__title-form" >
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="size" th:value="${size}">
+                            <input type="search" placeholder="Tìm kiếm phim ..." th:value="${search}" name="search">
+                            <button  type="submit">
+                                <i class="ti ti-search" ></i>
+                            </button>
+                        </form>
+                        <!-- end search -->
+                    </div>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- items -->
+            <div class="col-12">
+                <div class="catalog catalog--1" style="overflow-y: hidden; height: 75vh; width: 100%; table-layout: fixed;">
+                    <table class="catalog__table">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>TÊN COUNTRY</th>
+                            <th colspan="2">HÀNH ĐỘNG</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="ct, loop : ${countryList}">
+                            <td>
+                                <div class="catalog__text" th:text="${page * size  + loop.count}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${ct.countryName}"></div>
+                            </td>
+
+
+                            <td>
+                                <div class="catalog__btns">
+                                    <!--                                    <a th:href="@{detail_category/{id}(id=${category.id})}" class="catalog__btn catalog__btn&#45;&#45;view">-->
+                                    <!--                                        <i class="ti ti-eye"></i>-->
+                                    <!--                                    </a>-->
+                                    <a th:href="@{|/country/edit/${ct.countryId}|}" class="catalog__btn catalog__btn--edit">
+                                        <i class="ti ti-edit"></i>
+                                    </a>
+                                    <a th:href="@{|/country/delete/${ct.countryId}|}" class="catalog__btn catalog__btn--delete">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end items -->
+
+            <!-- paginator -->
+            <div class="col-12">
+                <!-- end users -->
+                <nav th:if="${totalPages > 0}" aria-label="Page navigation example">
+                    <ul class="pagination float-end mx-4 pagination-ul">
+                        <th:block th:each="number : ${#numbers.sequence(1,totalPages)}">
+                            <li th:class="${number == (page+1) ? 'page-item active':'page-item'}" >
+                                <a class=" pagination-form"  th:href="@{'/country?page='+${number - 1} + '&search='+${search}}" th:text="${number}"></a>
+                            </li>
+                        </th:block>
+
+                    </ul>
+                </nav>
+            </div>
+            <!-- end paginator -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- status modal -->
+<div class="modal fade" id="modal-status" tabindex="-1" aria-labelledby="modal-status" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Status change</h4>
+
+                    <p class="modal__text">Are you sure about immediately change status?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal"
+                                aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end status modal -->
+
+<!-- delete modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Item delete</h4>
+
+                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Delete</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal"
+                                aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end delete modal -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+
+
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

@@ -22,22 +22,25 @@
                 <div class="main__title">
                     <h2>Phim ảnh</h2>
 
-<!--                    <span class="main__title-stat">14,452 Total</span>-->
-
                     <div class="main__title-wrap">
-                        <a href="" class="main__title-link main__title-link--wrap">Thêm phim</a>
+                        <a th:href="@{/film/add}" class="main__title-link main__title-link--wrap">Thêm phim</a>
 
-                        <select class="filter__select" name="sort" id="filter__sort">
-                            <option value="0">Lựa chọn theo</option>
-                            <option value="1">Rating</option>
-                            <option value="2">Views</option>
-                        </select>
-
+                        <form th:action="@{/film/sortFilmList}" method="get">
+                            <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()">
+                                <option value="desc" th:selected="${sort == 'desc'}">Sắp xếp theo (A-Z)</option>
+                                <option value="asc" th:selected="${sort == 'asc'}">Sắp xếp theo (Z-A)</option>
+                            </select>
+                            <input type="hidden" name="page" th:value="${page}" />
+                            <input type="hidden" name="size" th:value="${size}" />
+                            <input type="hidden" name="search" th:value="${search}" />
+                        </form>
                         <!-- search -->
-                        <form action="" class="main__title-form">
-                            <input type="text" placeholder="Tìm kiếm phim ...">
-                            <button type="button">
-                                <i class="ti ti-search"></i>
+                        <form th:action="@{/film}" class="main__title-form" >
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="size" th:value="${size}">
+                            <input type="search" placeholder="Tìm kiếm phim ..." th:value="${search}" name="search">
+                            <button  type="submit">
+                                <i class="ti ti-search" ></i>
                             </button>
                         </form>
                         <!-- end search -->
@@ -48,15 +51,13 @@
 
             <!-- items -->
             <div class="col-12">
-                <div class="catalog catalog--1">
+                <div class="catalog catalog--1" style="overflow-y: hidden; height: 75vh; width: 100%; table-layout: fixed;">
                     <table class="catalog__table">
                         <thead>
-                        <tr style="text-align: center">
+                        <tr>
                             <th>STT</th>
                             <th>TÊN PHIM</th>
                             <th>ẢNH</th>
-                            <th>TÊN DANH MỤC</th>
-                            <th>LOẠT PHIM</th>
                             <th>TÀI KHOẢN VIP</th>
                             <th>TRẠNG THÁI</th>
                             <th>HÀNH ĐỘNG</th>
@@ -64,40 +65,38 @@
                         </thead>
 
                         <tbody>
-                        <tr>
+                        <tr th:each="film, loop : ${films}">
                             <td>
-                                <div class="catalog__text">1</div>
+                                <div class="catalog__text" th:text="${page * size + loop.count}"></div>
                             </td>
                             <td>
-                                <div class="catalog__text"><a href="#">I Dream in Another Language</a></div>
+                                <div class="catalog__text" th:text="${film.filmName}"></div>
                             </td>
                             <td>
-                                <img style="width: 60px; height: 60px ; object-fit: contain; border-radius: 5px; margin: -5px" th:src="@{/assets/user/img/covers/cover33.jpg}" alt="">
+                                <img style="width: 60px; height: 60px ; object-fit: contain; border-radius: 5px; margin: -5px" th:src="@{${film.image}}" alt="">
+                            </td>
+
+                            <td>
+                                <div class="catalog__text" th:text=" ${film.isFree ? 'Phim miễn phí' : 'Phim có phí'}">
+
+                                </div>
                             </td>
                             <td>
-                                <div class="catalog__text">Movie</div>
-                            </td>
-                            <td>
-                                <div class="catalog__text">1392</div>
-                            </td>
-                            <td>
-                                <div class="catalog__text">Miễn phí</div>
-                            </td>
-                            <td>
-                                <div class="catalog__text catalog__text--green">Visible</div>
+                                <div class="catalog__text">
+                                    <span th:text="${film.status == 1 ? 'Phim đang chiếu' : (film.status == 2 ? 'Phim sắp chiếu' : 'Phim ngừng chiếu')}"></span>
+                                </div>
                             </td>
                             <td>
                                 <div class="catalog__btns">
-                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
-                                        <i class="ti ti-lock"></i>
-                                    </button>
-                                    <a href="#" class="catalog__btn catalog__btn--view">
+                                    <a th:href="@{/film/detail/{id}(id=${film.filmId})}" class="catalog__btn catalog__btn--view">
                                         <i class="ti ti-eye"></i>
                                     </a>
-                                    <a href="add-item.html" class="catalog__btn catalog__btn--edit">
+                                    <a th:href="@{/film/edit/{id}(id=${film.filmId})}" class="catalog__btn catalog__btn--edit">
                                         <i class="ti ti-edit"></i>
                                     </a>
-                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete">
+                                    <!-- Delete Button -->
+                                    <button  type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete"
+                                            th:data-id="${film.filmId}">
                                         <i class="ti ti-trash"></i>
                                     </button>
                                 </div>
@@ -109,85 +108,37 @@
             </div>
             <!-- end items -->
 
-            <!-- paginator -->
             <div class="col-12">
-                <div class="main__paginator">
-                    <!-- amount -->
-                    <span class="main__paginator-pages">10 of 169</span>
-                    <!-- end amount -->
+                    <!-- end users -->
+                    <nav th:if="${totalPages > 0}" aria-label="Page navigation example">
+                        <ul class="pagination float-end mx-4 pagination-ul">
+                            <th:block th:each="number : ${#numbers.sequence(1,totalPages)}">
+                                <li th:class="${number == (page+1) ? 'page-item active':'page-item'}" >
+                                    <a class=" pagination-form"  th:href="@{'/film?page='+${number - 1} + '&search='+${search}}" th:text="${number}"></a>
+                                </li>
+                            </th:block>
 
-                    <ul class="main__paginator-list">
-                        <li>
-                            <a href="#">
-                                <i class="ti ti-chevron-left"></i>
-                                <span>Prev</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span>Next</span>
-                                <i class="ti ti-chevron-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="paginator">
-                        <li class="paginator__item paginator__item--prev">
-                            <a href="#"><i class="ti ti-chevron-left"></i></a>
-                        </li>
-                        <li class="paginator__item"><a href="#">1</a></li>
-                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
-                        <li class="paginator__item"><a href="#">3</a></li>
-                        <li class="paginator__item"><a href="#">4</a></li>
-                        <li class="paginator__item"><span>...</span></li>
-                        <li class="paginator__item"><a href="#">29</a></li>
-                        <li class="paginator__item"><a href="#">30</a></li>
-                        <li class="paginator__item paginator__item--next">
-                            <a href="#"><i class="ti ti-chevron-right"></i></a>
-                        </li>
-                    </ul>
-                </div>
+                        </ul>
+                    </nav>
             </div>
-            <!-- end paginator -->
         </div>
     </div>
 </main>
 <!-- end main content -->
-
-<!-- status modal -->
-<div class="modal fade" id="modal-status" tabindex="-1" aria-labelledby="modal-status" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal__content">
-                <form action="#" class="modal__form">
-                    <h4 class="modal__title">Status change</h4>
-
-                    <p class="modal__text">Are you sure about immediately change status?</p>
-
-                    <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
-                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end status modal -->
 
 <!-- delete modal -->
 <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal__content">
-                <form action="#" class="modal__form">
-                    <h4 class="modal__title">Item delete</h4>
+                <form id="delete-form" th:action="@{/film/delete/{id}(id=${filmId})}" method="get" class="modal__form">
+                    <h4 class="modal__title">Xóa mục</h4>
 
-                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+                    <p class="modal__text">Bạn có chắc chắn xóa vĩnh viễn mục này không?</p>
 
                     <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="button"><span>Delete</span></button>
-                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Dismiss</span></button>
+                        <button class="modal__btn modal__btn--apply" type="submit"><span>Xóa</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Trở lại</span></button>
                     </div>
                 </form>
             </div>
@@ -198,7 +149,23 @@
 
 <!-- JS -->
 <th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+<script>
 
+    // xoa category
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteButtons = document.querySelectorAll('.catalog__btn--delete');
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var itemId = this.getAttribute('data-id'); // Lấy ID từ thuộc tính data-id của nút
+
+                // Cập nhật action của form trong modal
+                var form = document.getElementById('delete-form');
+                form.setAttribute('action', '/film/delete/' + itemId);
+            });
+        });
+    });
+</script>
 
 </body>
 

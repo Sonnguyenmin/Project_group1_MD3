@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/admin/css/slimselect.css}">
     <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}">
+    <link rel="stylesheet" th:href="@{/assets/admin/css/sweetalert2.min.css}">
 
     <!-- Icon font -->
     <link rel="stylesheet" th:href="@{/assets/admin/webfont/tabler-icons.min.css}">
@@ -44,6 +45,57 @@
         ::-webkit-scrollbar-thumb{
             background-color:#f9ab00;
         }
+
+        .pagination-ul {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            width: auto;
+            background-color: #222028;
+            /*background-color: #1a191f;*/
+        }
+
+        .pagination-form {
+            font-size: 16px;
+            height: 40px;
+            width: 40px;
+            color: #c0c0c0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .active a {
+            color: #fff;
+            cursor: default;
+            border-color: #f9ab00;
+        }
+        .active a:hover {
+            color: #fff;
+        }
+
+        .catalog__btn--change {
+            background-color: rgba(87, 186, 234, 0.1);
+        }
+
+        .catalog__btn--change i {
+            color: #3fa2c5;
+        }
+
+        .catalog__btn--change:hover {
+            background-color: rgba(87, 186, 234, 0.2);
+        }
+        .catalog__btn--change:hover i {
+            color: #3fa2c5;
+        }
     </style>
 </head>
 
@@ -52,7 +104,7 @@
 <header class="header" th:fragment="header">
     <div class="header__content">
         <!-- header logo -->
-        <a href="" class="header__logo">
+        <a href="index.html" class="header__logo">
             <img th:src="@{/assets/admin/img/logo.svg}" alt="">
         </a>
         <!-- end header logo -->
@@ -71,7 +123,7 @@
 <!-- sidebar -->
 <div class="sidebar" th:fragment="sidebar">
     <!-- sidebar logo -->
-    <a th:href="@{dashboard}" class="sidebar__logo">
+    <a href="index.html" class="sidebar__logo">
         <img th:src="@{/assets/admin/img/logo.svg}" alt="">
     </a>
     <!-- end sidebar logo -->
@@ -84,10 +136,17 @@
 
         <div class="sidebar__user-title">
             <span>Admin</span>
-            <p>John Doe</p>
+            <p th:text="${'Hello ' + session.user.userName}"></p>
         </div>
 
-        <button class="sidebar__user-btn" type="button">
+        <!-- Form Đăng Xuất -->
+        <form id="logout-form" th:action="@{/logout}" method="POST" style="display:none;">
+            <!-- CSRF Token -->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <!-- Nút để kích hoạt SweetAlert2 -->
+        <button class="sidebar__user-btn" type="button" id="logout-button">
             <i class="ti ti-logout"></i>
         </button>
     </div>
@@ -97,27 +156,50 @@
     <div class="sidebar__nav-wrap">
         <ul class="sidebar__nav">
             <li class="sidebar__nav-item">
-                <a th:href="@{dashboard}" class="sidebar__nav-link sidebar__nav-link--active"><i class="ti ti-layout-grid"></i> <span>Bảng điều khiển</span></a>
+                <a th:href="@{/loadAdmin}" class="sidebar__nav-link sidebar__nav-link--active">
+                    <i class="ti ti-layout-grid"></i>
+                    <span>Bảng điều khiển</span>
+                </a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a th:href="@{category}" class="sidebar__nav-link"><i class="ti ti-movie"></i> <span>Danh mục phim</span></a>
+                <a th:href="@{/banner}" class="sidebar__nav-link"><i class="ti ti-flag"></i> <span>Banner</span></a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a th:href="@{Film}" class="sidebar__nav-link"><i class="ti ti-device-tv-old"></i> <span>Phim</span></a>
+                <a th:href="@{/loadCategory}" class="sidebar__nav-link">
+                    <i class="ti ti-movie"></i>
+                    <span>Danh mục phim</span>
+                </a>
+            </li>
+
+
+            <li class="sidebar__nav-item">
+                <a th:href="@{/film}" class="sidebar__nav-link">
+                    <i class="ti ti-device-tv-old"></i>
+                    <span>Phim</span>
+                </a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a href="comments.html" class="sidebar__nav-link"><i class="ti ti-message"></i> <span>Bình luận</span></a>
+                <a th:href="@{/filmEpisode}" class="sidebar__nav-link">
+                    <i class="ti ti-list-numbers"></i>
+                    <span>Tập phim</span>
+                </a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a href="reviews.html" class="sidebar__nav-link"><i class="ti ti-star-half-filled"></i> <span>Reviews</span></a>
+                <a th:href="@{/loadComment}" class="sidebar__nav-link"><i class="ti ti-message"></i> <span>Bình luận</span></a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a th:href="@{/loadReview}" class="sidebar__nav-link"><i class="ti ti-star-half-filled"></i> <span>Đánh Giá</span></a>
+            </li>
+            <li class="sidebar__nav-item">
+                <a th:href="@{country}" class="sidebar__nav-link"><i class="ti ti-map-discount"></i><span>Quốc gia</span></a>
             </li>
 
             <li class="sidebar__nav-item">
-                <a href="users.html" class="sidebar__nav-link"><i class="ti ti-users"></i> <span>Khách hàng</span></a>
+                <a th:href="@{/userManagement}" class="sidebar__nav-link"><i class="ti ti-users"></i> <span>Khách hàng</span></a>
             </li>
 
             <li class="sidebar__nav-item">
@@ -125,26 +207,28 @@
             </li>
 
             <!-- dropdown -->
-            <li class="sidebar__nav-item">
-                <a class="sidebar__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ti ti-files"></i>
-                    <span>Pages</span>
-                    <i class="ti ti-chevron-down"></i>
-                </a>
+<!--            <li class="sidebar__nav-item">-->
+<!--                <a class="sidebar__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    <i class="ti ti-files"></i>-->
+<!--                    <span>Pages</span>-->
+<!--                    <i class="ti ti-chevron-down"></i>-->
+<!--                </a>-->
 
-                <ul class="dropdown-menu sidebar__dropdown-menu">
-                    <li><a href="add-item.html">Add item</a></li>
-                    <li><a href="edit-user.html">Edit user</a></li>
-                    <li><a href="signin.html">Sign In</a></li>
-                    <li><a href="signup.html">Sign Up</a></li>
-                    <li><a href="forgot.html">Forgot password</a></li>
-                    <li><a href="404.html">404 Page</a></li>
-                </ul>
-            </li>
+<!--&lt;!&ndash;                <ul class="dropdown-menu sidebar__dropdown-menu">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a th:href="@{/initAddCategory}">Add item</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a href="edit-user.html">Edit user</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a href="signin.html">Sign In</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a href="signup.html">Sign Up</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a href="forgot.html">Forgot password</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <li><a href="404.html">404 Page</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--            </li>-->
             <!-- end dropdown -->
 
             <li class="sidebar__nav-item">
-                <a href="../main/home.html" class="sidebar__nav-link"><i class="ti ti-arrow-left"></i> <span>Back to HotFlix</span></a>
+
+                <a th:href="@{/loadUser}" class="sidebar__nav-link"><i class="ti ti-arrow-left"></i> <span>Back to HotFlix</span></a>
+
             </li>
         </ul>
     </div>
@@ -162,6 +246,24 @@
     <script th:src="@{/assets/admin/js/slimselect.min.js}"></script>
     <script th:src="@{/assets/admin/js/smooth-scrollbar.js}"></script>
     <script th:src="@{/assets/admin/js/admin.js}"></script>
+    <script th:src="@{/assets/admin/js/sweetalert2.min.js}"></script>
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function () {
+            console.log("co vao day")
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn đăng xuất?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Huỷ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Thực hiện hành động đăng xuất tại đây
+                    document.getElementById('logout-form').submit();
+                }
+            });
+        });
+    </script>
 </th:block>
 </body>
 

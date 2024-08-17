@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"> </header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Thêm tập phim</h2>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- form -->
+            <div class="col-12">
+                <form th:action="@{/filmEpisode/add}" method="post" th:object="${filmEpisodes}" class="sign__form sign__form--add" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12 col-xl-7">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <input type="text" th:field="*{episodeNumber}" class="sign__input" placeholder="Tập phim">
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <textarea id="text" name="text" class="sign__textarea" th:field="*{filmEpisodeUrl}" placeholder="Đường dẫn tập phim"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <select class="sign__selectjs" th:field="*{films.filmId}" id="sign__country">
+                                            <option th:each="f : ${films}" th:value="${f.filmId}"
+                                                    th:text="${f.filmName}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sign__group">
+                                        <div class="sign__gallery">
+                                            <label id="gallery1" for="sign__gallery-upload">Ảnh giới thiệu tập phim</label>
+                                            <input data-name="#gallery1" th:field="*{filmEpisodeImage}" id="sign__gallery-upload" name="gallery" class="sign__gallery-upload" type="file" accept=".png, .jpg, .jpeg" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="sign__btn sign__btn--small"><span>Thêm tập phim</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end form -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

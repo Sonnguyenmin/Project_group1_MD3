@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"> </header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Người dùng</h2>
+                    <div class="main__title-wrap">
+                        <form th:action="@{/userManagement/sortUserList}" method="get">
+                            <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()">
+                                <option value="desc" th:selected="${sort == 'desc'}">Sắp xếp theo (A-Z)</option>
+                                <option value="asc" th:selected="${sort == 'asc'}">Sắp xếp theo (Z-A)</option>
+                            </select>
+                            <input type="hidden" name="page" th:value="${page}" />
+                            <input type="hidden" name="size" th:value="${size}" />
+                            <input type="hidden" name="search" th:value="${search}" />
+                        </form>
+                        <!-- search -->
+                        <form th:action="@{/userManagement}" class="main__title-form" >
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="size" th:value="${size}">
+                            <input type="search" placeholder="Tìm kiếm người dùng ..." th:value="${search}" name="search">
+                            <button  type="submit">
+                                <i class="ti ti-search" ></i>
+                            </button>
+                        </form>
+                        <!-- end search -->
+                    </div>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- users -->
+            <div class="col-12">
+                <div class="catalog catalog--1">
+                    <table class="catalog__table">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>THÔNG TIN CƠ BẢN </th>
+                            <th>TÀI KHOẢN</th>
+                            <th>NGÀY TẠO</th>
+                            <th>NGÀY CẬP NHẬT</th>
+                            <th>TRẠNG THÁI</th>
+                            <th>HÀNH ĐỘNG</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user, loop : ${users}">
+                            <td>
+                                <div class="catalog__text" th:text="${page * size + loop.count}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__user">
+                                    <div class="catalog__avatar">
+                                        <img th:src="@{/assets/user/img/user.svg}" alt="">
+                                    </div>
+                                    <div class="catalog__meta">
+                                        <h3 th:text="${user.fullName}"></h3>
+                                        <span th:text="${user.email}"></span>
+                                        <span th:text="${user.phone}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${user.userName}"></div>
+                            </td>
+<!--                            <td>-->
+<!--                                <div class="catalog__text" th:text="${user.address}"></div>-->
+<!--                            </td>-->
+                            <td>
+                                <div class="catalog__text" th:text="${#dates.format(user.createdAt, 'dd.MM.yyyy')}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${#dates.format(user.updatedAt, 'dd.MM.yyyy')}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${user.status ? 'Hoạt động' : 'Không hoạt động'}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__btns">
+                                    <button type="button" onclick="viewConfirm(event)" th:data-id="${user.userId}" th:data-status="${user.status}" data-bs-toggle="modal" class="catalog__btn catalog__btn--banned" data-bs-target="#modal-status">
+                                        <i  th:data-id="${user.userId}" th:data-status="${user.status}"  class="ti ti-lock"></i>
+                                    </button>
+                                    <button type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--change" data-bs-target="#modal-delete">
+                                        <i class="ti ti-replace"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            <!-- end users -->
+
+            <!-- paginator -->
+            <div class="col-12">
+                <!-- end users -->
+                <nav th:if="${totalPages > 0}" aria-label="Page navigation example">
+                    <ul class="pagination float-end mx-4 pagination-ul">
+                        <th:block th:each="number : ${#numbers.sequence(1,totalPages)}">
+                            <li th:class="${number == (page+1) ? 'page-item active':'page-item'}" >
+                                <a class=" pagination-form"  th:href="@{'/film?page='+${number - 1} + '&search='+${search}}" th:text="${number}"></a>
+                            </li>
+                        </th:block>
+
+                    </ul>
+                </nav>
+            </div>
+            <!-- end paginator -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- status modal -->
+<div class="modal fade" id="modal-status" tabindex="-1" aria-labelledby="modal-status" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <div class="modal__content">
+                    <form id="statusForm" th:action="@{/userManagement}" method="POST" class="modal__form">
+                        <h4 class="modal__title">Thay đổi trạng thái</h4>
+
+                        <p class="modal__text">Bạn có chắc chắn về việc thay đổi trạng thái ngay lập tức không?</p>
+                        <!-- Hidden fields for category ID and status -->
+                        <input type="hidden" name="id" id="idField">
+                        <input type="hidden" name="status" id="statusField">
+
+                        <div class="modal__btns">
+                            <button class="modal__btn modal__btn--apply" type="submit"><span>Thay đổi</span></button>
+                            <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Trở lại</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end status modal -->
+
+<script>
+    function viewConfirm(e) {
+        let inputId = document.getElementById("idField");
+        let inputStatus = document.getElementById("statusField");
+        inputId.value = e.target.dataset.id;
+        inputStatus.value = e.target.dataset.status;
+    }
+
+    const form = document.querySelector("#statusForm");
+    form.addEventListener('submit', function (event) {
+        e.preventDefault();
+        const userId = document.querySelector('#idField').value;
+        const statusField = document.querySelector('#statusField').value;
+
+        fetch('/updateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({userId, statusField})
+        })
+            .then(reponse => reponse.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Cập nhật trạng thái thành công!');
+                } else {
+                    alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+                alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            });
+    })
+
+</script>
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/users.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

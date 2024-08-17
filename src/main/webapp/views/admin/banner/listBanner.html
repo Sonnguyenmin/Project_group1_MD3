@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"></header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Danh mục Banner</h2>
+
+                    <!--                    <span class="main__title-stat">14,452 Total</span>-->
+
+                    <div class="main__title-wrap">
+                        <a th:href="@{/banner/add}" class="main__title-link main__title-link--wrap">Thêm
+                            Banner</a>
+
+                        <!--                        <select class="filter__select" name="sort" id="filter__sort">-->
+                        <!--                            <option value="0">Date created</option>-->
+                        <!--                            <option value="1">Rating</option>-->
+                        <!--                            <option value="2">Views</option>-->
+                        <!--                        </select>-->
+
+                        <!-- search -->
+                        <form action="" class="main__title-form">
+                            <input type="text" placeholder="Tìm kiếm ...">
+                            <button type="button">
+                                <i class="ti ti-search"></i>
+                            </button>
+                        </form>
+                        <!-- end search -->
+                    </div>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- items -->
+            <div class="col-12">
+                <div class="catalog catalog--1">
+                    <table class="catalog__table">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>TÊN BANNER</th>
+                            <th colspan="2">HÀNH ĐỘNG</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="banner, loop : ${bannerList}">
+                            <td>
+                                <div class="catalog__text" th:text="${loop.count}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${banner.bannerName}"></div>
+                            </td>
+
+
+                            <td>
+                                <div class="catalog__btns">
+                                    <!--                                    <a th:href="@{detail_category/{id}(id=${category.id})}" class="catalog__btn catalog__btn&#45;&#45;view">-->
+                                    <!--                                        <i class="ti ti-eye"></i>-->
+                                    <!--                                    </a>-->
+                                    <a th:href="@{|/banner/edit/${banner.bannerId}|}" class="catalog__btn catalog__btn--edit">
+                                        <i class="ti ti-edit"></i>
+                                    </a>
+                                    <a th:href="@{|/banner/delete/${banner.bannerId}|}" class="catalog__btn catalog__btn--delete">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end items -->
+
+            <!-- paginator -->
+            <div class="col-12">
+                <div class="main__paginator">
+                    <!-- amount -->
+                    <span class="main__paginator-pages">1 of 10</span>
+                    <!-- end amount -->
+
+                    <ul class="main__paginator-list">
+                        <li>
+                            <a href="#">
+                                <i class="ti ti-chevron-left"></i>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span>Next</span>
+                                <i class="ti ti-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="paginator">
+                        <li class="paginator__item paginator__item--prev">
+                            <a href="#"><i class="ti ti-chevron-left"></i></a>
+                        </li>
+                        <li class="paginator__item"><a href="#">1</a></li>
+                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
+                        <li class="paginator__item"><a href="#">3</a></li>
+                        <li class="paginator__item"><a href="#">4</a></li>
+                        <li class="paginator__item"><span>...</span></li>
+                        <li class="paginator__item"><a href="#">29</a></li>
+                        <li class="paginator__item"><a href="#">30</a></li>
+                        <li class="paginator__item paginator__item--next">
+                            <a href="#"><i class="ti ti-chevron-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end paginator -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- status modal -->
+<div class="modal fade" id="modal-status" tabindex="-1" aria-labelledby="modal-status" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Status change</h4>
+
+                    <p class="modal__text">Are you sure about immediately change status?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Apply</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal"
+                                aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end status modal -->
+
+<!-- delete modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Item delete</h4>
+
+                    <p class="modal__text">Are you sure to permanently delete this item?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button"><span>Delete</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal"
+                                aria-label="Close"><span>Dismiss</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end delete modal -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+
+
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

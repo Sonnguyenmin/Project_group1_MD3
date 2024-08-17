@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:02 GMT -->
+<head th:replace="/layouts/layoutUser::head">
+</head>
+
+<body>
+<img class="img_bg_home" th:src="@{/assets/user/img/bg/bg_home.jpg}" alt="">
+<!-- header -->
+<header class=" header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="header__content">
+                    <!-- header logo -->
+                    <a th:href="@{/about}" class="header__logo">
+                        <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                    </a>
+                    <!-- end header logo -->
+                    <!-- header auth -->
+                    <div class="header__auth" style="justify-content: right">
+                        <a th:href="@{/login}" class="header__sign-in">
+                            <i class="ti ti-login"></i>
+                            <span>Đăng nhập</span>
+                        </a>
+                    </div>
+                    <!-- end header auth -->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- end header -->
+
+<!-- page title -->
+<section class="section section--first z_index">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h1 style="text-align: center ; background: linear-gradient(to right, #f9ab00 0%, #ebebec 50%);
+                    background-clip: text;
+                     color: transparent;
+" class="section__title section__title--head">Chương trình truyền hình, phim không giới hạn và nhiều nội dung khác</h1>
+                    <!-- end section title -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title -->
+
+<!-- about -->
+<section class="section z_index-1">
+    <div class="container">
+        <div class="row">
+            <!-- feature -->
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="feature">
+                    <h3 class="feature__title" style="font-size: 50px ; padding-bottom: 16px ; line-height: 1.2">Thưởng thức trên TV của bạn, Xem ở mọi nơi</h3>
+                    <p class="feature__text" style="font-size: 25px ; line-height: 1.6">
+                        Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác. Phát trực tuyến không giới hạn phim và chương trình truyền hình trên điện thoại, máy tính bảng, máy tính xách tay và TV.
+                    </p>
+                </div>
+            </div>
+            <!-- end feature -->
+
+            <!-- feature -->
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="feature" style="margin: 0 40px 40px 40px">
+                    <img class="feature__img" th:src="@{/assets/user/img/bg/anhphim.jpg}" alt="">
+                </div>
+            </div>
+            <!-- end feature -->
+
+        </div>
+    </div>
+</section>
+<!-- end about -->
+
+<!-- about -->
+<section class="section z_index-1">
+    <div class="container">
+        <div class="row">
+            <!-- feature -->
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="feature">
+                    <img class="feature__img" th:src="@{/assets/user/img/bg/kis_bg.png}" alt="">
+                </div>
+            </div>
+            <!-- end feature -->
+
+            <!-- feature -->
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="feature">
+                    <h3 class="feature__title" style="line-height: 1.2; font-size: 60px ; padding-bottom: 16px">Tạo hồ sơ cho trẻ em</h3>
+                    <p class="feature__text" style="font-size: 25px ; line-height: 1.6">
+                        Đưa các em vào những cuộc phiêu lưu với nhân vật được yêu thích trong một không gian riêng. Tính năng này đi kèm miễn phí với tư cách thành viên của bạn.
+                    </p>
+                </div>
+            </div>
+            <!-- end feature -->
+
+        </div>
+    </div>
+</section>
+<!-- end about -->
+
+<!-- about -->
+<section class="section z_index-1">
+    <div class="container">
+        <div class="row">
+            <!-- section title -->
+            <div class="col-12">
+                <h2 class="section__title"><b>HotFlix</b> – Nơi tốt nhất để xem phim</h2>
+                <p class="section__text">Chào mừng đến với trang web phim <b>HotFlix</b> , điểm đến tuyệt vời cho tất cả những người đam mê phim ảnh. Đắm mình vào thế giới của những câu chuyện hấp dẫn, hình ảnh tuyệt đẹp và những màn trình diễn khó quên. Khám phá thư viện phim đồ sộ của chúng tôi, trải dài trên nhiều thể loại, thời đại và nền văn hóa.</p>
+                <p class="section__text" >Hãy đắm mình vào niềm vui của điện ảnh với bộ sưu tập được tuyển chọn của chúng tôi, gồm những bộ phim được chọn lọc kỹ lưỡng theo chủ đề, đạo diễn hoặc diễn viên. Đắm mình vào thế giới ma thuật điện ảnh và để bản thân được đưa đến những miền đất mới của trí tưởng tượng và cảm xúc.</p>
+            </div>
+            <!-- end section title -->
+
+            <!-- feature -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="feature">
+                    <i class="ti ti-badge-hd"></i>
+                    <h3 class="feature__title">Siêu HD</h3>
+                    <p class="feature__text">
+                        Trải nghiệm phim ảnh chưa từng có với tính năng Ultra HD của chúng tôi. Đắm chìm trong hình ảnh tuyệt đẹp, màu sắc sống động và chi tiết rõ nét.
+                    </p>
+                </div>
+            </div>
+            <!-- end feature -->
+
+            <!-- feature -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="feature">
+                    <i class="ti ti-movie"></i>
+                    <h3 class="feature__title">Cơ sở dữ liệu phim lớn</h3>
+                    <p class="feature__text" >
+                        Khám phá bộ sưu tập phim đa dạng và phong phú trong cơ sở dữ liệu rộng lớn của chúng tôi. Với hàng ngàn tựa phim để lựa chọn, bạn sẽ không bao giờ hết lựa chọn.
+                    </p>
+                </div>
+            </div>
+            <!-- end feature -->
+
+            <!-- feature -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="feature">
+                    <i class="ti ti-device-tv"></i>
+                    <h3 class="feature__title">Truyền hình trực tuyến</h3>
+                    <p class="feature__text" >
+                        Mở rộng phạm vi giải trí của bạn với TV trực tuyến của chúng tôi. Phát trực tiếp các kênh truyền hình, theo dõi các chương trình yêu thích và thưởng thức nhiều nội dung truyền hình trực tuyến.
+                    </p>
+                </div>
+            </div>
+            <!-- end feature -->
+
+        </div>
+    </div>
+</section>
+<!-- end about -->
+
+<!-- how it works -->
+<section class="section section--border z_index" style="padding: 100px 0">
+    <div class="container">
+        <div class="row">
+            <!-- section title -->
+            <div class="col-12">
+                <h2 class="section__title">Nó hoạt động thế nào?</h2>
+            </div>
+            <!-- end section title -->
+
+            <!-- how box -->
+            <div class="col-12 col-lg-4">
+                <div class="how">
+                    <span class="how__number">01</span>
+                    <h3 class="how__title">Tạo một tài khoản</h3>
+                    <p class="how__text">Bắt đầu hành trình xem phim của bạn bằng cách tạo một tài khoản cá nhân trên nền tảng của chúng tôi. Đăng ký dễ dàng và truy cập vào thế giới giải trí.</p>
+                </div>
+            </div>
+            <!-- ebd how box -->
+
+            <!-- how box -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="how">
+                    <span class="how__number">02</span>
+                    <h3 class="how__title">Chọn gói của bạn</h3>
+                    <p class="how__text">Chọn gói dịch vụ hoàn hảo phù hợp với sở thích và thói quen xem của bạn. Chúng tôi cung cấp nhiều tùy chọn đăng ký từ gói cơ bản đến gói cao cấp.</p>
+                </div>
+            </div>
+            <!-- ebd how box -->
+
+            <!-- how box -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="how">
+                    <span class="how__number">03</span>
+                    <h3 class="how__title">Thưởng thức HotFlix</h3>
+                    <p class="how__text">Đắm mình vào thế giới HotFlix, nơi có dịch vụ phát trực tuyến phim không giới hạn đang chờ đón, với bộ sưu tập phim đồ sộ của chúng tôi.</p>
+                </div>
+            </div>
+            <!-- ebd how box -->
+        </div>
+    </div>
+</section>
+<!-- end how it works -->
+<!-- footer -->
+<footer class="footer" style="position: sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer__content">
+                    <a href="" class="footer__logo">
+                        <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                    </a>
+
+                    <span class="footer__copyright">© HOTFLIX, 2019—2024 <br> Tạo bởi <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Dmitry Volkov</a></span>
+
+                    <nav class="footer__nav">
+                        <a href="">Liên hệ</a>
+                        <a href="">Chính sách bảo mật</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end footer -->
+<!-- JS -->
+<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
+</body>
+
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:42 GMT -->
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"> </header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Add new item</h2>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- form -->
+            <div class="col-12">
+                <form th:action="@{/editCategory}" th:object="${category}" method="post" class="sign__form sign__form--add">
+                    <div class="row">
+                        <div class="col-12 col-xl-7">
+                            <div class="row">
+                                <!--categoryId-->
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <input type="hidden"  th:field="*{categoryId}"/>
+                                    </div>
+                                </div>
+                                <!--categoryName-->
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <input type="text" th:field="*{categoryName}" class="sign__input" placeholder="Tên danh mục"/>
+                                        <div th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}" style="color: red"></div>
+                                        <!-- Hiển thị thông báo lỗi -->
+                                        <p th:if="${not #lists.isEmpty(errorMessage)}" th:text="${errorMessage}" style="color: red;"></p>
+                                    </div>
+                                </div>
+                                <!--description-->
+                                <div class="col-12">
+                                    <div class="sign__group">
+                                        <textarea th:field="*{description}" class="sign__textarea" placeholder="Description"></textarea>
+                                        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--status-->
+                        <div class="col-12">
+                            <div class="sign__group">
+                                <label class="sign__label">Status:</label>
+                                <ul class="sign__radio">
+                                    <li>
+                                        <input type="radio" th:field="*{status}" value="true" id="statusVisible" />
+                                        <label for="statusVisible">Visible</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" th:field="*{status}" value="false" id="statusHidden" />
+                                        <label for="statusHidden">Hidden</label>
+                                    </li>
+                                    <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red" ></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- tv series -->
+                        <div class="col-12">
+                            <div class="collapse multi-collapse">
+                                <!-- season -->
+                                <div class="sign__season">
+                                    <div class="sign__season-head">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="sign__episode-title">Season #1</span>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-5 col-xl-6">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Season title">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-4 col-xl-4">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Season info">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-4 col-md-3 col-xl-2">
+                                                <button class="sign__btn sign__btn--add"><span>add season</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- episode -->
+                                    <div class="sign__episode">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="sign__episode-title">Episode #1</span>
+                                                <button class="sign__delete" type="button">
+                                                    <i class="ti ti-x"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Episode title 1">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Air date">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="sign__video">
+                                                    <label id="s1s1" for="sign__video-upload1">Upload episode 1</label>
+                                                    <input data-name="#s1s1" id="sign__video-upload1" name="s1s1" class="sign__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end episode -->
+
+                                    <!-- episode -->
+                                    <div class="sign__episode">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <span class="sign__episode-title">Episode #2</span>
+                                                <button class="sign__delete" type="button">
+                                                    <i class="ti ti-x"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Episode title 2">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="sign__group">
+                                                    <input type="text" class="sign__input" placeholder="Air date">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-8 col-md-9 col-xl-10">
+                                                <div class="sign__video">
+                                                    <label id="s1s2" for="sign__video-upload2">Upload episode 2</label>
+                                                    <input data-name="#s1s2" id="sign__video-upload2" name="s1s2" class="sign__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-4 col-md-3 col-xl-2">
+                                                <button class="sign__btn sign__btn--add"><span>add episode</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end episode -->
+                                </div>
+                                <!-- end season -->
+                            </div>
+                        </div>
+                        <!-- end tv series -->
+
+                        <div class="col-12">
+                            <button type="submit" class="sign__btn sign__btn--small">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end form -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/add-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>

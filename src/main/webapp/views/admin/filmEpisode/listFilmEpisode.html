@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+<head th:replace="/layouts/layoutAdmin::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutAdmin::header"> </header>
+<!-- end header -->
+
+<!-- sidebar -->
+<div th:replace="/layouts/layoutAdmin::sidebar"></div>
+<!-- end sidebar -->
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Tập phim</h2>
+
+                    <div class="main__title-wrap">
+                        <a th:href="@{/filmEpisode/add}" class="main__title-link main__title-link--wrap">Thêm tập phim</a>
+
+                        <form action="" class="main__title-form">
+                            <input type="text" placeholder="Find movie / tv series..">
+                            <button type="button">
+                                <i class="ti ti-search"></i>
+                            </button>
+                        </form>
+                        <!-- end search -->
+                    </div>
+                </div>
+            </div>
+            <!-- end main title -->
+
+            <!-- items -->
+            <div class="col-12">
+                <div class="catalog catalog--1" style="overflow-y: hidden; height: 75vh; width: 100%; table-layout: fixed;">
+                    <table class="catalog__table">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>TÊN PHIM</th>
+                            <th>TẬP PHIM</th>
+                            <th>ĐƯỜNG DẪN PHIM</th>
+                            <th>ẢNH PHIM</th>
+                            <th>HÀNH ĐỘNG</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="fe, loop : ${filmEpisodes}">
+                            <td>
+                                <div class="catalog__text" th:text="${loop.count}"></div>
+                            </td>
+
+                            <td>
+                                <div class="catalog__text" th:text="${fe.films.filmName}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${fe.episodeNumber}"></div>
+                            </td>
+                            <td>
+                                <div class="catalog__text" th:text="${fe.filmEpisodeUrl}"></div>
+                            </td>
+                            <td>
+                                <img style="width: 60px; height: 60px ; object-fit: contain; border-radius: 5px; margin: -5px" th:src="@{${fe.filmEpisodeImage}}" alt="">
+                            </td>
+                            <td>
+                                <div class="catalog__btns">
+                                    <button  type="button" data-bs-toggle="modal" class="catalog__btn catalog__btn--delete" data-bs-target="#modal-delete"
+                                            th:data-id="${fe.filmEpisodeId}">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end items -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<!-- delete modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+
+                <form id="delete-form" th:action="@{/filmEpisode/delete/{id}(id=${filmEpisodeId})}" method="get" class="modal__form">
+
+                    <h4 class="modal__title">Xóa tập phim</h4>
+
+                    <p class="modal__text">Bạn có chắc chắn xóa vĩnh viễn mục này không?</p>
+
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="submit"><span>Xóa</span></button>
+                        <button class="modal__btn modal__btn--dismiss" type="button" data-bs-dismiss="modal" aria-label="Close"><span>Trở lại</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end delete modal -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutAdmin::javascript"></th:block>
+<script>
+
+    // xoa category
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteButtons = document.querySelectorAll('.catalog__btn--delete');
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var itemId = this.getAttribute('data-id'); // Lấy ID từ thuộc tính data-id của nút
+
+                // Cập nhật action của form trong modal
+                var form = document.getElementById('delete-form');
+                form.setAttribute('action', '/filmEpisode/delete/' + itemId);
+            });
+        });
+    });
+</script>
+
+</body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
+</html>
