@@ -49,6 +49,95 @@
         ::-webkit-scrollbar-thumb{
             background-color:#f9ab00;
         }
+
+
+        .item__categories {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: start;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            white-space: nowrap;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            transition: 0.4s ease;
+        }
+        .item__categories a {
+            font-size: 14px;
+            position: relative;
+            color: #f9ab00;
+            margin-right: 10px;
+        }
+        .item__categories a:after {
+            content: ',';
+            position: absolute;
+            display: block;
+            left: 100%;
+            top: 0;
+            color: #f9ab00;
+        }
+        .item__categories a:last-child {
+            margin-right: 0;
+        }
+        .item__categories a:last-child:after {
+            display: none;
+        }
+        .item__categories a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination-ul {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            width: auto;
+            background-color: #222028;
+            /*background-color: #1a191f;*/
+        }
+
+        .pagination-form {
+            font-size: 16px;
+            height: 40px;
+            width: 40px;
+            color: #c0c0c0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .active a {
+            color: #fff;
+            cursor: default;
+            border-color: #f9ab00;
+        }
+        .active a:hover {
+            color: #fff;
+        }
+
+        .catalog__btn--change {
+            background-color: rgba(87, 186, 234, 0.1);
+        }
+
+        .catalog__btn--change i {
+            color: #3fa2c5;
+        }
+
+        .catalog__btn--change:hover {
+            background-color: rgba(87, 186, 234, 0.2);
+        }
+        .catalog__btn--change:hover i {
+            color: #3fa2c5;
+      }
         #error-message{
             z-index: 1000;
         }
@@ -67,6 +156,7 @@
                         <img th:src="@{/assets/user/img/logo.svg}" alt="">
                     </a>
                     <!-- end header logo -->
+
 
                     <!-- header nav -->
                     <ul class="header__nav">
@@ -96,6 +186,7 @@
                                   </ul>
                         </li>
                         <!-- end dropdown loai-->
+
 
                         <!-- dropdown -->
                         <li class="header__nav-item">
@@ -130,16 +221,17 @@
 
                     <!-- header auth -->
                     <div class="header__auth">
-                        <form action="#" class="header__search">
-                            <input class="header__search-input" type="text" placeholder="Search...">
-                            <button class="header__search-button" type="button">
+                        <form th:action="@{/shopFilm}" class="header__search">
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="size" th:value="${size}">
+                            <input class="header__search-input" type="search" placeholder="Tìm kiếm phim ..." th:value="${search}" name="search">
+                            <button class="header__search-button" type="submit">
                                 <i class="ti ti-search"></i>
                             </button>
                             <button class="header__search-close" type="button">
                                 <i class="ti ti-x"></i>
                             </button>
                         </form>
-
                         <button class="header__search-btn" type="button">
                             <i class="ti ti-search"></i>
                         </button>

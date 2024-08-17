@@ -87,7 +87,6 @@ public class CustomerController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-
         return "admin/user/listUser";
     }
 

@@ -30,6 +30,7 @@ import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -74,20 +75,16 @@ public class UserController {
         List<Favourite> favourites = favouriteService.getAllFavourites();
         model.addAttribute("bannerList",bannerService.findAll());
 
-
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
 
-       
-        List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
 
+        List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
         model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
 
-
-    
-
         model.addAttribute("topFilms", topFilms);
+
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
 

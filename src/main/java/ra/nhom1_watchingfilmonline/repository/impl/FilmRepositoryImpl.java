@@ -108,6 +108,7 @@ public class FilmRepositoryImpl implements FirmRepository {
         return false;
     }
 
+
     @Override
     public Films getFilmById(Integer filmId) {
         Session session = sessionFactory.openSession();
@@ -298,7 +299,8 @@ public class FilmRepositoryImpl implements FirmRepository {
         }
         return phimLe;
     }
-
+  
+    @Override
     public List<Films> getTop5RecommendedFilms() {
         Session session = sessionFactory.openSession();
         List<Films> topFilms = null;
@@ -320,5 +322,86 @@ public class FilmRepositoryImpl implements FirmRepository {
         return topFilms;
     }
 
+    @Override
+    public List<Films> findAllUserFilm(int page, int size, String search) {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "select fm from Films fm join fetch fm.categories";
+            String sql = "select fm from Films fm join fetch fm.categories where fm.filmName like concat('%',:search,'%')";
 
+            List<Films> films;
+            if(search.isEmpty()) {
+                films = session.createQuery(hql, Films.class)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList();
+
+            } else {
+                films = session.createQuery(sql, Films.class)
+                        .setParameter("search", search)
+                        .setFirstResult(page * size)
+                        .setMaxResults(size)
+                        .getResultList();
+            }
+            return films;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            session.close();
+        }
+    }
+  
+
+    @Override
+    public Long totalAllUFilm(String search) {
+        Session session = sessionFactory.openSession();
+        try {
+            if (search.isEmpty()) {
+                return session.createQuery("select count(fm) from Films fm join fetch fm.categories", Long.class)
+                        .getSingleResult();
+            } else {
+                return session.createQuery("select count(fm) from Films fm join fetch fm.categories where fm.filmName like concat('%',:search,'%') ", Long.class)
+                        .setParameter("search", search)
+                        .getSingleResult();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Films> findAllByOrderByUFilmNameAsc(int page, int size) {
+        Session session = sessionFactory.openSession();
+        try {
+            // Tạo một truy vấn với phân trang
+            return session.createQuery("select fm from Films fm join fetch fm.categories order by fm.filmName asc", Films.class)
+                    .setFirstResult(page * size)
+                    .setMaxResults(size)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<Films> findAllByOrderByUFilmNameDesc(int page, int size) {
+        Session session = sessionFactory.openSession();
+        try {
+            // Tạo một truy vấn với phân trang
+            return session.createQuery("select fm from Films fm join fetch fm.categories order by fm.filmName desc", Films.class)
+                    .setFirstResult(page * size)
+                    .setMaxResults(size)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {
+            session.close();
+        }
+    }
 }
+

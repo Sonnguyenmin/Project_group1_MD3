@@ -22,4 +22,10 @@ public interface FirmRepository {
     List<Films> findAllPhimLe();
     List<Films> getTop5RecommendedFilms();
     List<Films> getFilmFindAll();
+
+
+    List<Films> findAllUserFilm(int page, int size, String search);
+    Long totalAllUFilm(String search);
+    List<Films> findAllByOrderByUFilmNameAsc(int page, int size);
+    List<Films> findAllByOrderByUFilmNameDesc(int page, int size);
 }
