@@ -1,11 +1,48 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Mat khau la</h1>-->
+<!--<h2 th:text="${pass}"> </h2>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
+<head th:replace="/layouts/layoutUser::head"></head>
+
 <body>
-<h1>Mat khau la</h1>
-<h2 th:text="${pass}"> </h2>
+<div class="sign section--bg" th:data-bg="@{/assets/user/img/bg/section__bg.jpg}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form action="/forgetPassword" class="sign__form" method="post">
+                        <a href="index.html" class="sign__logo">
+                            <img th:src="@{/assets/user/img/logo.svg}" alt="">
+                        </a>
+                        <h2 style="color: white">Your password is</h2>
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" th:value="${pass}" readonly>
+                        </div>
+                        <span class="sign__text">Quay trở lai <a href="/login">Đăng nhập!</a></span>
+                    </form>
+                    <!-- end authorization form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutUser::javascript"></th:block>
 </body>
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:49 GMT -->
 </html>

@@ -58,5 +58,7 @@ public class Films {
     private List<Categories> categories;
 
 
+    @OneToMany(mappedBy = "films")
+    private List<Reviews> reviews; // chi vien them de lam film de xuat
 
 }

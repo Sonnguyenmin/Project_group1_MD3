@@ -16,18 +16,11 @@ public interface FirmRepository {
     String getImageById(Integer filmId);
     Boolean isFilmNameExists(String filmName);
     Films findFilmByName(String filmName);
-
-
     List<Films> getAllFilms();
-
-
     Films findByIdWithCategories(Integer filmId);
-
     List<Films> findAllPhimBo();
     List<Films> findAllPhimLe();
-
-//    FilmDto getFilmDTO(Integer filmId);
-
+    List<Films> getTop5RecommendedFilms();
     List<Films> getFilmFindAll();
 
 

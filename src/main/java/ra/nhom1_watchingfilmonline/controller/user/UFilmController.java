@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import ra.nhom1_watchingfilmonline.model.dto.request.FilmRequest;
 import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
+
 import ra.nhom1_watchingfilmonline.service.FilmService;
 
 import javax.servlet.http.HttpSession;
@@ -25,16 +27,26 @@ public class UFilmController {
     FilmService filmService;
 
     @GetMapping("/phimbo")
-    public String phimbo(Model model){
+    public String phimbo(Model model,
+                         @RequestParam(value = "error_fa", required = false) String errorFa){
         model.addAttribute("phimbo",filmService.findAllPhimBo());
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
         return "user/phimbo";
     }
 
     @GetMapping("/phimle")
-    public String phimle(Model model){
+    public String phimle(Model model,
+                         @RequestParam(value = "error_fa", required = false) String errorFa){
+
         model.addAttribute("phimle",filmService.findAllPhimLe());
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
         return "user/phimle";
     }
+
 
     @GetMapping("/shopFilm")
     public String shopFilm(
@@ -80,4 +92,5 @@ public class UFilmController {
         model.addAttribute("size", size);
         return "user/shopFilm";
     }
+
 }

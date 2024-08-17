@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:02 GMT -->
+<head th:replace="/layouts/layoutUser::head">
+</head>
+
+<body>
+<!-- header -->
+<header th:replace="/layouts/layoutUser::header">
+</header>
+<!-- end header -->
+
+<!-- page title -->
+<section class="section section--first">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section__wrap">
+                    <!-- section title -->
+                    <h1 class="section__title section__title--head">My HotFlix</h1>
+                    <!-- end section title -->
+
+                    <!-- breadcrumbs -->
+                    <ul class="breadcrumbs">
+                        <li class="breadcrumbs__item"><a th:href="@{/loadUser}">Home</a></li>
+                        <li class="breadcrumbs__item breadcrumbs__item--active">Favourite</li>
+                    </ul>
+                    <!-- end breadcrumbs -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end page title -->
+
+<!-- content -->
+<div class="content">
+    <!-- profile -->
+    <div class="profile">
+        <div class="container">
+            <div class="col-12">
+                    <!-- item -->
+                        <div class="row">
+                            <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="favo : ${favouriteList}">
+                                <div class="item">
+                                    <div class="item__cover">
+                                        <!-- Hiển thị ảnh bìa của phim -->
+                                        <img th:src="@{${favo.films.image}}" alt="Film Cover">
+                                        <!-- Liên kết đến chi tiết phim -->
+                                        <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" class="item__play">
+                                            <i class="ti ti-player-play-filled"></i>
+                                        </a>
+                                        <!-- Hiển thị xếp hạng của phim nếu có -->
+                                        <span class="item__rate item__rate--green">8.4</span>
+                                    </div>
+                                    <div class="item__content">
+                                        <h3 class="item__title">
+                                            <!-- Tiêu đề của phim -->
+                                            <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" th:text="${favo.films.filmName}">I Dream in Another Language</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- end item -->
+            </div>
+        </div>
+    </div>
+    <!-- end profile -->
+</div>
+<!-- end content -->
+
+<!-- footer -->
+<footer th:replace="/layouts/layoutUser::footer">
+</footer>
+<!-- end footer -->
+
+<!-- plan modal -->
+<div class="modal fade" id="plan-modal" tabindex="-1" aria-labelledby="plan-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal__content">
+                <button class="modal__close" type="button" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x"></i></button>
+
+                <form action="#" class="modal__form">
+                    <h4 class="modal__title">Select plan</h4>
+
+                    <div class="sign__group">
+                        <label for="fullname" class="sign__label">Name</label>
+                        <input id="fullname" type="text" name="name" class="sign__input" placeholder="Full name">
+                    </div>
+
+                    <div class="sign__group">
+                        <label for="email2" class="sign__label">Email</label>
+                        <input id="email2" type="text" name="email2" class="sign__input" placeholder="example@domain.com">
+                    </div>
+
+                    <div class="sign__group">
+                        <label class="sign__label" for="value">Choose plan:</label>
+                        <select class="sign__select" name="value" id="value">
+                            <option value="35">Premium - $34.99</option>
+                            <option value="50">Cinematic - $49.99</option>
+                        </select>
+
+                        <span class="sign__text">You can spend money from your account on the renewal of the connected packages, or to order cars on our website.</span>
+                    </div>
+
+                    <div class="sign__group">
+                        <label class="sign__label">Payment method:</label>
+
+                        <ul class="sign__radio">
+                            <li>
+                                <input id="type1" type="radio" name="type" checked="">
+                                <label for="type1">Visa</label>
+                            </li>
+                            <li>
+                                <input id="type2" type="radio" name="type">
+                                <label for="type2">Mastercard</label>
+                            </li>
+                            <li>
+                                <input id="type3" type="radio" name="type">
+                                <label for="type3">Paypal</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="button" class="sign__btn sign__btn--modal">
+                        <span>Proceed</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end plan modal -->
+
+<!-- JS -->
+<th:block th:replace="/layouts/layoutUser::javascript">
+
+</th:block>
+</body>
+
+
+<!-- Mirrored from hotflix.volkovdesign.com/main/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:42:42 GMT -->
+</html>

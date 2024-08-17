@@ -21,13 +21,13 @@ public class ReviewRepositoryImpl implements IReviewRepository {
             session.beginTransaction();
             reviewsList = session.createCriteria(Reviews.class).list();
             session.getTransaction().commit();
-            return reviewsList;
+
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             session.close();
         }
-        return null;
+        return reviewsList;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ReviewRepositoryImpl implements IReviewRepository {
             reviewsList = session.createQuery("select r from Reviews r WHERE r.films.filmId=: filmId",Reviews.class)
                     .setParameter("filmId",filmId)
                     .getResultList();
-            Session session1 = sessionFactory.openSession();
+            session.getTransaction().commit();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -111,4 +111,10 @@ public class ReviewRepositoryImpl implements IReviewRepository {
         }
         return reviewsList;
     }
+
+    @Override
+    public Reviews getReviewByFilmAndUser(Integer filmId, Integer userId) {
+        return null;
+    }
+
 }

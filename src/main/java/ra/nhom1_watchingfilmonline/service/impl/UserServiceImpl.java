@@ -2,14 +2,19 @@ package ra.nhom1_watchingfilmonline.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ra.nhom1_watchingfilmonline.model.entity.Payments;
+import ra.nhom1_watchingfilmonline.model.entity.Roles;
 import ra.nhom1_watchingfilmonline.model.entity.Users;
 import ra.nhom1_watchingfilmonline.repository.IUserRepository;
+import ra.nhom1_watchingfilmonline.repository.impl.PaymentDao;
+import ra.nhom1_watchingfilmonline.repository.impl.RoleRepositoryImpl;
 import ra.nhom1_watchingfilmonline.repository.impl.UserRepositoryImpl;
 import ra.nhom1_watchingfilmonline.service.IUserService;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,6 +24,10 @@ public class UserServiceImpl implements IUserService {
     private IUserRepository userRepository;
     @Autowired
     private UploadService uploadService;
+    @Autowired
+    PaymentDao paymentDao;
+    @Autowired
+    RoleRepositoryImpl roleRepository;
 
 
     @Override
@@ -104,5 +113,28 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<Users> AllUsers() {
         return userRepository.AllUsers();
+    }
+
+    @Override
+    public Boolean handleUpdateAcc(Users user) {
+        Payments payment = new Payments();
+        payment.setUsers(user);
+        payment.setPaymentDate(new Date());
+        payment.setMoney(100000D);
+//            case "MONTHLY - 100.000đ":
+        if (user.getUserWallet() < 100000) {
+            return false;
+        }
+
+
+        user.setUserWallet(user.getUserWallet() - 100000);
+//                payment.setSubscriptionType(SubscriptionType.MONTHLY);
+//                break;
+        List<Roles> rolesList= user.getRoles();
+        rolesList.add(roleRepository.findRolesByRoleName("VIP"));
+        user.setRoles(rolesList);
+        userRepository.update(user);
+        paymentDao.save(payment);
+        return true;
     }
 }

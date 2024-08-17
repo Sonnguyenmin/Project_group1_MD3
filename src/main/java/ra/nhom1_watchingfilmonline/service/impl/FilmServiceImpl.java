@@ -139,6 +139,10 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findAllPhimLe();
     }
 
+    @Override
+    public List<Films> getTop5RecommendedFilms() {
+        return filmRepository.getTop5RecommendedFilms();
+    }
 
 
     @Override
