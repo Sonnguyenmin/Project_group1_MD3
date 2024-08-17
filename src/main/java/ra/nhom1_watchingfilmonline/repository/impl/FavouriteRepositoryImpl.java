@@ -4,26 +4,29 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ra.nhom1_watchingfilmonline.model.entity.Reviews;
-import ra.nhom1_watchingfilmonline.repository.IReviewRepository;
+import ra.nhom1_watchingfilmonline.model.entity.Favourite;
+import ra.nhom1_watchingfilmonline.repository.IFavouriteRepository;
 
 import java.util.List;
-
 @Repository
-public class ReviewRepositoryImpl implements IReviewRepository {
+public class FavouriteRepositoryImpl implements IFavouriteRepository {
     @Autowired
     private SessionFactory sessionFactory;
     @Override
-    public List<Reviews> getAllReviews() {
+    public List<Favourite> getAllFavourites() {
         Session session = sessionFactory.openSession();
-        List<Reviews> reviewsList = null;
+        List<Favourite> favourites = null;
         try {
             session.beginTransaction();
-            reviewsList = session.createCriteria(Reviews.class).list();
+            favourites = session.createQuery("SELECT fa FROM Favourite fa" +
+                    " LEFT JOIN FETCH fa.films left join fetch fa.users",Favourite.class)
+                    .getResultList();
             session.getTransaction().commit();
-            return reviewsList;
+            return favourites;
+
         }catch (Exception e){
             e.printStackTrace();
+            session.getTransaction().rollback();
         }finally {
             session.close();
         }
@@ -31,14 +34,43 @@ public class ReviewRepositoryImpl implements IReviewRepository {
     }
 
     @Override
-    public Reviews getReviewById(Integer id) {
+    public Boolean addFavourite(Favourite favourite) {
         Session session = sessionFactory.openSession();
-        Reviews reviews = null;
         try {
             session.beginTransaction();
-            reviews = session.createQuery("SELECT r FROM Reviews r LEFT JOIN FETCH r.films f " +
-                    "LEFT JOIN FETCH r.users u" +
-                    " where r.reviewId =: id",Reviews.class)
+            session.save(favourite);
+            session.getTransaction().commit();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean removeFavourite(Favourite favourite) {
+        Session session = sessionFactory.openSession();
+        try {
+
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        return false;
+    }
+
+    @Override
+    public Favourite getFavouriteById(Integer id) {
+        Session session = sessionFactory.openSession();
+        Favourite favourite = null;
+        try {
+            session.beginTransaction();
+            favourite = session.createQuery("SELECT fa from Favourite fa" +
+                            " LEFT JOIN FETCH fa.films f" +
+                            " LEFT JOIN FETCH fa.users u where fa.favouriteId =: id ",Favourite.class)
                     .setParameter("id",id)
                     .getSingleResult();
             session.getTransaction().commit();
@@ -49,66 +81,27 @@ public class ReviewRepositoryImpl implements IReviewRepository {
         }finally {
             session.close();
         }
-        return reviews;
+        return favourite;
     }
 
+
     @Override
-    public Boolean saveReview(Reviews reviews) {
+    public List<Favourite> getFavouriteByFilmId(Integer filmId) {
         Session session = sessionFactory.openSession();
+        List<Favourite> favourites = null;
         try {
             session.beginTransaction();
-            session.save(reviews);
-            session.getTransaction().commit();
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        }
-        return false;
-    }
-
-    @Override
-    public Boolean updateReview(Reviews reviews) {
-        Session session = sessionFactory.openSession();
-        try {
-            session.beginTransaction();
-            session.update(reviews);
-            session.getTransaction().commit();
-            return true;
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public Boolean deleteReview(Integer id) {
-        return null;
-    }
-
-    @Override
-    public List<Reviews> sortReviewsByRating() {
-        return null;
-    }
-
-    @Override
-    public List<Reviews> getReviewByFilmId(Integer filmId) {
-        Session session = sessionFactory.openSession();
-        List<Reviews> reviewsList = null;
-        try {
-            session.beginTransaction();
-            reviewsList = session.createQuery("select r from Reviews r WHERE r.films.filmId=: filmId",Reviews.class)
+            favourites = session.createQuery("select fa from Favourite fa " +
+                    "where fa.films.filmId =: filmId",Favourite.class)
                     .setParameter("filmId",filmId)
                     .getResultList();
             session.getTransaction().commit();
-
         }catch (Exception e){
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
         }
-        return reviewsList;
+        return favourites;
     }
 }

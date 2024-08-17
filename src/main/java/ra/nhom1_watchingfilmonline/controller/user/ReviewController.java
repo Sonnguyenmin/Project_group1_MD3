@@ -37,29 +37,7 @@ public class ReviewController {
      return "user/home";
  }
 
-    @GetMapping("/detail/{id}")
-    public String filmDetail(@PathVariable("id") Integer filmId, HttpSession session, Model model) {
-        Films film = filmService.findByIdWithCategories(filmId);
-
-        if (film == null) {
-            return "redirect:/home";
-        }
-
-        Users currentUser = (Users) session.getAttribute("user");
-        if (currentUser != null) {
-            model.addAttribute("user", currentUser);
-        }
-//        lay tat ca review;
-        model.addAttribute("film", film);
-        Reviews newreviews = new Reviews();
-        model.addAttribute("reviews", newreviews);
-//      khi ma submit len phan cho user xem
-        List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
-        model.addAttribute("reviewsList", reviewsList);
-
-        return "user/detail";
-    }
-    @GetMapping(value = "addReview")
+ @GetMapping(value = "addReviews")
     public String addReview(@ModelAttribute("reviews") Reviews reviews, Model model) {
 
         // Lấy thông tin của Film và User
@@ -89,7 +67,7 @@ public class ReviewController {
         }
         List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
         model.addAttribute("reviewsList", reviewsList);
-        return "redirect:/detail/" + filmId;
+        return "redirect:/detailFilm/" + filmId;
     }
 
 }

@@ -160,10 +160,13 @@
               <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">
                 <i class="ti ti-player-play-filled"></i>
               </a>
-              <span class="item__rate item__rate--green">8.4</span>
-              <button class="item__favorite" type="button">
-                <i class="ti ti-bookmark"></i>
-              </button>
+              <form th:action="@{/addFavourite}" method="post">
+                <input type="hidden" name="films.filmId" th:value="${film.filmId}">
+                <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                <button class="item__favorite" type="submit">
+                  <i class="ti ti-bookmark"></i>
+                </button>
+              </form>
             </div>
             <div class="item__content">
               <h3 class="item__title">
