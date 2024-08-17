@@ -15,7 +15,7 @@ public class Payments {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer paymentId;
-
+    @Temporal(TemporalType.DATE)
     private Date paymentDate;
 
     private Double money;

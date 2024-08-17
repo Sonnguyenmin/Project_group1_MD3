@@ -1,4 +1,5 @@
 package ra.nhom1_watchingfilmonline.controller.user;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,18 +54,15 @@ public class UserController {
     private CountryService countryService;
 
 
-
     @RequestMapping(value = "/loadUser")
 
-    public String userHome(Model model,HttpSession session) {
+    public String userHome(Model model, HttpSession session) {
         Users userCurrent = (Users) session.getAttribute("userCurrent");
         model.addAttribute("userCurrent", userCurrent);
 //        String currentUser = userService.getCurrentUserName();
         List<Films> films = filmService.getAllFilms();
 
-        model.addAttribute("bannerList",bannerService.findAll());
-
-
+        model.addAttribute("bannerList", bannerService.findAll());
 
 
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
@@ -75,7 +73,6 @@ public class UserController {
 //        String currentUser = userService.getCurrentUserName();
 //        List<Films> films = filmService.findAll();
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
-
 
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
@@ -98,7 +95,7 @@ public class UserController {
             @RequestParam("username") String userName,
             @RequestParam("email") String email,
             @RequestParam("fname") String fullName,
-            @RequestParam("fileAvatar") MultipartFile fileAvatar,Model model
+            @RequestParam("fileAvatar") MultipartFile fileAvatar, Model model
     ) {
         // Get the current user from the session
 
@@ -133,9 +130,9 @@ public class UserController {
         Users currentUser = (Users) session.getAttribute("user");
 
         // match old password -> change
-        if (oldPass.equals(currentUser.getPassword())){
+        if (oldPass.equals(currentUser.getPassword())) {
             currentUser.setPassword(newPass);
-        }else {
+        } else {
             model.addAttribute("error", "Sai mật khẩu cũ");
             return "user/profile";
         }
@@ -150,16 +147,14 @@ public class UserController {
     }
 
     @GetMapping("/deposit")
-    public String openDeposit(){
+    public String openDeposit() {
         return "user/deposit";
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestParam("money") Integer money, Model model)
-    {
+    public String deposit(@RequestParam("money") Integer money, Model model) {
         Users user = (Users) session.getAttribute("user");
-        if (money < 0)
-        {
+        if (money < 0) {
             model.addAttribute("error", "money must be than 0");
             return "user/deposit";
         }
@@ -169,8 +164,27 @@ public class UserController {
     }
 
     @GetMapping("/byVip")
-    public String openByVip(){
+    public String openByVip() {
         return "user/byVip";
+    }
+
+    @PostMapping("/handleUpdateAcc")
+    public String handleUpdateAcc(Model model) {
+        Users user = (Users) session.getAttribute("user");
+        boolean hasVipRole = user.getRoles().stream()
+                .anyMatch(role -> "VIP".equals(role.getRoleName()));
+
+        if (hasVipRole) {
+            model.addAttribute("error", "Ban da la tai khoan Vip roi");
+            return "user/byVip";
+        }
+        boolean check = userService.handleUpdateAcc(user);
+        if (check) {
+            return "redirect:/loadUser";
+        } else {
+            model.addAttribute("error", "you do not have enough money");
+            return "user/byVip";
+        }
     }
 
     // Chị Viện Làm để điều hướng sang trang detail để bình luận nhé
@@ -205,7 +219,7 @@ public class UserController {
         Integer filmId = comment.getFilms().getFilmId();
 
         // Đảm bảo rằng filmId và userId không null
-        if (filmId == null ) {
+        if (filmId == null) {
             model.addAttribute("error", "Film hoặc User không hợp lệ.");
             return "user/detail";
         }
@@ -213,7 +227,7 @@ public class UserController {
         // Thiết lập lại Film và User
         Films film = filmService.getFilmById(filmId);
 
-        if (film == null ) {
+        if (film == null) {
             model.addAttribute("error", "Film hoặc User không tồn tại.");
             return "user/detail";
         }
