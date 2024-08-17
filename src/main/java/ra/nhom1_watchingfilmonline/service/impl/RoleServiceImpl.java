@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ra.nhom1_watchingfilmonline.model.entity.Roles;
 import ra.nhom1_watchingfilmonline.repository.IRoleRepository;
 import ra.nhom1_watchingfilmonline.service.IRoleService;
+
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements IRoleService {
     @Autowired
@@ -12,5 +15,10 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public Roles findRolesByRoleName(String roleName) {
         return roleRepository.findRolesByRoleName(roleName);
+    }
+
+    @Override
+    public List<Roles> findAllRole(){
+        return roleRepository.findAll();
     }
 }
