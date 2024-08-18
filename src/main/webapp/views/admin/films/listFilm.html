@@ -3,7 +3,11 @@
 <!-- Mirrored from hotflix.volkovdesign.com/admin/catalog.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 09:43:03 GMT -->
 <head th:replace="/layouts/layoutAdmin::head">
 </head>
-
+<style>
+    #form-sort{
+        margin-right: 30px;
+    }
+</style>
 <body>
 <!-- header -->
 <header th:replace="/layouts/layoutAdmin::header"> </header>
@@ -25,7 +29,7 @@
                     <div class="main__title-wrap">
                         <a th:href="@{/film/add}" class="main__title-link main__title-link--wrap">Thêm phim</a>
 
-                        <form th:action="@{/film/sortFilmList}" method="get">
+                        <form th:action="@{/film/sortFilmList}" method="get"  >
                             <select  class="filter__select" id="filter__sort" name="sort" onchange="this.form.submit()">
                                 <option value="desc" th:selected="${sort == 'desc'}">Sắp xếp theo (A-Z)</option>
                                 <option value="asc" th:selected="${sort == 'asc'}">Sắp xếp theo (Z-A)</option>

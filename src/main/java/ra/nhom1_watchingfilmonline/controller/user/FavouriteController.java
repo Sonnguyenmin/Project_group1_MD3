@@ -5,16 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ra.nhom1_watchingfilmonline.model.entity.*;
-import ra.nhom1_watchingfilmonline.service.ICategoriesService;
 import ra.nhom1_watchingfilmonline.service.IFavouriteService;
-import ra.nhom1_watchingfilmonline.service.IReviewService;
-import ra.nhom1_watchingfilmonline.service.IUserService;
-import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 import ra.nhom1_watchingfilmonline.service.impl.FilmServiceImpl;
-
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -26,18 +19,12 @@ public class FavouriteController {
     @Autowired
     private FilmServiceImpl filmService;
 
-    @Autowired
-    private IUserService userService;
-
-    @Autowired
-    private ICategoriesService categoriesService;
-    @Autowired
-    private CountryService countryService;
-    @Autowired
-    private IReviewService reviewService;
 
     @RequestMapping(value = "/favourite")
-    public String loadFavourite(Model model, HttpSession session) {
+    public String loadFavourite(Model model, HttpSession session, @RequestParam(value = "message", required = false) String message) {
+        if (message != null) {
+            model.addAttribute("message", message);
+        }
         Users currentUser = (Users) session.getAttribute("user");
         List<Favourite> favourites = favouriteService.findByUser_UserId(currentUser.getUserId());
         model.addAttribute("favouriteList", favourites);
@@ -103,15 +90,40 @@ public class FavouriteController {
         if (!success) {
             model.addAttribute("error", "Đã có lỗi khi thêm yêu thích.");
             return "user/home";
+        }else {
+
+            List<Favourite> favourites = favouriteService.getFavouriteByFilmId(filmId);
+            model.addAttribute("favouriteList ", favourites);
+            return "redirect:/favourite";
+
         }
 
-        List<Favourite> favourites = favouriteService.getFavouriteByFilmId(filmId);
-        model.addAttribute("favouriteList ", favourites);
-
-        return "redirect:/favourite";
     }
 
-// phuong thuc tra ve duong dan
+
+
+    @GetMapping("/deleteFavourite/{id}")
+    public String deleteFavourite(@PathVariable("id") Integer id, HttpSession session, Model model) {
+        Users currentUser = (Users) session.getAttribute("user");
+        String currentPage = (String) session.getAttribute("currentPage");
+        if (currentUser == null) {
+            model.addAttribute("error", "Bạn cần đăng nhập để thực hiện hành động này.");
+            return "redirect:/login";
+        }
+
+        Favourite favouriteToDelete = favouriteService.getFavouriteById(id);
+        if (favouriteToDelete == null) {
+            model.addAttribute("errorDel", "Không tìm thấy đối tượng yêu thích.");
+            return "redirect:/favourites";
+        }
+           favouriteService.removeFavourite(favouriteToDelete);
+            model.addAttribute("message", "Xóa yêu thích thành công.");
+            return redirectBasedOnPage(currentPage);
+
+    }
+
+
+    // phuong thuc tra ve duong dan
     private String redirectBasedOnPage(String currentPage) {
         if (currentPage == null || currentPage.isEmpty()) {
             return "redirect:/home";

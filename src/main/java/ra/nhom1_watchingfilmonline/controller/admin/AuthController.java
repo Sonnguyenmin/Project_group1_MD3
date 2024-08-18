@@ -81,7 +81,7 @@ public class AuthController {
 
 //        String encodedPassword = passwordEncoder.encode(user.getPassword());  // Mã hóa mật khẩu
 
-        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), user.getPassword(), roleId);
+        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), user.getPassword(), roleId, true);
 
         return "/page/login";  // Chuyển hướng đến trang đăng nhập
     }
@@ -106,6 +106,11 @@ public class AuthController {
         System.out.println("User found: " + (user != null));
 
         if (user != null) {
+            if (!user.getStatus()) { // Kiểm tra trạng thái người dùng
+                model.addAttribute("error", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
+                return "page/login";
+            }
+
 //            boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
             boolean passwordMatches = user.getPassword().equals(password);
             System.out.println("Password matches: " + passwordMatches);
@@ -141,7 +146,7 @@ public class AuthController {
             model.addAttribute("error", "Not found this email");
             return "page/forgotPassword";
         }
-        }
+    }
         @PostMapping("/logout")
         public String logout (HttpServletRequest request, HttpServletResponse response){
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();

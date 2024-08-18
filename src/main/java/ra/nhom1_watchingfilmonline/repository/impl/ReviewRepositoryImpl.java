@@ -114,7 +114,27 @@ public class ReviewRepositoryImpl implements IReviewRepository {
 
     @Override
     public Reviews getReviewByFilmAndUser(Integer filmId, Integer userId) {
-        return null;
+        Session session = sessionFactory.openSession();
+        Reviews review = null;
+        try {
+            session.beginTransaction();
+            // Sử dụng JPQL để truy vấn đánh giá theo filmId và userId
+            review = session.createQuery(
+                            "select r from Reviews r where r.films.filmId = :filmId and r.users.userId = :userId", Reviews.class)
+                    .setParameter("filmId", filmId)
+                    .setParameter("userId", userId)
+                    .uniqueResult(); // Sử dụng uniqueResult() vì chỉ có một hoặc không có đánh giá
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return review;
     }
+
 
 }

@@ -54,10 +54,18 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
     public Boolean removeFavourite(Favourite favourite) {
         Session session = sessionFactory.openSession();
         try {
-
-        }catch (Exception e){
+            session.beginTransaction();
+            Favourite existingFavourite = getFavouriteById(favourite.getFavouriteId());
+            if (existingFavourite != null) {
+                session.delete(existingFavourite);
+                session.getTransaction().commit();
+                return true;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
         return false;
     }
@@ -68,20 +76,21 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
         Favourite favourite = null;
         try {
             session.beginTransaction();
-            favourite = session.createQuery("SELECT fa from Favourite fa" +
-                            " LEFT JOIN FETCH fa.films f" +
-                            " LEFT JOIN FETCH fa.users u where fa.favouriteId =: id ",Favourite.class)
-                    .setParameter("id",id)
-                    .getSingleResult();
+            List<Favourite> results = session.createQuery("SELECT fa FROM Favourite fa WHERE fa.favouriteId = :id", Favourite.class)
+                    .setParameter("id", id)
+                    .getResultList();
+            if (!results.isEmpty()) {
+                favourite = results.get(0);
+            }
             session.getTransaction().commit();
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
         return favourite;
+
     }
 
 

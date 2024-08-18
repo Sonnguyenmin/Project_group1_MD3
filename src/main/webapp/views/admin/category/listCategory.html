@@ -28,17 +28,21 @@
                         <a th:href="@{/initAddCategory}" class="main__title-link main__title-link--wrap">Add item</a>
 
                         <!-- Form để chọn cách sắp xếp -->
-                        <form th:action="@{/sortByCategoryName}" method="get" class="main__title-form">
-                            <select name="sort" id="filter__sort" onchange="this.form.submit()">
-                                <option value="0">Sắp xếp</option>
-                                <option value="1" th:selected="${param.sort == '1'}">By name</option>
+                        <form th:action="@{/sortByCategoryName}" method="get" class="main__title-link--wrap">
+                            <input type="hidden" name="page" th:value="${currentPage}">
+                            <input type="hidden" name="size" th:value="${pageSize}">
+                            <select  class="filter__select" name="sort" id="filter__sort" onchange="this.form.submit()">
+                                <option value="0" th:selected="${param.sort == '0'}">Sắp xếp</option>
+                                <option value="1" th:selected="${param.sort == '1'}">By name A->Z</option>
                                 <option value="2" th:selected="${param.sort == '2'}">Back</option>
                             </select>
                         </form>
 
                         <!-- search -->
-                        <form action="#" th:action="@{/searchCategoryByName}" method="get" class="main__title-form">
+                        <form th:action="@{/searchCategoryByName}" method="get" class="main__title-form">
                             <input type="text" name="categoryName" placeholder="Find movie / tv series.." th:value="${categoryName}">
+                            <input type="hidden" name="page" th:value="${currentPage}"/>
+                            <input type="hidden" name="size" th:value="${size}"/>
                             <button type="submit">
                                 <i class="ti ti-search"></i>
                             </button>
@@ -109,38 +113,19 @@
             <!-- paginator -->
             <div class="col-12">
                 <div class="main__paginator">
-                    <!-- amount -->
-                    <span class="main__paginator-pages">10 of 169</span>
-                    <!-- end amount -->
-
-                    <ul class="main__paginator-list">
-                        <li>
-                            <a href="#">
-                                <i class="ti ti-chevron-left"></i>
-                                <span>Prev</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span>Next</span>
-                                <i class="ti ti-chevron-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-
                     <ul class="paginator">
                         <li class="paginator__item paginator__item--prev">
-                            <a href="#"><i class="ti ti-chevron-left"></i></a>
+                            <a th:href="@{/loadCategory(page=${currentPage - 1}, size=${size})}" th:if="${currentPage > 1}">
+                                <i class="ti ti-chevron-left"></i>
+                            </a>
                         </li>
-                        <li class="paginator__item"><a href="#">1</a></li>
-                        <li class="paginator__item paginator__item--active"><a href="#">2</a></li>
-                        <li class="paginator__item"><a href="#">3</a></li>
-                        <li class="paginator__item"><a href="#">4</a></li>
-                        <li class="paginator__item"><span>...</span></li>
-                        <li class="paginator__item"><a href="#">29</a></li>
-                        <li class="paginator__item"><a href="#">30</a></li>
+                        <li th:each="pageNum : ${#numbers.sequence(1, totalPages)}" class="paginator__item" th:classappend="${pageNum == currentPage} ? 'paginator__item--active'">
+                            <a th:href="@{/loadCategory(page=${pageNum}, size=${size})}" th:text="${pageNum}"></a>
+                        </li>
                         <li class="paginator__item paginator__item--next">
-                            <a href="#"><i class="ti ti-chevron-right"></i></a>
+                            <a th:href="@{/loadCategory(page=${currentPage + 1}, size=${size})}" th:if="${currentPage < totalPages}">
+                                <i class="ti ti-chevron-right"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
