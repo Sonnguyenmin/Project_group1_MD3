@@ -51,8 +51,7 @@
                                         <a th:href="@{/detailFilm/{id}(id=${favo.films.filmId})}" class="item__play">
                                             <i class="ti ti-player-play-filled"></i>
                                         </a>
-                                        <!-- Hiển thị xếp hạng của phim nếu có -->
-                                        <span class="item__rate item__rate--green">8.4</span>
+                                        <a th:href="@{/deleteFavourite/{id}(id=${favo.favouriteId})}" class="item__rate item__rate--green" style="cursor: pointer">Xoá</a>
                                     </div>
                                     <div class="item__content">
                                         <h3 class="item__title">
@@ -134,7 +133,9 @@
     </div>
 </div>
 <!-- end plan modal -->
-
+<div th:fragment="content">
+    <div id="messageFavourite" th:text="${message}" style="display:none;"></div>
+</div>
 <!-- JS -->
 <th:block th:replace="/layouts/layoutUser::javascript">
 

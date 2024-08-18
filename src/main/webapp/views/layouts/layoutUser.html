@@ -141,6 +141,9 @@
         #error-message{
             z-index: 1000;
         }
+        #error-messageReview{
+            z-index: 1000;
+        }
     </style>
 </head>
 
@@ -344,6 +347,7 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("loi khi them tiep nay")
             var errorMessage = document.getElementById('error-message').textContent.trim();
             if (errorMessage) {
                 Swal.fire({
@@ -363,7 +367,46 @@
             fetch('/saveCurrentPage?path=' + encodeURIComponent(currentPage));
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var errorMessageElement = document.getElementById('error-messageReview');
+            var errorMessage = errorMessageElement ? errorMessageElement.textContent.trim() : '';
 
+            console.log('Error Message:', errorMessage);
+
+            if (errorMessage) {
+                Swal.fire({
+                    title: errorMessage,
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInUp animate__faster'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutDown animate__faster'
+                    },
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                // Xóa thông báo lỗi khỏi session sau khi hiển thị
+                fetch('/clearErrorReview', { method: 'POST' });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var message = document.getElementById('messageFavourite').textContent.trim();
+
+            if (message) {
+                Swal.fire({
+                    position: 'top-end', // Vị trí của thông báo
+                    icon: 'success', // Loại thông báo
+                    title: message, // Nội dung thông báo
+                    showConfirmButton: false, // Không hiển thị nút xác nhận
+                    timer: 1500, // Thời gian tự động đóng (1.5 giây)
+                    timerProgressBar: true, // Hiển thị thanh tiến trình của timer
+                });
+            }
+        });
+    </script>
 </th:block>
 </body>
 

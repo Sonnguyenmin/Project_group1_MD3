@@ -13,7 +13,7 @@ public interface IUserRepository {
     Users findByOrEmailOrPhone(String email, String phone);
     Users findUsersByUsername(String mail);
     Users save(Users user);
-    Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId);
+    Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId,Boolean status);
     List<Users> findAllUsers(int page, int size, String search);
 
     Long totalAllUser(String search);
