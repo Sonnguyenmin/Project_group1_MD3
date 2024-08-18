@@ -71,17 +71,25 @@ public class FilmController {
 
     @PostMapping("/add")
     public String addFilm(
-            @Valid @ModelAttribute("films") FilmRequest films,
+            @Valid @ModelAttribute("filmRequest") FilmRequest films,
             BindingResult result,
             Model model
-    )
-    {
+    ) {
         if (result.hasErrors()) {
+            model.addAttribute("countries", countryDao.findAllCountries());
+            model.addAttribute("categories", categoriesRepository.findAll());
+
+            model.addAttribute("filmRequest", films);
             return "admin/films/addFilm";
         }
         try {
             Films existingFilm = filmService.findFilmByName(films.getFilmName());
             if (existingFilm != null) {
+                model.addAttribute("countries", countryDao.findAllCountries());
+                model.addAttribute("categories", categoriesRepository.findAll());
+                FilmRequest filmRequest = new FilmRequest();
+                filmRequest.setStatus(1);
+                model.addAttribute("filmRequest", filmRequest);
                 model.addAttribute("errorMessage", "Phim với tên '" + films.getFilmName() + "' đã tồn tại.");
                 return "admin/films/addFilm";
             }
@@ -98,7 +106,6 @@ public class FilmController {
     @GetMapping("/edit/{id}")
     public String formEditFilm(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("filmRequest", filmService.getFilmById(id));
-        model.addAttribute("selectedValues",filmService.getFilmById(id).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
         model.addAttribute("countries", countryDao.findAllCountries());
         model.addAttribute("categories", categoriesRepository.findAll());
         return "admin/films/editFilm";
@@ -109,6 +116,7 @@ public class FilmController {
     public String editFilm(@Valid @ModelAttribute("filmRequest") FilmRequest films, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("filmRequest",films);
+            //lấy danh sách các ID của thể loại phim mà phim cụ thể thuộc về và gán danh sách này vào mô hình để sử dụng trong view.
             model.addAttribute("selectedValues",filmService.getFilmById(films.getFilmId()).getCategories().stream().map(Categories::getCategoryId).collect(Collectors.toList()));
             model.addAttribute("countries", countryDao.findAllCountries());
             model.addAttribute("categories", categoriesRepository.findAll());

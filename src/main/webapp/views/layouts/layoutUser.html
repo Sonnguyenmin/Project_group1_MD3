@@ -179,12 +179,12 @@
 
                         <!-- dropdown the loai-->
                         <li class="header__nav-item">
-                            <a class="header__nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Thể Loại <i class="ti ti-chevron-down"></i></a>
+                            <div class="header__nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">Thể Loại <i class="ti ti-chevron-down"></i></div>
 
                                   <ul class="dropdown-menu header__dropdown-menu">
                                       <!-- Hiển thị danh sách danh mục từ mô hình -->
                                       <li th:each="category : ${#ctx.session.category}">
-                                          <a th:href="@{/loadCategory}" th:text="${category.categoryName}"></a>
+                                          <a th:href="@{/categoriesFilm/{id}(id=${category.categoryId})}" th:text="${category.categoryName}"></a>
                                       </li>
                                   </ul>
                         </li>
