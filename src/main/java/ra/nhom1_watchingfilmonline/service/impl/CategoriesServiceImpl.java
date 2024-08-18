@@ -19,6 +19,11 @@ public class CategoriesServiceImpl implements ICategoriesService {
     }
 
     @Override
+    public List<Categories> getAll(int page, int size) {
+        return categoryRepository.getAll(page,size);
+    }
+
+    @Override
     public Boolean save(Categories filmCategory) {
         return categoryRepository.save(filmCategory);
     }
@@ -39,8 +44,8 @@ public class CategoriesServiceImpl implements ICategoriesService {
     }
 
     @Override
-    public List<Categories> searchByCategoryName(String categoryName) {
-        return categoryRepository.searchByCategoryName(categoryName);
+    public List<Categories> searchByCategoryName(String categoryName, int offset, int size) {
+        return categoryRepository.searchByCategoryName(categoryName, offset, size);
     }
 
     @Override
@@ -54,7 +59,18 @@ public class CategoriesServiceImpl implements ICategoriesService {
     }
 
     @Override
-    public List<Categories> sortByCategoryName() {
-        return categoryRepository.sortByCategoryName();
+    public List<Categories> sortByCategoryName(int offset, int size) {
+
+        return categoryRepository.sortByCategoryName(offset, size);
+    }
+
+    @Override
+    public int countCategories() {
+        return categoryRepository.countCategories();
+    }
+
+    @Override
+    public int countCategoriesByName(String categoryName) {
+        return categoryRepository.countCategoriesByName(categoryName);
     }
 }

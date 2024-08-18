@@ -18,13 +18,10 @@ public class CustomerController {
     @Autowired
     private HttpSession session;
 
-
     @Autowired
     private IUserService userService;
-//    @RequestMapping(value = "/loadAdmin")
-//    public String adminHome() {
-//        return "admin/index";
-//    }
+
+
     @RequestMapping(value = "")
     public String userManagement(
             @RequestParam(name = "page", defaultValue = "0") Integer page,

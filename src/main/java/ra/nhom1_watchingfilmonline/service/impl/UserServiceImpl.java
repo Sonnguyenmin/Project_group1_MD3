@@ -47,8 +47,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId) {
-        return userRepository.registerUser(userName, fullName, email, phone, password, roleId);
+    public Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId,Boolean status) {
+        return userRepository.registerUser(userName, fullName, email, phone, password, roleId,status);
     }
 
 //    @Override

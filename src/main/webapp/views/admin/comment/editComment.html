@@ -26,51 +26,29 @@
 
             <!-- form -->
             <div class="col-12">
-                <form th:action="@{/editCategory}" th:object="${category}" method="post" class="sign__form sign__form--add">
-                    <div class="row">
+                <form th:action="@{/editComment/{id}(id=${comment.commentId})}" th:object="${comment}" method="post" class="sign__form sign__form--add">
+                <div class="row">
                         <div class="col-12 col-xl-7">
                             <div class="row">
-                                <!--categoryId-->
+                                <!--commentId-->
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <input type="hidden"  th:field="*{categoryId}"/>
+                                        <input type="hidden" th:field="*{commentId}" th:value="${comment.commentId}"/>
                                     </div>
                                 </div>
                                 <!--categoryName-->
-                                <div class="col-12">
-                                    <div class="sign__group">
-                                        <input type="text" th:field="*{categoryName}" class="sign__input" placeholder="Tên danh mục"/>
-                                        <div th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}" style="color: red"></div>
-                                        <!-- Hiển thị thông báo lỗi -->
-                                        <p th:if="${not #lists.isEmpty(errorMessage)}" th:text="${errorMessage}" style="color: red;"></p>
-                                    </div>
-                                </div>
+
                                 <!--description-->
                                 <div class="col-12">
                                     <div class="sign__group">
-                                        <textarea th:field="*{description}" class="sign__textarea" placeholder="Description"></textarea>
-                                        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red"></div>
+                                        <textarea th:field="*{content}" class="sign__textarea" placeholder="Description"></textarea>
+<!--                                       <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red"></div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--status-->
-                        <div class="col-12">
-                            <div class="sign__group">
-                                <label class="sign__label">Status:</label>
-                                <ul class="sign__radio">
-                                    <li>
-                                        <input type="radio" th:field="*{status}" value="true" id="statusVisible" />
-                                        <label for="statusVisible">Visible</label>
-                                    </li>
-                                    <li>
-                                        <input type="radio" th:field="*{status}" value="false" id="statusHidden" />
-                                        <label for="statusHidden">Hidden</label>
-                                    </li>
-                                    <div th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red" ></div>
-                                </ul>
-                            </div>
-                        </div>
+
+
                         <!-- tv series -->
                         <div class="col-12">
                             <div class="collapse multi-collapse">

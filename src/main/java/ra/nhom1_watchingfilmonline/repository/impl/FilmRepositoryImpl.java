@@ -309,7 +309,7 @@ public class FilmRepositoryImpl implements FirmRepository {
                     "GROUP BY f.filmId " +
                     "ORDER BY AVG(r.rating) DESC";
             topFilms = session.createQuery(hql, Films.class)
-                    .setMaxResults(5)
+                    .setMaxResults(10)
                     .getResultList();
             // Loại bỏ các bản sao nếu có
             topFilms = topFilms.stream()

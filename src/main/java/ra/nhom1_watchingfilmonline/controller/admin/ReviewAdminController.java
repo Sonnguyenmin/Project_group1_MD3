@@ -15,7 +15,6 @@ public class ReviewAdminController {
     private IReviewService reviewService;
     @RequestMapping(value = "/loadReview")
     public String loadReview(Model model) {
-
         List<Reviews> reviewsList = reviewService.getAllReviews();
         System.out.println("Danh sách danh mục: " + reviewsList); // Ghi log check
         model.addAttribute("reviews", reviewsList);
