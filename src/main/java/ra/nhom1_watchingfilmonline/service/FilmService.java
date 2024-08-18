@@ -34,10 +34,13 @@ public interface FilmService {
 
     List<Films> findAllPhimBo();
     List<Films> findAllPhimLe();
+// chi lam phim de xuat
+    List<Films> getTop5RecommendedFilms();
 
-//    FilmDto getFilmDTO(Integer filmId);
 
-
-
+    List<Films> findAllUserFilm(int page, int size, String search);
+    Long totalAllUFilm(String search);
+    List<Films> findAllByOrderByUFilmNameAsc(int page, int size);
+    List<Films> findAllByOrderByUFilmNameDesc(int page, int size);
 
 }

@@ -38,13 +38,15 @@ public class ReviewController {
  }
 
  @GetMapping(value = "addReviews")
-    public String addReview(@ModelAttribute("reviews") Reviews reviews, Model model) {
+    public String addReview(@ModelAttribute("reviews") Reviews reviews, Model model,HttpSession session) {
 
         // Lấy thông tin của Film và User
         Integer filmId = reviews.getFilms().getFilmId();
+        Integer userId = ((Users) session.getAttribute("user")).getUserId();
+        String currentPage = (String) session.getAttribute("currentPage");
 
         // Đảm bảo rằng filmId và userId không null
-        if (filmId == null) {
+        if (filmId == null || userId == null) {
             model.addAttribute("error", "Film hoặc User không hợp lệ.");
             return "user/detail";
         }
@@ -57,10 +59,27 @@ public class ReviewController {
             return "user/detail";
         }
 
+        // Lấy thông tin của người dùng
+       Users user = userService.findUserById(userId);
+        if (user == null) {
+         model.addAttribute("error", "User không tồn tại.");
+         return "user/detail";
+     }
         reviews.setFilms(film);
+        reviews.setUsers(userService.findUserById(userId));
 
+     // Kiểm tra xem người dùng đã đánh giá bộ phim này chưa
+        Reviews existingReview = reviewService.getReviewByFilmAndUser(filmId, userId);
+
+        if (existingReview != null) {
+            model.addAttribute("reviewsList", reviewService.getAllReviews());
+         // Nếu đánh giá đã tồn tại, hiển thị thông báo lỗi
+            session.setAttribute("errorReview", "Bạn đã đánh giá bộ phim này rồi.");
+            System.out.println("Redirecting with errorReview: " + session.getAttribute("errorReview"));
+         return redirectBasedOnPage(currentPage);
+        }
+        // Thêm đánh giá mới
         boolean success = reviewService.saveReview(reviews);
-
         if (!success) {
             model.addAttribute("error", "Đã bi lỗi khi thêm review.");
             return "user/detail";
@@ -68,6 +87,14 @@ public class ReviewController {
         List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
         model.addAttribute("reviewsList", reviewsList);
         return "redirect:/detailFilm/" + filmId;
+    }
+
+    // phuong thuc tra ve duong dan
+    private String redirectBasedOnPage(String currentPage) {
+        if (currentPage == null || currentPage.isEmpty()) {
+            return "redirect:/home";
+        }
+        return "redirect:" + currentPage;
     }
 
 }

@@ -49,6 +49,101 @@
         ::-webkit-scrollbar-thumb{
             background-color:#f9ab00;
         }
+
+
+        .item__categories {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: start;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            white-space: nowrap;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            transition: 0.4s ease;
+        }
+        .item__categories a {
+            font-size: 14px;
+            position: relative;
+            color: #f9ab00;
+            margin-right: 10px;
+        }
+        .item__categories a:after {
+            content: ',';
+            position: absolute;
+            display: block;
+            left: 100%;
+            top: 0;
+            color: #f9ab00;
+        }
+        .item__categories a:last-child {
+            margin-right: 0;
+        }
+        .item__categories a:last-child:after {
+            display: none;
+        }
+        .item__categories a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination-ul {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            width: auto;
+            background-color: #222028;
+            /*background-color: #1a191f;*/
+        }
+
+        .pagination-form {
+            font-size: 16px;
+            height: 40px;
+            width: 40px;
+            color: #c0c0c0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .active a {
+            color: #fff;
+            cursor: default;
+            border-color: #f9ab00;
+        }
+        .active a:hover {
+            color: #fff;
+        }
+
+        .catalog__btn--change {
+            background-color: rgba(87, 186, 234, 0.1);
+        }
+
+        .catalog__btn--change i {
+            color: #3fa2c5;
+        }
+
+        .catalog__btn--change:hover {
+            background-color: rgba(87, 186, 234, 0.2);
+        }
+        .catalog__btn--change:hover i {
+            color: #3fa2c5;
+      }
+        #error-message{
+            z-index: 1000;
+        }
+        #error-messageReview{
+            z-index: 1000;
+        }
     </style>
 </head>
 
@@ -64,6 +159,7 @@
                         <img th:src="@{/assets/user/img/logo.svg}" alt="">
                     </a>
                     <!-- end header logo -->
+
 
                     <!-- header nav -->
                     <ul class="header__nav">
@@ -93,6 +189,7 @@
                                   </ul>
                         </li>
                         <!-- end dropdown loai-->
+
 
                         <!-- dropdown -->
                         <li class="header__nav-item">
@@ -127,16 +224,17 @@
 
                     <!-- header auth -->
                     <div class="header__auth">
-                        <form action="#" class="header__search">
-                            <input class="header__search-input" type="text" placeholder="Search...">
-                            <button class="header__search-button" type="button">
+                        <form th:action="@{/shopFilm}" class="header__search">
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="size" th:value="${size}">
+                            <input class="header__search-input" type="search" placeholder="Tìm kiếm phim ..." th:value="${search}" name="search">
+                            <button class="header__search-button" type="submit">
                                 <i class="ti ti-search"></i>
                             </button>
                             <button class="header__search-close" type="button">
                                 <i class="ti ti-x"></i>
                             </button>
                         </form>
-
                         <button class="header__search-btn" type="button">
                             <i class="ti ti-search"></i>
                         </button>
@@ -163,10 +261,10 @@
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 </form>
                                 <li><a th:href="@{profile}"><i class="ti ti-ghost"></i>Thông tin</a></li>
-                                <li><a th:href="@{/deposit}" th:text="${session.user.userWallet +'vnđ'}"><i class="ti ti-ghost"></i></a></li>
+                                <li><a th:href="@{/deposit}" th:utext="'<i class=&quot;ti ti-wallet&quot;></i> ' + ${session.user.userWallet} + ' vnđ'"></a></li>
                                 <li><a href="profile.html"><i class="ti ti-stereo-glasses"></i>Subscription</a></li>
 <!--                                Favorites-->
-                                <li><a th:href="@{favourite}"><i class="ti ti-bookmark"></i>Favorites</a></li>
+                                <li><a th:href="@{/favourite}"><i class="ti ti-bookmark"></i>Favorites</a></li>
 
                                 <li><a href="profile.html"><i class="ti ti-settings"></i>Settings</a></li>
                                 <li><a href="#" id="logout-link"><i class="ti ti-logout"></i>Logout</a></li>
@@ -246,7 +344,68 @@
                 }
             });
         });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("loi khi them tiep nay")
+            var errorMessage = document.getElementById('error-message').textContent.trim();
+            if (errorMessage) {
+                Swal.fire({
+                    position: 'top-end', // Vị trí của thông báo
+                    icon: 'error', // Loại thông báo
+                    title: errorMessage, // Nội dung thông báo
+                    showConfirmButton: false, // Không hiển thị nút xác nhận
+                    timer: 1500, // Thời gian tự động đóng (3 giây)
+                    timerProgressBar: true, // Hiển thị thanh tiến trình của timer
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentPage = window.location.pathname;
+            fetch('/saveCurrentPage?path=' + encodeURIComponent(currentPage));
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var errorMessageElement = document.getElementById('error-messageReview');
+            var errorMessage = errorMessageElement ? errorMessageElement.textContent.trim() : '';
 
+            console.log('Error Message:', errorMessage);
+
+            if (errorMessage) {
+                Swal.fire({
+                    title: errorMessage,
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInUp animate__faster'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutDown animate__faster'
+                    },
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                // Xóa thông báo lỗi khỏi session sau khi hiển thị
+                fetch('/clearErrorReview', { method: 'POST' });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var message = document.getElementById('messageFavourite').textContent.trim();
+
+            if (message) {
+                Swal.fire({
+                    position: 'top-end', // Vị trí của thông báo
+                    icon: 'success', // Loại thông báo
+                    title: message, // Nội dung thông báo
+                    showConfirmButton: false, // Không hiển thị nút xác nhận
+                    timer: 1500, // Thời gian tự động đóng (1.5 giây)
+                    timerProgressBar: true, // Hiển thị thanh tiến trình của timer
+                });
+            }
+        });
     </script>
 </th:block>
 </body>

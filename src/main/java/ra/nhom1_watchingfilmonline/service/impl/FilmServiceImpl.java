@@ -74,6 +74,7 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.deleteFilm(filmId);
     }
 
+
     @Override
     public Films getFilmById(Integer filmId) {
         return filmRepository.getFilmById(filmId);
@@ -138,6 +139,29 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.findAllPhimLe();
     }
 
+    @Override
+    public List<Films> getTop5RecommendedFilms() {
+        return filmRepository.getTop5RecommendedFilms();
+    }
 
 
+    @Override
+    public List<Films> findAllUserFilm(int page, int size, String search) {
+        return filmRepository.findAllUserFilm(page, size, search);
+    }
+
+    @Override
+    public Long totalAllUFilm(String search) {
+        return filmRepository.totalAllUFilm(search);
+    }
+
+    @Override
+    public List<Films> findAllByOrderByUFilmNameAsc(int page, int size) {
+        return filmRepository.findAllByOrderByUFilmNameAsc(page, size);
+    }
+
+    @Override
+    public List<Films> findAllByOrderByUFilmNameDesc(int page, int size) {
+        return filmRepository.findAllByOrderByUFilmNameDesc(page, size);
+    }
 }

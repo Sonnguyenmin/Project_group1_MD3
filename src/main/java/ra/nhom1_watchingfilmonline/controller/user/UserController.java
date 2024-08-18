@@ -1,4 +1,5 @@
 package ra.nhom1_watchingfilmonline.controller.user;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import ra.nhom1_watchingfilmonline.service.impl.CountryService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -54,47 +56,46 @@ public class UserController {
     @Autowired
     private IFavouriteService favouriteService;
 
-
+// chi Vien them bien error trong phan nay nhe
 
     @RequestMapping(value = "/loadUser")
 
-    public String userHome(Model model,HttpSession session) {
+    public String userHome(Model model,HttpSession session,
+                           @RequestParam(value = "error_fa", required = false) String errorFa) {
+
         Users userCurrent = (Users) session.getAttribute("userCurrent");
         model.addAttribute("userCurrent", userCurrent);
+      
 //        String currentUser = userService.getCurrentUserName();
         List<Films> films = filmService.getAllFilms();
+      
+        // Lấy danh sách 5 phim có điểm rating cao nhất để hiển thị trên trang chủ
+        List<Films> topFilms = filmService.getTop5RecommendedFilms();
 
-        
         List<Favourite> favourites = favouriteService.getAllFavourites();
-
-
         model.addAttribute("bannerList",bannerService.findAll());
-
-
-
 
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
 
 
-//        model.addAttribute("films", films);
-//        model.addAttribute("user", currentUser);
-//        String currentUser = userService.getCurrentUserName();
-//        List<Films> films = filmService.findAll();
-
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
-
-
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
         model.addAttribute("countries", countries);   // Thêm danh sách quốc gia vào mô hình
 
+        model.addAttribute("topFilms", topFilms);
+
         model.addAttribute("films", films);
 //        model.addAttribute("user", currentUser);
 
-        model.addAttribute("categories", categories);
-        model.addAttribute("countries", countries);
-        model.addAttribute("favourites", favourites);
+ 
 
+        model.addAttribute("favourites", favourites);
+        // Nếu có lỗi, thêm vào mô hình
+
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
 
         return "user/home";
     }
@@ -110,7 +111,7 @@ public class UserController {
             @RequestParam("username") String userName,
             @RequestParam("email") String email,
             @RequestParam("fname") String fullName,
-            @RequestParam("fileAvatar") MultipartFile fileAvatar,Model model
+            @RequestParam("fileAvatar") MultipartFile fileAvatar, Model model
     ) {
         // Get the current user from the session
 
@@ -127,7 +128,6 @@ public class UserController {
         }
         // Save the updated user information
         userService.update(currentUser);
-
         // Update the session with the new user information
         session.setAttribute("user", currentUser);
 
@@ -145,9 +145,9 @@ public class UserController {
         Users currentUser = (Users) session.getAttribute("user");
 
         // match old password -> change
-        if (oldPass.equals(currentUser.getPassword())){
+        if (oldPass.equals(currentUser.getPassword())) {
             currentUser.setPassword(newPass);
-        }else {
+        } else {
             model.addAttribute("error", "Sai mật khẩu cũ");
             return "user/profile";
         }
@@ -162,16 +162,14 @@ public class UserController {
     }
 
     @GetMapping("/deposit")
-    public String openDeposit(){
+    public String openDeposit() {
         return "user/deposit";
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestParam("money") Integer money, Model model)
-    {
+    public String deposit(@RequestParam("money") Integer money, Model model) {
         Users user = (Users) session.getAttribute("user");
-        if (money < 0)
-        {
+        if (money < 0) {
             model.addAttribute("error", "money must be than 0");
             return "user/deposit";
         }
@@ -181,20 +179,45 @@ public class UserController {
     }
 
     @GetMapping("/byVip")
-    public String openByVip(){
+    public String openByVip() {
         return "user/byVip";
+    }
+
+    @PostMapping("/handleUpdateAcc")
+    public String handleUpdateAcc(Model model) {
+        Users user = (Users) session.getAttribute("user");
+        boolean hasVipRole = user.getRoles().stream()
+                .anyMatch(role -> "VIP".equals(role.getRoleName()));
+
+        if (hasVipRole) {
+            model.addAttribute("error", "Ban da la tai khoan Vip roi");
+            return "user/byVip";
+        }
+        boolean check = userService.handleUpdateAcc(user);
+        if (check) {
+            return "redirect:/loadUser";
+        } else {
+            model.addAttribute("error", "you do not have enough money");
+            return "user/byVip";
+        }
     }
 
     // Chị Viện Làm để điều hướng sang trang detail để bình luận nhé
 
     @GetMapping("/detailFilm/{id}")
-    public String filmDetail(@PathVariable("id") Integer filmId, HttpSession session, Model model) {
+    public String filmDetail(@PathVariable("id") Integer filmId,
+                             @RequestParam(value = "error_fa", required = false) String errorFa,
+                             HttpSession session, Model model) {
         Films film = filmService.findByIdWithCategories(filmId);
 
         if (film == null) {
             return "redirect:/home";
         }
 
+        // Lấy danh sách 5 phim đề xuất để hiển thị trên trang chi tiết
+        List<Films> topFilms = filmService.getTop5RecommendedFilms();
+
+        model.addAttribute("topFilms", topFilms);
         Users currentUser = (Users) session.getAttribute("user");
         if (currentUser != null) {
             model.addAttribute("user", currentUser);
@@ -205,15 +228,16 @@ public class UserController {
         model.addAttribute("comment", newComment);
         Reviews newreviews = new Reviews();
         model.addAttribute("reviews", newreviews);
-        Favourite newFavourite = favouriteService.getFavouriteById(filmId);
-        model.addAttribute("favourite", newFavourite);
+
 //      khi ma submit len phan cho user xem
         List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
         model.addAttribute("reviewsList", reviewsList);
         List<Comments> comments = commentService.getCommentsByFilmId(filmId);
         model.addAttribute("comments", comments);
-        List<Favourite> favourites = favouriteService.getFavouriteByFilmId(filmId);
-        model.addAttribute("favourites ", favourites);
+
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
 
         return "user/detail";
     }
@@ -225,7 +249,7 @@ public class UserController {
         Integer filmId = comment.getFilms().getFilmId();
 
         // Đảm bảo rằng filmId và userId không null
-        if (filmId == null ) {
+        if (filmId == null) {
             model.addAttribute("error", "Film hoặc User không hợp lệ.");
             return "user/detail";
         }
@@ -233,7 +257,7 @@ public class UserController {
         // Thiết lập lại Film và User
         Films film = filmService.getFilmById(filmId);
 
-        if (film == null ) {
+        if (film == null) {
             model.addAttribute("error", "Film hoặc User không tồn tại.");
             return "user/detail";
         }

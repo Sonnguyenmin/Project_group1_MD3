@@ -41,7 +41,7 @@ public class AuthController {
 
     @RequestMapping(value = {"/", "/loadHome"})
     public String mainHome(HttpSession session) {
-        session.setAttribute("category",categoriesService.findAll());
+        session.setAttribute("category", categoriesService.findAll());
         return "main/index";
     }
 
@@ -49,7 +49,7 @@ public class AuthController {
     @GetMapping("/register")
     public String register(Model model) {
         UserDto user = new UserDto();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "page/register";
     }
 
@@ -81,7 +81,7 @@ public class AuthController {
 
 //        String encodedPassword = passwordEncoder.encode(user.getPassword());  // Mã hóa mật khẩu
 
-        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), user.getPassword(), roleId);
+        userService.registerUser(user.getUserName(), user.getFullName(), user.getEmail(), user.getPhone(), user.getPassword(), roleId, true);
 
         return "/page/login";  // Chuyển hướng đến trang đăng nhập
     }
@@ -94,6 +94,7 @@ public class AuthController {
         model.addAttribute("user", user);
         return "page/login";
     }
+
     @PostMapping("/insertLogin")
     public String handleLogin(@Valid @ModelAttribute("user") Users user,
                               @RequestParam("email") String email,
@@ -105,6 +106,11 @@ public class AuthController {
         System.out.println("User found: " + (user != null));
 
         if (user != null) {
+            if (!user.getStatus()) { // Kiểm tra trạng thái người dùng
+                model.addAttribute("error", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
+                return "page/login";
+            }
+
 //            boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
             boolean passwordMatches = user.getPassword().equals(password);
             System.out.println("Password matches: " + passwordMatches);
@@ -118,30 +124,35 @@ public class AuthController {
                     return "redirect:/loadUser";
                 }
             } else {
-                model.addAttribute("error", "Invalid email or password");
+                model.addAttribute("error", "Email hoặc mật khẩu không hợp lệ");
             }
         } else {
-            model.addAttribute("error", "User not found");
+            model.addAttribute("error", "Không tìm thấy người dùng");
         }
         return "page/login";
     }
 
     @GetMapping("/forgetPassword")
-    public String openForgetPassword(){
+    public String openForgetPassword() {
         return "page/forgotPassword";
     }
 
     @PostMapping("/forgetPassword")
-    public String forgetPassword(Model model, @RequestParam("email") String email){
-        model.addAttribute("pass",userService.findPasswordByEmail(email));
-        return "page/findPass";
-    }
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+    public String forgetPassword(Model model, @RequestParam("email") String email) {
+        if (userService.findPasswordByEmail(email) != null) {
+            model.addAttribute("pass", userService.findPasswordByEmail(email));
+            return "page/findPass";
+        } else {
+            model.addAttribute("error", "Not found this email");
+            return "page/forgotPassword";
         }
-        return "redirect:/"; 
     }
-}
+        @PostMapping("/logout")
+        public String logout (HttpServletRequest request, HttpServletResponse response){
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+            return "redirect:/";
+        }
+    }

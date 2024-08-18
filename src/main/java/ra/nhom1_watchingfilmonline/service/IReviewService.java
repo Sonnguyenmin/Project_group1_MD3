@@ -12,4 +12,5 @@ public interface IReviewService {
     Boolean deleteReview(Integer id);
     List<Reviews>sortReviewsByRating();
     List<Reviews> getReviewByFilmId(Integer filmId);
+    Reviews getReviewByFilmAndUser(Integer filmId, Integer userId);
 }

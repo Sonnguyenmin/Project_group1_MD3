@@ -34,6 +34,24 @@ public class CategoriesRepositoryImpl implements ICategoriesRepository {
     }
 
     @Override
+    public List<Categories> getAll(int page, int size) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Query<Categories> query = session.createQuery("from Categories ",Categories.class);
+            query.setFirstResult((page - 1) * size);
+            query.setMaxResults(size);
+            return query.getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }finally {
+            session.close();
+        }
+        return null;
+    }
+
+    @Override
     public Boolean save(Categories filmCategory) {
         if (isCategoryNameExists(filmCategory.getCategoryName())) {
             throw new RuntimeException("Category name already exists.");
@@ -122,21 +140,23 @@ public class CategoriesRepositoryImpl implements ICategoriesRepository {
     }
 
     @Override
-    public List<Categories> searchByCategoryName(String categoryName) {
+    public List<Categories> searchByCategoryName(String categoryName, int offset, int size) {
         Session session = sessionFactory.openSession();
         List<Categories> filmCategories = null;
         try {
             session.beginTransaction();
-            // Sử dụng LIKE để tìm kiếm theo tên thể loại
+            // Sử dụng LIKE để tìm kiếm theo tên thể loại và phân trang
             filmCategories = session.createQuery("from Categories where categoryName like :categoryName", Categories.class)
                     .setParameter("categoryName", "%" + categoryName + "%")
+                    .setFirstResult(offset)
+                    .setMaxResults(size)
                     .list();
             session.getTransaction().commit();
             return filmCategories;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
         return null;
@@ -181,23 +201,61 @@ public class CategoriesRepositoryImpl implements ICategoriesRepository {
     }
 
     @Override
-    public List<Categories> sortByCategoryName() {
+    public List<Categories> sortByCategoryName(int offset, int size) {
         Session session = sessionFactory.openSession();
-        List<Categories> sortCategories = null;
+        List<Categories> sortedCategories = null;
         try {
             session.beginTransaction();
             String hql = "from Categories order by categoryName";
             Query<Categories> query = session.createQuery(hql, Categories.class);
-            sortCategories = query.getResultList();
+            query.setFirstResult(offset);
+            query.setMaxResults(size);
+            sortedCategories = query.getResultList();
             session.getTransaction().commit();
-            return sortCategories;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
+        return sortedCategories;
+    }
 
-        return sortCategories;
+    @Override
+    public int countCategories() {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            String hql = "select count(*) from Categories";
+            Long count = (Long) session.createQuery(hql).uniqueResult();
+            session.getTransaction().commit();
+            return count != null ? count.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return 0;
+    }
+
+    @Override
+    public int countCategoriesByName(String categoryName) {
+        Session session = sessionFactory.openSession();
+        Long count = null;
+        try {
+            session.beginTransaction();
+            String hql = "select count(*) from Categories where categoryName like :categoryName";
+            count = (Long) session.createQuery(hql)
+                    .setParameter("categoryName", "%" + categoryName + "%")
+                    .uniqueResult();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return count != null ? count.intValue() : 0;
     }
 }

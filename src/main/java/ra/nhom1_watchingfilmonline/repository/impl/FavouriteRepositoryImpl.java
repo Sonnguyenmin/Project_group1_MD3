@@ -22,7 +22,7 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
                     " LEFT JOIN FETCH fa.films left join fetch fa.users",Favourite.class)
                     .getResultList();
             session.getTransaction().commit();
-            return favourites;
+
 
         }catch (Exception e){
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
         }finally {
             session.close();
         }
-        return null;
+        return favourites;
     }
 
     @Override
@@ -54,10 +54,18 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
     public Boolean removeFavourite(Favourite favourite) {
         Session session = sessionFactory.openSession();
         try {
-
-        }catch (Exception e){
+            session.beginTransaction();
+            Favourite existingFavourite = getFavouriteById(favourite.getFavouriteId());
+            if (existingFavourite != null) {
+                session.delete(existingFavourite);
+                session.getTransaction().commit();
+                return true;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
         return false;
     }
@@ -68,20 +76,21 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
         Favourite favourite = null;
         try {
             session.beginTransaction();
-            favourite = session.createQuery("SELECT fa from Favourite fa" +
-                            " LEFT JOIN FETCH fa.films f" +
-                            " LEFT JOIN FETCH fa.users u where fa.favouriteId =: id ",Favourite.class)
-                    .setParameter("id",id)
-                    .getSingleResult();
+            List<Favourite> results = session.createQuery("SELECT fa FROM Favourite fa WHERE fa.favouriteId = :id", Favourite.class)
+                    .setParameter("id", id)
+                    .getResultList();
+            if (!results.isEmpty()) {
+                favourite = results.get(0);
+            }
             session.getTransaction().commit();
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
-        }finally {
+        } finally {
             session.close();
         }
         return favourite;
+
     }
 
 
@@ -104,4 +113,49 @@ public class FavouriteRepositoryImpl implements IFavouriteRepository {
         }
         return favourites;
     }
+
+    @Override
+    public List<Favourite> findByUser_UserId(Integer userId) {
+        Session session = sessionFactory.openSession();
+        List<Favourite> favourites = null;
+        try {
+            session.beginTransaction();
+            // Tạo truy vấn HQL để tìm các đối tượng Favourite theo userId
+            favourites = session.createQuery("SELECT fa FROM Favourite fa " +
+                            "LEFT JOIN FETCH fa.films f " +
+                            "LEFT JOIN FETCH fa.users u " +
+                            "WHERE u.userId = :userId", Favourite.class)
+                    .setParameter("userId", userId)
+                    .getResultList();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return favourites;
+    }
+
+    @Override
+    public boolean isFavouriteExists(Integer filmId, Integer userId) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            Long count = (Long) session.createQuery("SELECT COUNT(fa) FROM Favourite fa " +
+                            "WHERE fa.films.filmId = :filmId AND fa.users.userId = :userId")
+                    .setParameter("filmId", filmId)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return false;
+    }
+
 }

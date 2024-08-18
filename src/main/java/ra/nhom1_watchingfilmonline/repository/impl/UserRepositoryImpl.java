@@ -96,7 +96,7 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId) {
+    public Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId,Boolean status) {
         // Tìm vai trò theo roleId
         // Kiểm tra tài khoản đã tồn tại
         Users existingUser = userRepository.findByOrEmailOrPhone(email, phone);
@@ -118,7 +118,7 @@ public class UserRepositoryImpl implements IUserRepository {
         user.setPassword(password);
         user.setAvatar("https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png"); // Set default avatar if necessary
         user.setAddress(""); // Set default address if necessary
-        user.setStatus(true); // Active by default
+        user.setStatus(status); // Active by default
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
         user.setUserWallet(0);
@@ -187,14 +187,13 @@ public class UserRepositoryImpl implements IUserRepository {
             pass = (String) session.createQuery("select u.password from Users u where u.email=: email")
                     .setParameter("email",email).uniqueResult();
             session.getTransaction().commit();
-            return pass;
         }catch (Exception e){
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
         }
-        return null;
+        return pass;
     }
     public String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

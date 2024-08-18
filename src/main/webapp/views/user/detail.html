@@ -34,8 +34,15 @@
                         <div class="col-12 col-sm-5 col-md-5 col-lg-4 col-xl-6 col-xxl-5">
                             <div class="item__cover">
                                 <img th:src="@{${film.image}}" alt="Film Cover">
-                                <span class="item__rate item__rate--green">8.4</span>
-                                <button class="item__favorite item__favorite--static" type="button"><i class="ti ti-bookmark"></i></button>
+<!--                                <span class="item__rate item__rate&#45;&#45;green"th:text="">8.4</span>-->
+                                <form th:action="@{/addFavourite}" method="post">
+                                    <input type="hidden" name="films.filmId" th:value="${film.filmId}">
+                                    <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                                    <button class="item__favorite item__favorite--static" type="submit">
+                                        <i class="ti ti-bookmark"></i>
+                                    </button>
+                                </form>
+<!--                                <button class="item__favorite item__favorite&#45;&#45;static" type="button"><i class="ti ti-bookmark"></i></button>-->
                             </div>
                         </div>
                         <!-- end card cover -->
@@ -307,7 +314,7 @@
                                         <div class="sign__group">
                                             <select class="sign__select" id="rating" th:field="*{rating}">
                                                 <option value="0" th:selected="${reviews.rating == 0}">Rating</option>
-                                                <option value="1" th:selected="${reviews.rating == 1}">1 star</option>
+                                                <option value="1" th:selected="${reviews.rating == 1}">1 stars</option>
                                                 <option value="2" th:selected="${reviews.rating == 2}">2 stars</option>
                                                 <option value="3" th:selected="${reviews.rating == 3}">3 stars</option>
                                                 <option value="4" th:selected="${reviews.rating == 4}">4 stars</option>
@@ -400,136 +407,32 @@
                 <div class="row">
                     <!-- section title -->
                     <div class="col-12">
-                        <h2 class="section__title section__title--sidebar">You may also like...</h2>
+                        <h2 class="section__title section__title--sidebar">Bạn cũng có thể thích...</h2>
                     </div>
                     <!-- end section title -->
-
+<!--//phim de xuat-->
                     <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
+                    <div class="col-6 col-sm-4 col-lg-6" th:each="film : ${topFilms}">
                         <div class="item">
                             <div class="item__cover">
-                                <img th:src="@{/assets/user/img/covers/cover.jpg}" alt="">
-                                <a th:href="details.html" class="item__play">
+                                <img th:src="@{${film.image}}" alt="">
+                                <a th:href="@{/detailFilm/{id}(id=${film.filmId})}" class="item__play">
                                     <i class="ti ti-player-play-filled"></i>
                                 </a>
-                                <span class="item__rate item__rate--green">8.4</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
+                                <form th:action="@{/addFavourite}" method="post">
+                                    <input type="hidden" name="films.filmId" th:value="${film.filmId}">
+                                    <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                                    <button class="item__favorite" type="submit">
+                                        <i class="ti ti-bookmark"></i>
+                                    </button>
+                                </form>
                             </div>
                             <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                                <span class="item__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end item -->
-
-                    <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="item">
-                            <div class="item__cover">
-                                <img th:src="@{/assets/user/img/covers/cover2.jpg}" alt="">
-                                <a href="details.html" class="item__play">
-                                    <i class="ti ti-player-play-filled"></i>
-                                </a>
-                                <span class="item__rate item__rate--green">7.1</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                            </div>
-                            <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                                <span class="item__category">
-										<a href="#">Comedy</a>
-									</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end item -->
-
-                    <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="item">
-                            <div class="item__cover">
-                                <img th:src="@{assets/user/img/covers/cover3.jpg}" alt="">
-                                <a href="details.html" class="item__play">
-                                    <i class="ti ti-player-play-filled"></i>
-                                </a>
-                                <span class="item__rate item__rate--red">6.3</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                            </div>
-                            <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">Whitney</a></h3>
-                                <span class="item__category">
-										<a href="#">Romance</a>
-										<a href="#">Drama</a>
-										<a href="#">Music</a>
-									</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end item -->
-
-                    <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="item">
-                            <div class="item__cover">
-                                <img th:src="@{assets/user/img/covers/cover4.jpg}" alt="">
-                                <a href="details.html" class="item__play">
-                                    <i class="ti ti-player-play-filled"></i>
-                                </a>
-                                <span class="item__rate item__rate--yellow">6.9</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                            </div>
-                            <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">Blindspotting</a></h3>
-                                <span class="item__category">
-										<a href="#">Comedy</a>
-										<a href="#">Drama</a>
-									</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end item -->
-
-                    <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="item">
-                            <div class="item__cover">
-                                <img th:src="@{/assets/user/img/covers/cover5.jpg}" alt="">
-                                <a href="details.html" class="item__play">
-                                    <i class="ti ti-player-play-filled"></i>
-                                </a>
-                                <span class="item__rate item__rate--green">8.4</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                            </div>
-                            <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">I Dream in Another Language</a></h3>
-                                <span class="item__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end item -->
-
-                    <!-- item -->
-                    <div class="col-6 col-sm-4 col-lg-6">
-                        <div class="item">
-                            <div class="item__cover">
-                                <img th:src="@{assets/user/img/covers/cover6.jpg}" alt="">
-                                <a href="details.html" class="item__play">
-                                    <i class="ti ti-player-play-filled"></i>
-                                </a>
-                                <span class="item__rate item__rate--green">7.1</span>
-                                <button class="item__favorite" type="button"><i class="ti ti-bookmark"></i></button>
-                            </div>
-                            <div class="item__content">
-                                <h3 class="item__title"><a href="details.html">Benched</a></h3>
-                                <span class="item__category">
-										<a href="#">Comedy</a>
-									</span>
+                                <a th:href="@{/detailFilm/{id}(id=${film.filmId})}"  th:text="${film.filmName}">I Dream in Another Language</a>
+                                <!--                      <span class="item__category">-->
+                                <!--						<a href="#">Action</a>-->
+                                <!--						<a href="#">Triler</a>-->
+                                <!--                      </span>-->
                             </div>
                         </div>
                     </div>
@@ -598,7 +501,13 @@
         </div>
     </div>
 </div>
+<div th:fragment="content">
+    <div id="error-message" th:text="${error_fa}" style="display:none;"></div>
+</div>
 
+<div th:fragment="content">
+    <div id="error-messageReview" th:text="${session.errorReview}" style="display:none;"></div>
+</div>
 <!-- JS -->
 <th:block th:replace="/layouts/layoutUser::javascript"></th:block>
 </body>

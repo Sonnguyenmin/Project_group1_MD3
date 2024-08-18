@@ -18,13 +18,10 @@ public class CustomerController {
     @Autowired
     private HttpSession session;
 
-
     @Autowired
     private IUserService userService;
-//    @RequestMapping(value = "/loadAdmin")
-//    public String adminHome() {
-//        return "admin/index";
-//    }
+
+
     @RequestMapping(value = "")
     public String userManagement(
             @RequestParam(name = "page", defaultValue = "0") Integer page,
@@ -87,7 +84,6 @@ public class CustomerController {
         model.addAttribute("sort", sort);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-
         return "admin/user/listUser";
     }
 

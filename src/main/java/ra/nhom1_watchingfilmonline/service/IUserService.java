@@ -11,7 +11,7 @@ public interface IUserService {
     Users findByOrEmailOrPhone(String email, String phone);
     Users findUsersByUsername(String mail);
     Users save(Users user);
-    Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId);
+    Users registerUser(String userName, String fullName, String email, String phone, String password, Integer roleId,Boolean status);
     String getCurrentUserName();
     Boolean update(Users users);
     Users findUserById(Integer id);
@@ -30,6 +30,8 @@ public interface IUserService {
 
 
     List<Users> AllUsers();
+
+    Boolean handleUpdateAcc(Users user);
 
 //    List<Users> findAllUsers();
 
