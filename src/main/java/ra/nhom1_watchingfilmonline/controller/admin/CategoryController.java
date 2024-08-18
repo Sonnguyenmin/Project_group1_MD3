@@ -49,7 +49,6 @@ public class CategoryController {
                 return "admin/category/addCategory";
             }
 
-
             // Lưu category vào cơ sở dữ liệu
             categoryService.save(filmCategory);
             // Chuyển hướng đến trang danh sách category hoặc trang thành công

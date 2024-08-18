@@ -56,6 +56,9 @@ public class UserController {
     @Autowired
     private IFavouriteService favouriteService;
 
+    @Autowired
+    private FilmEpisodeService filmEpisodeService;
+
 // chi Vien them bien error trong phan nay nhe
 
     @RequestMapping(value = "/loadUser")
@@ -65,8 +68,7 @@ public class UserController {
 
         Users userCurrent = (Users) session.getAttribute("userCurrent");
         model.addAttribute("userCurrent", userCurrent);
-      
-//        String currentUser = userService.getCurrentUserName();
+
         List<Films> films = filmService.getAllFilms();
       
         // Lấy danh sách 5 phim có điểm rating cao nhất để hiển thị trên trang chủ
@@ -77,7 +79,6 @@ public class UserController {
 
         List<Countries> countries = countryService.findAllCountries();   // Lấy danh sách quốc gia
 
-
         List<Categories> categories = categoriesService.findAll(); // Lấy danh sách thể loại
 
         model.addAttribute("categories", categories); // Thêm danh sách thể loại vào mô hình
@@ -86,9 +87,9 @@ public class UserController {
         model.addAttribute("topFilms", topFilms);
 
         model.addAttribute("films", films);
-//        model.addAttribute("user", currentUser);
 
- 
+        model.addAttribute("upcomingMovies",filmService.upcomingMovies());
+
 
         model.addAttribute("favourites", favourites);
         // Nếu có lỗi, thêm vào mô hình
@@ -99,6 +100,7 @@ public class UserController {
 
         return "user/home";
     }
+
 
     @RequestMapping(value = "/profile")
     public String profileUser() {
@@ -216,7 +218,7 @@ public class UserController {
 
         // Lấy danh sách 5 phim đề xuất để hiển thị trên trang chi tiết
         List<Films> topFilms = filmService.getTop5RecommendedFilms();
-
+        model.addAttribute("upcomingMovies",filmService.upcomingMovies());
         model.addAttribute("topFilms", topFilms);
         Users currentUser = (Users) session.getAttribute("user");
         if (currentUser != null) {
@@ -228,16 +230,17 @@ public class UserController {
         model.addAttribute("comment", newComment);
         Reviews newreviews = new Reviews();
         model.addAttribute("reviews", newreviews);
+        model.addAttribute("filmEpisode", filmEpisodeService.findAll());
 
 //      khi ma submit len phan cho user xem
         List<Reviews> reviewsList = reviewService.getReviewByFilmId(filmId);
         model.addAttribute("reviewsList", reviewsList);
         List<Comments> comments = commentService.getCommentsByFilmId(filmId);
         model.addAttribute("comments", comments);
-
         if (errorFa != null) {
             model.addAttribute("error_fa", errorFa);
         }
+
 
         return "user/detail";
     }

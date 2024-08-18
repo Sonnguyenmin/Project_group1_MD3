@@ -1,9 +1,11 @@
 package ra.nhom1_watchingfilmonline.repository;
 
 
+import ra.nhom1_watchingfilmonline.model.entity.Categories;
 import ra.nhom1_watchingfilmonline.model.entity.Films;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FirmRepository {
     List<Films> findAll(int page, int size, String search);
@@ -23,6 +25,9 @@ public interface FirmRepository {
     List<Films> getTop5RecommendedFilms();
     List<Films> getFilmFindAll();
 
+
+    List<Films> upcomingMovies();
+    List<Films> findFilmsByCategory(Integer categoryId);
 
     List<Films> findAllUserFilm(int page, int size, String search);
     Long totalAllUFilm(String search);

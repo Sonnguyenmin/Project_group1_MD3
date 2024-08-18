@@ -16,6 +16,7 @@ import ra.nhom1_watchingfilmonline.service.FilmService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,7 +25,7 @@ public class UFilmController {
     private HttpSession session;
 
     @Autowired
-    FilmService filmService;
+    private FilmService filmService;
 
     @GetMapping("/phimbo")
     public String phimbo(Model model,
@@ -35,6 +36,8 @@ public class UFilmController {
         }
         return "user/phimbo";
     }
+
+
 
     @GetMapping("/phimle")
     public String phimle(Model model,
@@ -54,6 +57,7 @@ public class UFilmController {
             @RequestParam(name = "size", defaultValue = "12") Integer size,
             @RequestParam(name = "search", defaultValue = "") String search,
             @ModelAttribute("filmRequest") FilmRequest films,
+            @RequestParam(value = "error_fa", required = false) String errorFa,
             Model model
     ){
         //set session
@@ -66,6 +70,9 @@ public class UFilmController {
         //totalPages
         Double totalPages = Math.ceil((double) filmService.totalAllFilm(search) / size);
         model.addAttribute("totalPages", totalPages);
+        if (errorFa != null) {
+            model.addAttribute("error_fa", errorFa);
+        }
         return "user/shopFilm";
     }
 
@@ -93,4 +100,11 @@ public class UFilmController {
         return "user/shopFilm";
     }
 
+    @GetMapping("/categoriesFilm/{id}")
+    public String getFilmsByCategory(@PathVariable("id") Integer categoryId, Model model) {
+        List<Films> films = filmService.findFilmsByCategory(categoryId);
+        model.addAttribute("films", films);
+        model.addAttribute("categoryId", categoryId);
+        return "user/category";
+    }
 }

@@ -14,6 +14,7 @@ import ra.nhom1_watchingfilmonline.service.FilmService;
 import ra.nhom1_watchingfilmonline.service.UploadService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,5 +164,16 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<Films> findAllByOrderByUFilmNameDesc(int page, int size) {
         return filmRepository.findAllByOrderByUFilmNameDesc(page, size);
+    }
+
+    @Override
+    public List<Films> upcomingMovies() {
+        return filmRepository.upcomingMovies();
+    }
+
+
+    @Override
+    public List<Films> findFilmsByCategory(Integer categoryId) {
+        return filmRepository.findFilmsByCategory(categoryId);
     }
 }

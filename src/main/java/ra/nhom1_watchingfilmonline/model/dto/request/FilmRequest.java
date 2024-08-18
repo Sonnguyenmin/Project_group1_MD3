@@ -19,6 +19,7 @@ import java.util.List;
 public class FilmRequest {
     private Integer filmId;
 
+    @Column(length = 100, nullable = false, unique = true)
     @NotEmpty (message = "Tên phim không được để trống")
     private String filmName;
 

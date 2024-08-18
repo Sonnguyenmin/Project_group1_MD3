@@ -22,7 +22,7 @@
         <div class="row">
             <!-- title -->
             <div class="col-12">
-                <h1 class="section__title section__title--head" th:text="${film.filmName}">Tên phim</h1>
+                <h1 class="section__title section__title--head" th:text="${film.filmName}"></h1>
             </div>
             <!-- end title -->
 
@@ -51,22 +51,26 @@
                         <div class="col-12 col-md-7 col-lg-8 col-xl-6 col-xxl-7">
                             <div class="item__content">
                                 <ul class="item__meta">
-                                    <li><span>Giám đốc:</span> <p th:text="${film.director}">Diễn viên chính</p></li>
+                                    <li><span>Giám đốc:</span> <p th:text="${film.director}"></p></li>
                                     <li><span>Diễn viên:</span> <p th:each="actor : ${film.actorName}" th:text="${film.actorName}"></p></li>
-                                    <li><span>Thể loại:</span> <p>Action</p></li>
+                                    <li><span>Thể loại:</span> <p style="margin-right: 10px" th:each="cate : ${film.categories}" th:value="${cate.categoryId}" th:text="${cate.categoryName}"></p></li>
                                     <li><span>Ngày phát hành:</span><p th:text="${film.releaseDate}"></p></li>
-                                    <li><span>Running time:</span><p th:text="${film.totalTime}"></p></li>
-                                    <li><span>Quốc gia:</span> <p th:text="${film.countries.countryName}">USA</p></li>
+                                    <li><span>Thời lượng phim:</span><p th:text="${film.totalTime}"></p></li>
+                                    <li><span>Quốc gia:</span> <p th:text="${film.countries.countryName}"></p></li>
+                                    <li><span>Trạng thái phim:</span>
+                                        <p th:text="${film.status == 1 ? 'Phim đang chiếu' : (film.status == 2 ? 'Phim sắp chiếu' : 'Phim ngừng chiếu')}"></p>
+                                    </li>
                                 </ul>
 
                                 <div class="item__description">
-                                    <p th:text="${film.description}">When a renowned archaeologist goes missing, his daughter sets out on a perilous journey to the heart of the Amazon rainforest to find him. Along the way, she discovers a hidden city and a dangerous conspiracy that threatens the very balance of power in the world. With the help of a charming rogue, she must navigate treacherous terrain and outwit powerful enemies to save her father and uncover the secrets of the lost city. A down-on-his-luck boxer struggles to make ends meet while raising his young son. When an old friend offers him a chance to make some quick cash by fighting in an illegal underground boxing tournament, he sees it as his last shot at redemption. But as the stakes get higher and the fights get more brutal, he must confront his own demons and find the strength to win not just for himself, but for his son.</p>
-                                    <p th:text="${film.description}">A brilliant scientist discovers a way to harness the power of the ocean's currents to create a new, renewable energy source. But when her groundbreaking technology falls into the wrong hands, she must race against time to stop it from being used for evil. Along the way, she must navigate complex political alliances and confront her own past to save the world from disaster.</p>
+                                    <p th:text="${film.description}"></p>
                                 </div>
                             </div>
                         </div>
                         <!-- end card content -->
                     </div>
+
+                        <a href="" style="margin:50px 0 0 0 " class="section__more" type="button">Xem phim</a>
                 </div>
             </div>
             <!-- end content -->
@@ -89,38 +93,6 @@
                         <a th:href="@{https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4}" download>Download</a>
                     </video>
                 </div>
-
-                <div class="section__item-filter">
-                    <select class="section__item-select" name="season" id="filter__season">
-                        <option value="0">Season 1</option>
-                        <option value="1">Season 2</option>
-                        <option value="2">Season 3</option>
-                        <option value="3">Season 4</option>
-                        <option value="4">Season 5</option>
-                    </select>
-
-                    <select class="section__item-select" name="series" id="filter__series">
-                        <option value="0">Series 1</option>
-                        <option value="1">Series 2</option>
-                        <option value="2">Series 3</option>
-                        <option value="3">Series 4</option>
-                        <option value="4">Series 5</option>
-                        <option value="5">Series 6</option>
-                        <option value="6">Series 7</option>
-                        <option value="7">Series 8</option>
-                        <option value="8">Series 9</option>
-                        <option value="9">Series 10</option>
-                        <option value="10">Series 11</option>
-                        <option value="11">Series 12</option>
-                    </select>
-
-                    <select class="section__item-select" name="sync" id="filter__sync">
-                        <option value="0">Eng.Original</option>
-                        <option value="1">NewStudio</option>
-                        <option value="2">LostFilm</option>
-                        <option value="3">HotFlix</option>
-                    </select>
-                </div>
             </div>
             <!-- end player -->
         </div>
@@ -128,7 +100,62 @@
     <!-- end details content -->
 </section>
 <!-- end details -->
+<!-- section -->
+<section class="section section--border">
+    <div class="container">
+        <div class="row">
+            <!-- section title -->
+            <div class="col-12">
+                <div class="section__title-wrap">
+                    <h2 class="section__title">Phim Sắp chiếu</h2>
+                </div>
+            </div>
+            <!-- end section title -->
 
+            <!-- carousel -->
+            <div class="col-12">
+                <div class="container">
+                    <div class="row">
+                        <!-- item -->
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2" th:each="um : ${upcomingMovies}">
+                            <div class="item">
+                                <div class="item__cover">
+                                    <!-- Hiển thị ảnh phim -->
+                                    <img th:src="@{${um.image}}" alt="Film Cover">
+                                    <a th:href="@{/detailFilm/{id}(id=${um.filmId})}" class="item__play">
+                                        <i class="ti ti-player-play-filled"></i>
+                                    </a>
+                                    <form th:action="@{/addFavourite}" method="post">
+                                        <input type="hidden" name="films.filmId" th:value="${um.filmId}">
+                                        <input type="hidden" name="users.userId" th:value="${session.user.userId}">
+                                        <button class="item__favorite" type="submit">
+                                            <i class="ti ti-bookmark"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="item__content">
+                                    <h3 class="item__title">
+                                        <a th:href="@{/detailFilm/{id}(id=${um.filmId})}"  th:text="${um.filmName}"></a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end item -->
+                    </div>
+                    <div class="row">
+                        <!-- more -->
+                        <div class="col-12">
+                            <a th:href="@{/shopFilm}" class="section__more" type="button">Xem tất cả</a>
+                        </div>
+                        <!-- end more -->
+                    </div>
+                </div>
+            </div>
+            <!-- end carousel -->
+        </div>
+    </div>
+</section>
+<!-- end section -->
 <!-- content -->
 <!--review-->
 <section class="content">
